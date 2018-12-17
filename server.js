@@ -13,7 +13,12 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.static('./dist'))
-const { addNewUser, authUser, addNewBand, updateUser, deleteUser } = require('./db/dbLib')
+const { addNewUser, 
+  authUser, 
+  addNewBand, 
+  addNewEvent, 
+  updateUser, 
+  deleteUser } = require('./db/dbLib')
 
 
 
@@ -22,33 +27,52 @@ app.get('/api/user/:username', (req, res) => {
   res.send('ok computer')
 })
 
+
+// user login
 app.post('/api/auth/', (req, res) => {
+  if (!(req.body.userName && req.body.password)) {
+    return res
+      .status(409)
+      .send('Please fill out both username and password.')
+  }
+
   authUser(req.body)
-  .then(results => res.json(results))
-  .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 
 })
 
 // add a new user
 app.post('/api/user/', (req, res) => {
   addNewUser(req.body)
-  .then(results => {
-    if (results.error) throw results.error
-    res.json(results)
-  })
-  .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })
 
 // add a new band
 app.post('/api/band/', (req, res) => {
   addNewBand(req.body)
-  .then(results => {res.json(results)})
-  .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })
 
 // add a new event
 app.post('/api/event/', (req, res) => {
-  res.send('yeahboi')
+  addNewEvent(req.body)
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })
 
 // add that a user is a member of a band

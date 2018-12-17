@@ -40,6 +40,7 @@ CREATE TABLE `events`
  `date`             date NOT NULL ,
  `time`             time NOT NULL ,
  `eventlocation`    varchar(100) NOT NULL ,
+ `ownerid`          integer NOT NULL ,
 PRIMARY KEY (`id`)
 );
 
