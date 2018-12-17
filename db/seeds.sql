@@ -45,7 +45,6 @@ use hgjvhowcs9snx6dw;
 
 
 
-
 select * from users;
 select * from events;
 select * from bands;

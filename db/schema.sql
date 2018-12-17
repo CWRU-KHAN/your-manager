@@ -18,6 +18,8 @@ CREATE TABLE `users`
  `email`     varchar(100) NOT NULL ,
  `userimage` varchar(500) ,
  `createdAt` timestamp NOT NULL ,
+ `firstname` varchar(50) ,
+ `lastname`  varchar(50) ,
 PRIMARY KEY (`id`),
 CONSTRAINT UC_User UNIQUE (username, email)
 );
