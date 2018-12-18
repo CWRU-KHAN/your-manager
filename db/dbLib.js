@@ -77,17 +77,17 @@ const dbLib = (() => {
   const addNewUser = user => {
     const { password, userName, email, firstname = null, lastname = null } = user
     return bcrypt.hash(password, saltRounds)
-    .then(hash => {
-      return insertOne(
-        'users', 
-        ['username', 'email', 'password',  'firstname', 'lastname'], 
-        [userName, email, hash, firstname, lastname])
-    })
-    .then(results => {
-      if (results.affectedRows === 0) throw new Error(`500: User '${userName}' not added.`)
-      return results
-    })
-    .catch(translateDbErr)
+      .then(hash => {
+        return insertOne(
+          'users', 
+          ['username', 'email', 'password',  'firstname', 'lastname'], 
+          [userName, email, hash, firstname, lastname])
+      })
+      .then(results => {
+        if (results.affectedRows === 0) throw new Error(`500: User '${userName}' not added.`)
+        return results
+      })
+      .catch(translateDbErr)
   }
 
   // adds a band to the database, takes a band object
@@ -96,7 +96,7 @@ const dbLib = (() => {
       'bands',
       ['bandname', 'ownerid'],
       [bandName, usersid]
-      )
+    )
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Band '${bandName}' not added.`)
         return results
@@ -111,8 +111,36 @@ const dbLib = (() => {
       ['eventname', 'date', 'time', 'eventlocation', 'ownerid'],
       [eventName, date, time, eventLocation, usersid]
     )
+      .then(results => {
+        if (results.affectedRows === 0) throw new Error(`500: Event '${eventName}' not added.`)
+        return results
+      })
+      .catch(translateDbErr)
+  }
+
+  // adds a bandevent, takes an object with a bandsid and a eventsid
+  const addNewBE = ({ bandsid, eventsid}) => {
+    return insertOne(
+      'bandsevents',
+      ['bandsid', 'eventsid'],
+      [bandsid, eventsid]
+    )
+      .then(results => {
+        if (results.affectedRows === 0) throw new Error('500: Band not added to event.')
+        return results
+      })
+      .catch(translateDbErr)
+  }
+
+  // adds a bandmate, takes an object with a bandsid and a usersid
+  const addNewBM = ({ bandsid, usersid }) => {
+    return insertOne(
+      'bandmates',
+      ['bandsid', 'usersid'],
+      [bandsid, usersid]
+    )
     .then(results => {
-      if (results.affectedRows === 0) throw new Error(`500: Event '${eventName}' not added.`)
+      if (results.affectedRows === 0) throw new Error('500: User not added to band.')
       return results
     })
     .catch(translateDbErr)
@@ -147,7 +175,9 @@ const dbLib = (() => {
     deleteUser,
     authUser,
     addNewBand,
-    addNewEvent
+    addNewEvent,
+    addNewBE,
+    addNewBM
   }
 
 })()

@@ -17,11 +17,13 @@ const { addNewUser,
   authUser, 
   addNewBand, 
   addNewEvent, 
+  addNewBE,
+  addNewBM,
   updateUser, 
   deleteUser } = require('./db/dbLib')
 
 
-
+// test route plz ignore
 app.get('/api/user/:username', (req, res) => {
   console.log(req.params)
   res.send('ok computer')
@@ -77,12 +79,22 @@ app.post('/api/event/', (req, res) => {
 
 // add that a user is a member of a band
 app.post('/api/bandmate/', (req, res) => {
-  res.send('ooh')
+  addNewBM(req.body)
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })
 
 // add that a band is a member of an event
-app.post('api/bandevent/,', (req, res) => {
-  res.send('yessir')
+app.post('/api/bandevent/', (req, res) => {
+  addNewBE(req.body)
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })
 
 // Cloudinary Image processing
