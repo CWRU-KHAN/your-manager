@@ -191,7 +191,7 @@ const dbLib = (() => {
       usersid
     )
       .then(results => {
-        if (results[0].affectedRows === 0) throw new Error('500: Not a valid user.')
+        if (results.affectedRows === 0) throw new Error('500: Not a valid user.')
         return results
       })
       .catch(translateDbErr)
