@@ -19,6 +19,7 @@ const { addNewUser,
   addNewEvent, 
   addNewBE,
   addNewBM,
+  getBandInfo,
   updateUser, 
   deleteUser } = require('./db/dbLib')
 
@@ -93,6 +94,28 @@ app.post('/api/bandevent/', (req, res) => {
     .then(results => {
       if (results.error) throw results.error
       res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// get info on a specific band
+app.get('/api/band/:id', (req, res) => {
+  getBandInfo({bandsid: req.params.id})
+    .then(results => {
+      if (results.error) throw results.error
+      const parsedResults = results.reduce((acc, entry) => {
+        const { username, id, ...rest } = entry
+        return acc.bandname ? 
+          {
+            ...rest,
+            users: acc.users.concat({username, id})
+          } :
+          {
+            ...rest,
+            users: [{username, id}]
+          }
+      }, {})
+      res.json(parsedResults)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })

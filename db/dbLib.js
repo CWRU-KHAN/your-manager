@@ -139,17 +139,31 @@ const dbLib = (() => {
       ['bandsid', 'usersid'],
       [bandsid, usersid]
     )
-    .then(results => {
-      if (results.affectedRows === 0) throw new Error('500: User not added to band.')
-      return results
-    })
-    .catch(translateDbErr)
+      .then(results => {
+        if (results.affectedRows === 0) throw new Error('500: User not added to band.')
+        return results
+      })
+      .catch(translateDbErr)
   }
 
 
   // gets info on a band
   const getBandInfo = ({ bandsid }) => {
-    return
+    return selectTripleJoin(
+      'bandmates',
+      'bandsid',
+      'usersid', 
+      'bands', 
+      'users', 
+      ['bandname', 'bandimage', 'genre', 'ownerid'], 
+      ['username', 'id'], 
+      bandsid
+    )
+      .then(results => {
+        if (results.affectedRows === 0) throw new Error('500: User not added to band.')
+        return results
+      })
+      .catch(translateDbErr)
   }
 
   // updates user information, takes a user object with two keys: userName and updates.
@@ -183,12 +197,13 @@ const dbLib = (() => {
     addNewBand,
     addNewEvent,
     addNewBE,
-    addNewBM
+    addNewBM,
+    getBandInfo
   }
 
 })()
 
-// selectTripleJoin('bandmates', 'bandsid', 'bands', 'users', ['bandname'], ['username'], 2).then(x => console.log(x)).catch(x => console.log(x))
+// selectTripleJoin('bandmates', 'bandsid', 'usersid', 'bands', 'users', ['bandname'], ['username'], 1).then(x => console.log(x)).catch(x => console.log(x))
 
 
 module.exports = dbLib
