@@ -149,18 +149,30 @@ const dbLib = (() => {
 
   // gets info on a band
   const getBandInfo = ({ bandsid }) => {
-    return selectTripleJoin(
-      'bandmates',
-      'bandsid',
-      'usersid', 
-      'bands', 
-      'users', 
-      ['bandname', 'bandimage', 'genre', 'ownerid'], 
-      ['username', 'id'], 
-      bandsid
+    return Promise.all([
+      selectTripleJoin(
+        'bandmates',
+        'bandsid',
+        'usersid', 
+        'bands', 
+        'users', 
+        ['bandname', 'bandimage', 'genre', 'ownerid'], 
+        ['username', 'id'], 
+        bandsid
+      ),
+      selectTripleJoin(
+        'bandsevents',
+        'bandsid',
+        'eventsid', 
+        'bands', 
+        'events', 
+        [], 
+        ['eventname', 'id'], 
+        bandsid
+      )]
     )
       .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: User not added to band.')
+        if (results[0].affectedRows === 0) throw new Error('500: Not a valid band.')
         return results
       })
       .catch(translateDbErr)

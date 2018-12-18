@@ -101,9 +101,10 @@ app.post('/api/bandevent/', (req, res) => {
 // get info on a specific band
 app.get('/api/band/:id', (req, res) => {
   getBandInfo({bandsid: req.params.id})
-    .then(results => {
-      if (results.error) throw results.error
-      const parsedResults = results.reduce((acc, entry) => {
+    .then(resultsArray => {
+      const usersResults = resultsArray[0]      
+      if (usersResults.error) throw usersResults.error
+      const parsedResults = usersResults.reduce((acc, entry) => {
         const { username, id, ...rest } = entry
         return acc.bandname ? 
           {
@@ -115,6 +116,7 @@ app.get('/api/band/:id', (req, res) => {
             users: [{username, id}]
           }
       }, {})
+      parsedResults.events = resultsArray[1].map(({ eventname, id }) => ({ eventname, id }))
       res.json(parsedResults)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
