@@ -20,15 +20,11 @@ const { addNewUser,
   addNewBE,
   addNewBM,
   getBandInfo,
+  getUserInfo,
   updateUser, 
   deleteUser } = require('./db/dbLib')
 
 
-// test route plz ignore
-app.get('/api/user/:username', (req, res) => {
-  console.log(req.params)
-  res.send('ok computer')
-})
 
 
 // user login
@@ -100,13 +96,13 @@ app.post('/api/bandevent/', (req, res) => {
 
 // get info on a specific band
 app.get('/api/band/:id', (req, res) => {
-  getBandInfo({bandsid: req.params.id})
+  getBandInfo({ bandsid: req.params.id })
     .then(resultsArray => {
       const usersResults = resultsArray[0]      
       if (usersResults.error) throw usersResults.error
       const parsedResults = usersResults.reduce((acc, entry) => {
         const { username, id, ...rest } = entry
-        return acc.bandname ? 
+        return acc.users ? 
           {
             ...rest,
             users: acc.users.concat({username, id})
@@ -117,6 +113,28 @@ app.get('/api/band/:id', (req, res) => {
           }
       }, {})
       parsedResults.events = resultsArray[1].map(({ eventname, id }) => ({ eventname, id }))
+      res.json(parsedResults)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// get info on a specific user
+app.get('/api/user/:id', (req, res) => {
+  getUserInfo({ usersid: req.params.id })
+    .then(results => {
+      if (results.error) throw results.error
+      const parsedResults = results.reduce((acc, entry) => {
+        const { bandname, id, ...rest } = entry
+        return acc.bands ? 
+          {
+            ...rest,
+            bands: acc.bands.concat({bandname, id})
+          } :
+          {
+            ...rest,
+            bands: [{bandname, id}]
+          }
+      }, {})
       res.json(parsedResults)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))

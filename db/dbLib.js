@@ -178,6 +178,25 @@ const dbLib = (() => {
       .catch(translateDbErr)
   }
 
+  // gets info on a user
+  const getUserInfo = ({ usersid }) => {
+    return selectTripleJoin(
+      'bandmates',
+      'usersid',
+      'bandsid',
+      'users',
+      'bands',
+      ['username', 'email', 'userimage', 'firstname', 'lastname'],
+      ['bandname', 'id'],
+      usersid
+    )
+      .then(results => {
+        if (results[0].affectedRows === 0) throw new Error('500: Not a valid user.')
+        return results
+      })
+      .catch(translateDbErr)
+  }
+
   // updates user information, takes a user object with two keys: userName and updates.
   // updates should be an object with key/value pairs corresponding to column names/values to be updated
   // returns confirmation message
@@ -210,7 +229,8 @@ const dbLib = (() => {
     addNewEvent,
     addNewBE,
     addNewBM,
-    getBandInfo
+    getBandInfo,
+    getUserInfo
   }
 
 })()
