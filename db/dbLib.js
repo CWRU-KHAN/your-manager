@@ -1,4 +1,4 @@
-const { selectSomeWhere, selectSomeJoin, insertOne, updateOne, deleteOne } = require('./orm')
+const { selectSomeWhere, selectSomeJoin, insertOne, updateOne, deleteOne, selectTripleJoin } = require('./orm')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -146,6 +146,12 @@ const dbLib = (() => {
     .catch(translateDbErr)
   }
 
+
+  // gets info on a band
+  const getBandInfo = ({ bandsid }) => {
+    return
+  }
+
   // updates user information, takes a user object with two keys: userName and updates.
   // updates should be an object with key/value pairs corresponding to column names/values to be updated
   // returns confirmation message
@@ -181,5 +187,8 @@ const dbLib = (() => {
   }
 
 })()
+
+// selectTripleJoin('bandmates', 'bandsid', 'bands', 'users', ['bandname'], ['username'], 2).then(x => console.log(x)).catch(x => console.log(x))
+
 
 module.exports = dbLib

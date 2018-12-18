@@ -55,6 +55,35 @@ const orm = (() => {
             })
         })
     }
+
+    const selectTripleJoin = (joinTable, joinTableCol, table1, table2, t1Cols, t2Cols, conditionVal) => {
+        return new Promise((resolve, reject) => {
+            const joinTableSelector = `${joinTable}.${joinTableCol}` 
+            const table1Selectors = t1Cols.map(value => `${table1}.${value}`)
+            const table2Selectors = t2Cols.map(value => `${table2}.${value}`)
+            const selectors = [...table1Selectors, ...table2Selectors]
+            const t1Key = `${table1}.id`
+            const t2Key = `${table2}.id`
+            const queryString = `SELECT ${dblQuestions(selectors.length)} FROM ?? JOIN ?? ON ?? = ?? JOIN ?? ON ?? = ?? WHERE ?? = ?`
+            const vals = [...selectors, joinTable, table1, joinTableSelector, t1Key, table2, joinTableSelector, t2Key, joinTableSelector, conditionVal]
+            connection.query(queryString, vals, (err, res) => {
+                if (err) reject(err)
+                resolve(res)
+            })
+        }
+    )}
+
+    const selectBandUsers = bandsid => {
+        return new Promise((resolve, reject) => {
+            const queryString = `SELECT bands.bandname, users.username FROM bandmates JOIN bands ON bandmates.bandsid = bands.id JOIN users ON bandmates.usersid = users.id WHERE bandmates.bandsid = ${bandsid}`
+            connection.query(queryString, (err, res) => {
+                if (err) reject(err)
+                resolve(res)
+            })
+        })
+
+    }
+
     const insertOne = (table, cols, vals) => {
         return new Promise((resolve, reject) => {
             let queryString = `INSERT INTO ${table} (${cols.toString()}) VALUES (${questions(vals.length)});`;
@@ -92,10 +121,10 @@ const orm = (() => {
         insertOne,
         updateOne,
         selectSomeJoin,
-        deleteOne
+        deleteOne,
+        selectTripleJoin
     }
 
 })()
-
 
 module.exports = orm;
