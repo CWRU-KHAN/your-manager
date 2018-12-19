@@ -165,6 +165,7 @@ const dbLib = (() => {
       : Promise.reject({code: 409, message: 'Invalid Token'})
   }
 
+  // adds a new external band for populating an event
   const addNewExternalBand = ({ token, bandName, bandURL = '', eventsid, userName }) => {
     verifyToken(userName, token)
     return insertOne(
@@ -174,6 +175,22 @@ const dbLib = (() => {
     )      
       .then(results => {
         if (results.affectedRows === 0) throw new Error('500: Band not added to event.')
+        return results
+      })
+      .catch(translateDbErr)
+  }
+
+  // adds a new note
+  const addNewNote = ({ token, userName, bandsid, usersid, calendarDate, noteTitle = 'Untitled', noteBody }) => {
+    verifyToken(userName, token)
+    const postedAt = new Date
+    return insertOne(
+      'notes',
+      ['usersid', 'bandsid', 'notetitle', 'notebody', 'calendardate', 'postedat'],
+      [usersid, bandsid, noteTitle, noteBody, calendarDate, postedAt]
+    )
+      .then(results => {
+        if (results.affectedRows === 0) throw new Error('500: Note not added.')
         return results
       })
       .catch(translateDbErr)
@@ -290,6 +307,7 @@ const dbLib = (() => {
     addNewEvent,
     addNewBE,
     addNewBM,
+    addNewNote,
     addNewExternalBand,
     getBandInfo,
     getUserInfo,
@@ -303,5 +321,6 @@ const dbLib = (() => {
 
 
 // console.log(dbLib.createBandToken({bandsid: 1}))
+// dbLib.addNewNote()
 
 module.exports = dbLib

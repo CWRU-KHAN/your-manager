@@ -21,6 +21,7 @@ const { addNewUser,
   addNewBE,
   addNewBM,
   addNewExternalBand,
+  addNewNote,
   getBandInfo,
   getUserInfo,
   getEventInfo,
@@ -101,6 +102,16 @@ app.post('/api/bandevent/', (req, res) => {
 // add an external band to an event
 app.post('/api/externalband/', (req, res) => {
   addNewExternalBand(req.body)
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// add a new note
+app.post('/api/note/', (req, res) => {
+  addNewNote(req.body)
     .then(results => {
       if (results.error) throw results.error
       res.json(results)

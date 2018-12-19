@@ -123,5 +123,23 @@ CREATE TABLE `externalbands`
 
 
 
+-- ***** notes
 
+CREATE TABLE `notes`
+(
+  `id`            integer auto_increment NOT NULL ,
+  `createdAt`     timestamp NOT NULL ,
+  `usersid`       integer NOT NULL ,
+  `bandsid`       integer NOT NULL ,
+  `notetitle`     varchar(100) NULL ,
+  `notebody`      varchar(1000) NOT NULL ,
+  `calendardate`  date NOT NULL ,
+  `postedat`      datetime NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  KEY `fkIdx_51` (`usersid`),
+  CONSTRAINT `FK_51` FOREIGN KEY `fkIdx_51` (`usersid`) REFERENCES `users` (`id`) ,
+  KEY `fkIdx_52` (`bandsid`),
+  CONSTRAINT `FK_52` FOREIGN KEY `fkIdx_52` (`bandsid`) REFERENCES `bands` (`id`) ON DELETE CASCADE
+
+);
 
