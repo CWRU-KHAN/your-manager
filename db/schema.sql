@@ -60,6 +60,7 @@ CREATE TABLE `bands`
  `genre`       varchar(50) ,
  `description` varchar(500) ,
  `ownerid`     integer NOT NULL ,
+ `bandtoken`   varchar(500) ,
 PRIMARY KEY (`id`),
 KEY `fkIdx_19` (`ownerid`),
 CONSTRAINT `FK_19` FOREIGN KEY `fkIdx_19` (`ownerid`) REFERENCES `users` (`id`)
@@ -100,9 +101,24 @@ CREATE TABLE `bandmates`
  `bandsid`   integer NOT NULL ,
 PRIMARY KEY (`id`),
 KEY `fkIdx_26` (`usersid`),
-CONSTRAINT `FK_26` FOREIGN KEY `fkIdx_26` (`usersid`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+CONSTRAINT `FK_26` FOREIGN KEY `fkIdx_26` (`usersid`) REFERENCES `users` (`id`) ON DELETE CASCADE ,
 KEY `fkIdx_29` (`bandsid`),
 CONSTRAINT `FK_29` FOREIGN KEY `fkIdx_29` (`bandsid`) REFERENCES `bands` (`id`) ON DELETE CASCADE
+);
+
+
+-- **** 'fake' bands for events
+
+CREATE TABLE `externalbands`
+(
+  `id`         integer auto_increment NOT NULL ,
+  `createdAt`  timestamp NOT NULL ,
+  `eventsid`   integer NOT NULL ,
+  `bandname`   varchar(100) NOT NULL ,
+  `bandurl`    varchar(500) NULL ,
+  PRIMARY KEY (`id`) ,
+  KEY `fkIdx_50` (`eventsid`),
+  CONSTRAINT `FK_50` FOREIGN KEY `fkIdx_50` (`eventsid`) REFERENCES `events` (`id`) ON DELETE CASCADE
 );
 
 

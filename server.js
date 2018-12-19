@@ -13,16 +13,18 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.static('./dist'))
+
 const { addNewUser, 
   authUser, 
   addNewBand, 
   addNewEvent, 
   addNewBE,
   addNewBM,
+  addNewExternalBand,
   getBandInfo,
   getUserInfo,
-  updateUser, 
-  deleteUser } = require('./db/dbLib')
+  getEventInfo,
+} = require('./db/dbLib')
 
 
 
@@ -81,12 +83,24 @@ app.post('/api/bandmate/', (req, res) => {
       if (results.error) throw results.error
       res.json(results)
     })
-    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .catch(err => {
+      res.status(err.code || 500).json(err.message || 'Internal server error.')
+    })
 })
 
 // add that a band is a member of an event
 app.post('/api/bandevent/', (req, res) => {
   addNewBE(req.body)
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// add an external band to an event
+app.post('/api/externalband/', (req, res) => {
+  addNewExternalBand(req.body)
     .then(results => {
       if (results.error) throw results.error
       res.json(results)
@@ -105,11 +119,11 @@ app.get('/api/band/:id', (req, res) => {
         return acc.users ? 
           {
             ...rest,
-            users: acc.users.concat({username, id})
+            users: acc.users.concat({ username, id })
           } :
           {
             ...rest,
-            users: [{username, id}]
+            users: [{ username, id }]
           }
       }, {})
       parsedResults.events = resultsArray[1].map(({ eventname, id }) => ({ eventname, id }))
@@ -128,13 +142,38 @@ app.get('/api/user/:id', (req, res) => {
         return acc.bands ? 
           {
             ...rest,
-            bands: acc.bands.concat({bandname, id})
+            bands: acc.bands.concat({ bandname, id })
           } :
           {
             ...rest,
-            bands: [{bandname, id}]
+            bands: [{ bandname, id }]
           }
       }, {})
+      res.json(parsedResults)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// get info on a specific event
+app.get('/api/event/:id', (req, res) => {
+  getEventInfo({ eventsid: req.params.id })
+    .then(results => {
+      if (results.error) throw results.error
+      const [ internalBands, externalBands ] = results
+      const parsedResults = internalBands.reduce((acc, entry) => {
+        const { bandname, id, ...rest } = entry
+        return acc.internalBands ?
+        {
+          ...rest,
+          internalBands: acc.internalBands.concat({ bandname, id })
+        } :
+        {
+          ...rest,
+          internalBands: [{ bandname, id }]
+        }
+      }, {})
+      parsedResults.externalBands = externalBands
+
       res.json(parsedResults)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))

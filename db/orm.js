@@ -74,16 +74,6 @@ const orm = (() => {
         }
     )}
 
-    const selectBandUsers = bandsid => {
-        return new Promise((resolve, reject) => {
-            const queryString = `SELECT bands.bandname, users.username FROM bandmates JOIN bands ON bandmates.bandsid = bands.id JOIN users ON bandmates.usersid = users.id WHERE bandmates.bandsid = ${bandsid}`
-            connection.query(queryString, (err, res) => {
-                if (err) reject(err)
-                resolve(res)
-            })
-        })
-
-    }
 
     const insertOne = (table, cols, vals) => {
         return new Promise((resolve, reject) => {
