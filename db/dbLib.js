@@ -47,7 +47,7 @@ const dbLib = (() => {
 
   // generate a token for use in joining a band
   const createBandToken = ({ bandsid }) => {
-    const token = jwt.sign({ bandsid }, secret, testOptions)
+    const token = jwt.sign({ bandsid }, secret, bandOptions)
     return token
   }
 
@@ -196,6 +196,14 @@ const dbLib = (() => {
       .catch(translateDbErr)
   }
 
+  // gets a band token for sharing
+  const addNewBandToken = ({ token, userName, bandsid }) => {
+    return new Promise((resolve, reject) => {
+      verifyToken(userName, token)
+      resolve(createBandToken({ bandsid }))
+    })
+  }
+
   // gets info on a band
   const getBandInfo = ({ bandsid }) => {
     return Promise.all([
@@ -309,6 +317,7 @@ const dbLib = (() => {
     addNewBM,
     addNewNote,
     addNewExternalBand,
+    addNewBandToken,
     getBandInfo,
     getUserInfo,
     getEventInfo,

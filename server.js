@@ -22,6 +22,7 @@ const { addNewUser,
   addNewBM,
   addNewExternalBand,
   addNewNote,
+  addNewBandToken,
   getBandInfo,
   getUserInfo,
   getEventInfo,
@@ -87,6 +88,16 @@ app.post('/api/bandmate/', (req, res) => {
     .catch(err => {
       res.status(err.code || 500).json(err.message || 'Internal server error.')
     })
+})
+
+// generate a token for joining a band
+app.post('/api/bandtoken/', (req, res) => {
+  addNewBandToken(req.body)
+    .then(results => {
+      if (results.error) throw results.error
+      res.json(results)
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })
 
 // add that a band is a member of an event

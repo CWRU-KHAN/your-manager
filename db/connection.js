@@ -12,4 +12,6 @@ const connection = process.env.JAWSDB_URL ? mysql.createConnection(process.env.J
 
 
 connection.connect();
+console.log('connected to database')
+
 module.exports = connection;
