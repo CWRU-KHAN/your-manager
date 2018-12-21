@@ -26,6 +26,7 @@ const { addNewUser,
   getBandInfo,
   getUserInfo,
   getEventInfo,
+  getCalendarInfo
 } = require('./db/dbLib')
 
 
@@ -199,6 +200,31 @@ app.get('/api/event/:id', (req, res) => {
       res.json(parsedResults)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// get calendar for a band
+app.get('/api/calendar/:id', (req, res) => {
+  getCalendarInfo({ bandsid: req.params.id })
+    .then(results => {
+      const parsedEvents = results[0].reduce((acc, cur) => {
+        const currentDate = cur.date
+        return acc[currentDate] ?
+        acc.concat({[currentDate]: [cur, ...acc[currentDate]]})
+        :
+        acc.concat({[currentDate]: [cur]})
+      }, [])
+      const parsedNotes = results[1].reduce((acc, cur) => {
+        const currentDate = cur.calendardate
+        if (acc[currentDate]) {
+          acc[currentDate] = acc[currentDate].concat(cur)
+          return acc
+        }
+        return {...acc, [currentDate]: [cur]}
+      }, {})
+      res.json({events: parsedEvents, notes: parsedNotes})
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+
 })
 
 // Cloudinary Image processing

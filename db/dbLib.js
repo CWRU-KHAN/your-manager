@@ -1,4 +1,4 @@
-const { selectSomeWhere, selectSomeJoin, insertOne, updateOne, deleteOne, selectTripleJoin } = require('./orm')
+const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, updateOne, deleteOne, selectTripleJoin } = require('./orm')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -281,6 +281,32 @@ const dbLib = (() => {
       .catch(translateDbErr)
   }
 
+  // gets calendar details
+  const getCalendarInfo = ({ bandsid }) => {
+    // verifyToken(userName, token)
+    return Promise.all([
+      selectTripleJoin(
+        'bandsevents',
+        'bandsid',
+        'eventsid',
+        'bands',
+        'events',
+        ['bandname'],
+        ['eventname', 'eventdescription', 'date', 'time', 'eventlocation'],
+        bandsid
+      ),
+      selectSomeWhere(
+        'notes',
+        'bandsid',
+        bandsid,
+        ['id', 'usersid', 'bandsid', 'notetitle', 'notebody', 'calendardate', 'postedat']
+      )
+    ])    
+  }
+
+  // gets notes relevant to a user
+  // const getUserNotes = ({ token, userName, usersid })
+
   // updates user information, takes a user object with two keys: userName and updates.
   // updates should be an object with key/value pairs corresponding to column names/values to be updated
   // returns confirmation message
@@ -321,6 +347,7 @@ const dbLib = (() => {
     getBandInfo,
     getUserInfo,
     getEventInfo,
+    getCalendarInfo,
     // createBandToken,
   }
 

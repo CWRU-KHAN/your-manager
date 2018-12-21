@@ -42,6 +42,17 @@ const orm = (() => {
         })
     }
 
+    const selectSomeWhereOrderBy = (table, whereCol, whereVal, selectCols, orderCol) => {
+        return new Promise((resolve, reject) => {            
+            let queryString = `SELECT ${dblQuestions(selectCols.length)} FROM ${table} WHERE ?? = ? ORDER BY ??`;
+            let vals = [...selectCols, whereCol, whereVal, orderCol]
+            connection.query(queryString, vals, (err, res) => {
+                if (err) reject(err);
+                resolve(res);
+            })
+        })
+    }
+
     const selectSomeJoin = (table1, table2, t1Cols, t2Cols, t1Key, t2Key, conditionCol, conditionVal) => {
         return new Promise((resolve, reject) => {
             let table1Selectors = t1Cols.map(value => `${table1}.${value}`)
@@ -113,7 +124,8 @@ const orm = (() => {
         updateOne,
         selectSomeJoin,
         deleteOne,
-        selectTripleJoin
+        selectTripleJoin,
+        selectSomeWhereOrderBy
     }
 
 })()
