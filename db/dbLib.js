@@ -10,10 +10,7 @@ const dbLib = (() => {
   // jwt params
   const loginOptions = { expiresIn: '2d', issuer: 'https://your-manager.herokuapp.com' }
   const bandOptions = { expiresIn: '10y', issuer: 'https://your-manager.herokuapp.com' }
-  const testOptions = { expiresIn: '5s', issuer: 'https://your-manager.herokuapp.com' }
   const secret = process.env.JWT_SECRET
-  const practice = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYW5kc2lkIjoxLCJpYXQiOjE1NDUyNDQ0NDgsImV4cCI6MTg2MDgyMDQ0OCwiaXNzIjoiaHR0cHM6Ly95b3VyLW1hbmFnZXIuaGVyb2t1YXBwLmNvbSJ9.Mk5dqp1SwN6oQG1DqwR6T4gUQ3-Q19RvUjExPYTVTLY'
-  const expiredPractice = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYW5kc2lkIjoxLCJpYXQiOjE1NDUyNDYzMzAsImV4cCI6MTU0NTI0NjMzNSwiaXNzIjoiaHR0cHM6Ly95b3VyLW1hbmFnZXIuaGVyb2t1YXBwLmNvbSJ9.AMRq152u9vJfll0dbVSJEmUmLND9hUyL52L1Iq-iRNs'
 
   const verifyToken = (userName, token) => {    
     const result = jwt.verify(token, secret, loginOptions)
@@ -391,10 +388,5 @@ const dbLib = (() => {
 
 })()
 
-// selectTripleJoin('bandmates', 'bandsid', 'usersid', 'bands', 'users', ['bandname'], ['username'], 1).then(x => console.log(x)).catch(x => console.log(x))
-
-
-// console.log(dbLib.createBandToken({bandsid: 1}))
-// dbLib.addNewNote()
 
 module.exports = dbLib
