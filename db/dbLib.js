@@ -301,11 +301,48 @@ const dbLib = (() => {
         bandsid,
         ['id', 'usersid', 'bandsid', 'notetitle', 'notebody', 'calendardate', 'postedat']
       )
-    ])    
+    ])      
+      .then(results => {
+        if (results[0].affectedRows === 0) throw new Error('500: No results for this calendar.')
+        return results
+      })
+      .catch(translateDbErr)    
   }
 
   // gets notes relevant to a user
-  // const getUserNotes = ({ token, userName, usersid })
+  const getUserNotes = ({ usersid }) => {
+
+
+    return selectSomeWhere(
+      'bandmates',
+      'usersid',
+      usersid,
+      ['bandsid']
+    )
+      .then(results => {
+        console.log(results)
+        if (results.affectedRows === 0) throw new Error('500: No associated bands for this user.')
+        return Promise.all(        
+          results.map(({ bandsid }) => {
+            return selectSomeJoin(
+              'notes',
+              'bands',
+              ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat'],
+              ['bandname'],
+              'bands.id',
+              'notes.bandsid',
+              'bandsid',
+              bandsid
+            )
+          })
+        )
+      })
+      .then(results => {
+        if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
+        return results
+      })
+      .catch(translateDbErr)
+  }
 
   // updates user information, takes a user object with two keys: userName and updates.
   // updates should be an object with key/value pairs corresponding to column names/values to be updated
@@ -348,6 +385,7 @@ const dbLib = (() => {
     getUserInfo,
     getEventInfo,
     getCalendarInfo,
+    getUserNotes,
     // createBandToken,
   }
 

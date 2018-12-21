@@ -26,7 +26,8 @@ const { addNewUser,
   getBandInfo,
   getUserInfo,
   getEventInfo,
-  getCalendarInfo
+  getCalendarInfo,
+  getUserNotes
 } = require('./db/dbLib')
 
 
@@ -222,6 +223,15 @@ app.get('/api/calendar/:id', (req, res) => {
         return {...acc, [currentDate]: [cur]}
       }, {})
       res.json({events: parsedEvents, notes: parsedNotes})
+    })
+    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+
+})
+
+// get notes for a user
+app.get('/api/usernotes/:id', (req, res) => {
+  getUserNotes({usersid: req.params.id}).then(results => {
+      res.json(results)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 
