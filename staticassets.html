@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="staticassets.css">
+    <title>Your Manager Static Assets</title>
+</head>
+
+<body>
+
+    <!-- landing -->
+    <h1>Welcome to Your Manager</h1>
+    <button>Login</button>
+    <button>Register</button>
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- login -->
+    <h1>Login</h1>
+    <input type="text" placeholder="username">
+    <input type="text" placeholder="password">
+    <button>Submit</button>
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- register user -->
+    <h1>Register</h1>
+    <input type="text" placeholder="email">
+    <input type="text" placeholder="username">
+    <input type="text" placeholder="password">
+    <input type="text" placeholder="confirmPassword">
+    <button>Submit</button>
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- user dashboard - bands.length = 0 -->
+    <h1>Welcome {{ username }}</h1>
+    <div>
+        Calendar goes here
+    </div>
+    <br>
+    <h4>Bands</h4>
+    <div>
+        <p>No Bands Exist</p>
+        <button>Create A Band</button>
+        <button>Join A Band</button>
+    </div>
+    <br>
+    <h4>Events</h4>
+    <div>
+        <p>Please Create or Join a Band to see Events</p>
+    </div>
+    <br>
+    <h4>Notes</h4>
+    <div>
+        <p>Please Create or Join a Band to see Notes</p>
+    </div>
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- Create a band -->
+    <h1>Create A Band</h1>
+    <img src="" alt="no image">
+    <button>upload a file</button>
+    <button>paste a link</button><br><br>
+    <input type="text" placeholder="bandname"><br><br>
+    Genre:
+    <input type="checkbox" name="genre1" value="Blues"> Blues
+    <input type="checkbox" name="genre2" value="Classical"> Classical
+    <input type="checkbox" name="genre3" value="Jazz"> Jazz
+    <input type="checkbox" name="genre4" value="Reggae"> Reggae
+    <input type="checkbox" name="genre5" value="Country"> Country
+    <input type="checkbox" name="genre6" value="Electronic"> Electronic
+    <input type="checkbox" name="genre7" value="Folk"> Folk
+    <input type="checkbox" name="genre7" value="Rock"> Rock
+    <input type="checkbox" name="genre7" value="HipHop"> Hip-Hop
+    <br><br>
+    <button>Submit</button>
+
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- join band -->
+    <h1>Join A Band</h1>
+    <h4>Please paste the unique band-code below</h4>
+    <input type="text" placeholder="band-code">
+    <button>Submit</button>
+
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- user dashboard - bands.length >= 1 -->
+    <h1>Welcome {{ username }}</h1>
+    <div>
+        Calendar goes here
+    </div>
+    <br>
+    <h4>Bands</h4>
+    <div>
+        <div class="card bandCard">
+            <img src="" class="bandImage" alt="{{ bandimage }}">
+            <h4>{{ bandname }}</h4>
+        </div>
+        <button>Create A Band</button>
+        <button>Join A Band</button>
+    </div>
+    <br>
+    <h4>Events</h4>
+    <div>
+        <div class="card eventCard">
+            <!-- however vue handles dates idk -->
+            <h4>{{ date.month }}/{{ date.day }} - {{ eventname }}</h4>
+            <h6>{{ bandname }}</h6>
+            <button>view</button>
+            <button>add note</button>
+            <button>delete</button>
+        </div>
+        <button>Create Event</button>
+    </div>
+    <br>
+    <h4>Notes</h4>
+    <div>
+        <div class="card noteCard">
+            <!-- however vue handles dates idk -->
+            <h4>{{ note.title }}</h4>
+            <h6>{{ note.counter }}</h6>
+            <button>view</button>
+            <button>reply</button>
+        </div>
+        <button>Create Note</button>
+    </div>
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- create event -->
+    <h1>Create Event</h1>
+    <h4>Event Details:</h4>
+    <input type="text" placeholder="eventname"><br><br>
+    <input type="text" placeholder="eventdescription"><br><br>
+    <input type="text" placeholder="date"><br><br>
+    <input type="text" placeholder="time"><br><br>
+    <input type="text" placeholder="eventlocation"><br><br>
+    <button>Submit</button>
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- event dashboard -->
+    <h1>{{ eventname }}</h1>
+    <h4>{{ eventdescription }}</h4>
+    <h4>{{ date }}</h4>
+    <h4>{{ time }}</h4>
+    <h4>Performing Bands</h4>
+    <div>
+        <ul>
+            <li>{{ bandname }}</li>
+            <li>{{ bandname }}</li>
+            <li>{{ bandname }}</li>
+            <button>Add A Band</button>
+        </ul>
+    </div>
+    <h4>Notes</h4>
+    <div>
+        <ul>
+            <li>{{ notetitle }} <button>view</button><button>reply</button></li>
+            <li>{{ notetitle }} <button>view</button><button>reply</button></li>
+            <li>{{ notetitle }} <button>view</button><button>reply</button></li>
+            <button>Add A Note</button>
+        </ul>
+    </div>
+    <h4>Your Management</h4>
+        <!-- Here put in the content for social media and all that stuff -->
+    <button>Delete Event</button>
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- create event -->
+    <h1>Create Note</h1>
+    <input type="text" placeholder="notetitle"><br><br>
+    <input type="text" placeholder="notetext"><br><br>
+    <button>Submit</button>
+
+
+    <hr style="margin-top: 50px;margin-bottom: 50px">
+    <!-- user profile -->
+    <h1>Welcome {{ username }}</h1>
+    <h4>Your Information</h4>
+    <div>
+        <ul>
+            <img src="" alt="no image">
+            <li>Username: {{ username }}</li>
+            <li>Email: {{ email }}</li>
+            <li>First Name: {{ firstname }}</li>
+            <li>Last Name: {{ lastname }}</li>
+            <button>Edit</button>
+        </ul>
+    </div>
+    <h4>Your Bands</h4>
+    <div>
+        <ul>
+            <li>{{ bandname }}</li>
+            <button>view</button>
+        </ul>
+    </div>
+
+    <script src="staticassets.js"></script>
+</body>
+
+</html>
