@@ -1,4 +1,4 @@
-const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, updateOne, deleteOne, selectTripleJoin } = require('./orm')
+const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, updateOne, deleteOne, deleteOneTwoCond, selectTripleJoin } = require('./orm')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -33,6 +33,7 @@ const dbLib = (() => {
         code: 409
       }
     }
+    
 
     return errno ? {error: errorTable[errno]} : error
   }
@@ -362,6 +363,97 @@ const dbLib = (() => {
     })
   }
 
+  const deleteBand = ({ userName, bandsid, token }) => {
+    verifyToken(userName, token)
+    return selectSomeJoin(
+      'bands',
+      'users',
+      [],
+      ['username'],
+      'bands.ownerid',
+      'users.id',
+      'bands.id',
+      bandsid
+    )
+    .then(results => {
+      return results.length > 0 && results[0].username === userName
+    })
+    .then(match => {
+      if (!match) throw {
+        error: {
+          code: 403,
+          message: 'You do not have permission to delete this band.'
+        }
+      }
+      return deleteOne(
+        'bands',
+        `id = '${bandsid}'`
+        )        
+    })
+    .catch(translateDbErr)
+  }
+
+  const deleteEvent = ({ userName, eventsid, token }) => {
+    verifyToken(userName, token)
+    return selectSomeJoin(
+      'events',
+      'users',
+      [],
+      ['username'],
+      'events.ownerid',
+      'users.id',
+      'events.id',
+      eventsid
+    )
+    .then(results => {
+      return results.length > 0 && results[0].username === userName
+    })
+    .then(match => {
+      if (!match) throw {
+        error: {
+          code: 403,
+          message: 'You do not have permission to delete this event.'
+        }
+      }
+      return deleteOne(
+        'events',
+        `id = '${eventsid}'`
+        )        
+    })
+    .catch(translateDbErr)
+  }
+
+  const deleteBandMate = ({ userName, token, bandsid, usersid }) => {
+    // verifyToken(userName, token)
+    return selectSomeJoin(
+      'bands',
+      'users',
+      [],
+      ['username'],
+      'bands.ownerid',
+      'users.id',
+      'bands.id',
+      bandsid
+    )
+    .then(results => {
+      return results.length > 0 && results[0].username === userName
+    })
+    .then(match => {
+      if (!match) throw {
+        error: {
+          code: 403,
+          message: 'You do not have permission remove users from this band.'
+        }
+      }
+      return deleteOneTwoCond(
+        'bandmates',
+        `bandsid = '${bandsid}'`,
+        `usersid = '${usersid}'`
+        )        
+    })
+    .catch(translateDbErr)
+  }
+
 
 
   // public methods
@@ -383,6 +475,9 @@ const dbLib = (() => {
     getEventInfo,
     getCalendarInfo,
     getUserNotes,
+    deleteBand,
+    deleteEvent,
+    deleteBandMate
     // createBandToken,
   }
 
