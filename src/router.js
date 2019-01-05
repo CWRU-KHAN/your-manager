@@ -7,6 +7,7 @@ import BandCreator from './views/BandCreator.vue'
 import BandDashboard from './views/BandDashboard.vue'
 import EventCreator from './views/EventCreator.vue'
 import EventInfo from './views/EventInfo.vue'
+import store from './store.js'
 
 Vue.use(Router)
 
