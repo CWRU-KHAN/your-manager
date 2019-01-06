@@ -1,23 +1,34 @@
 <template>
   <div>
-    <input 
-      type="text" 
-      v-model="username"
-      label="Username"
-      counter
-      :rules="rules" />
-    <input 
-      name="password"
-      :append-icon="show1 ? 'visibility_off' : 'visibility'"
-      v-model="password"
-      label="Password"
-      :rules="rules"
-      hint="Must Be At Least 8 Characters"
-      :type="show1 ? 'text' : 'password'"
-      counter
-      @click:append="show1 = !show1" />
-      <!-- <button @click='submit' :disabled="!valid" id="btn">Login</button>     -->
-      <p> {{ username }} </p>
+    <form>
+      <label for="username"> Username
+        <input 
+          id='username'
+          type="text" 
+          v-model="username"
+          autocomplete="username" /> {{ username.length > 3 ? '' : 'At least 4 characters' }}
+      </label>
+
+      <label for="password"> Password
+        <input 
+          id="password"
+          name="password"
+          v-model="password"
+          autocomplete="current-password"
+          :type="show1 ? 'text' : 'password'" /> {{ password.length > 7 ? '' : 'At least 8 characters' }}
+      </label>
+      <button 
+        @click="show1 = !show1"
+        type="button"> 
+          {{ !show1 ? "Show Password" : "Hide Password" }} 
+        </button>
+      <button 
+        @click='submit' 
+        :disabled="!valid"
+        type="button">
+          Login
+      </button>    
+    </form>
 
   </div>
 </template>
@@ -30,12 +41,29 @@ export default {
     return {
       username: '',
       password: '',
-      valid: true,
-      show1: false,
-      rules: [
-        data => !!data || 'Required.',
-        data => data.length < 8 ? 'Too few characters.' : true
-      ]
+      show1: false
+    }
+  },
+
+  computed: {
+    valid() {      
+      return this.password.length > 7 && this.username.length > 3
+    }
+  },
+
+  methods: {
+    submit() {
+      if (this.valid) {
+        const credentials = {
+          userName: this.username,
+          password: this.password
+        }
+
+        this.$store.dispatch('authUser', credentials)
+          .then(() => {
+            this.$store.state.userToken ? this.$router.push({ name: 'dashboard' }) : this.password = ''
+          })
+      }
     }
   }
 }
