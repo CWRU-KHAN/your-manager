@@ -3,10 +3,12 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import Login from './views/Login.vue'
+import Signup from './views/Signup.vue'
 import BandCreator from './views/BandCreator.vue'
 import BandDashboard from './views/BandDashboard.vue'
 import EventCreator from './views/EventCreator.vue'
 import EventInfo from './views/EventInfo.vue'
+import store from './store.js'
 
 Vue.use(Router)
 
@@ -35,6 +37,11 @@ export default new Router({
       beforeEnter : (to, from, next) => {
         store.state.userToken ? next('/dashboard') : next()
       },
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: Signup
     },
     {
       path: '/band/create',
