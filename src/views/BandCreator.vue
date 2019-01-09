@@ -11,13 +11,11 @@
       </p>
 
       <img src="" alt="no image">
-      <button>upload a file</button>
-      <button>paste a link</button>
-
+      <input type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
+      <button type="button" @click='submitImage()'>Submit Image</button>
       <br><br>
       <input type="text" placeholder="bandname" id='bandName' v-model="bandName">
       <br><br>
-
       Genre:
         <input type="checkbox" v-model='genres' value="1"> Blues
         <input type="checkbox" v-model='genres' value="2"> Classical
@@ -44,7 +42,9 @@ export default {
     return {
       genres: [],
       bandName: '',
-      errors: []
+      errors: [],
+      file: '',
+      bandimage: ''
     }
   },
   methods: {
@@ -56,6 +56,7 @@ export default {
         const bandInfo = {
           bandName: this.bandName,
           genres: this.genres,
+          bandimage: this.bandimage,
           usersid: this.$store.state.userCredentials.usersid,
           token: this.$store.state.userCredentials.userToken,
           userName: this.$store.state.userCredentials.username
@@ -63,6 +64,16 @@ export default {
 
         this.$store.dispatch('createBand', bandInfo)
       }
+    },
+    processUpload () {
+      this.file = this.$refs.file.files[0]
+      // this.fileChosen = true
+    },
+    submitImage() {
+      let formData = new FormData()
+      formData.append('file', this.file)
+      this.$store.dispatch('uploadImg', formData)
+        .then(() => this.bandimage = this.$store.getters.getCurrentUploadedImage)
     }
   }
 }
