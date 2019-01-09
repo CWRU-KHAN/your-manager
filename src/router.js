@@ -8,6 +8,7 @@ import BandCreator from './views/BandCreator.vue'
 import BandDashboard from './views/BandDashboard.vue'
 import EventCreator from './views/EventCreator.vue'
 import EventInfo from './views/EventInfo.vue'
+import CalendarView from './views/CalendarView'
 import store from './store'
 
 Vue.use(Router)
@@ -38,6 +39,12 @@ export default new Router({
         .then(() => next())
         else next('/login')
       }
+    },
+    //remove this route once calendar implemented onto dashboard
+    {
+      path: '/calendar',
+      name: 'calendar',
+      component: CalendarView
     },
     {
       path: '/login',

@@ -53,9 +53,8 @@ export default {
         userName: this.username,
         password: this.password
       }
-
-      this.$store.dispatch('userLogin', credentials)
-           
+      this.$store.commit('clearErrors')
+      this.$store.dispatch('userLogin', credentials)     
     }    
   }
 }
