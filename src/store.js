@@ -48,6 +48,9 @@ export default new Vuex.Store({
     },
     fillNotes(state, data) {
       state.userNotes = data
+    },
+    setBandToken(state, data){
+      state.bandCredentials.bandToken = data
     }
   },
   actions: {
@@ -58,12 +61,12 @@ export default new Vuex.Store({
     },
     createUser(context, credentials) {
       return axios.post('/api/user', credentials).then(res => {
-        
+        router.push({name: 'login'})
       })
     },
     createBand(context, credentials) {
       return axios.post('/api/band', credentials).then(res => {
-
+        router.push({name: 'dashboard'})
       })
     },
     cancelCreation({ commit }){
@@ -71,17 +74,17 @@ export default new Vuex.Store({
     },
     createEvent(context, data) {
       return axios.post('/api/event', data).then(res => {
-
+        router.push({name: 'bandDashboard'})
       })
     },
     createNote(context, data) {
       return axios.post('/api/note', data).then(res => {
-
+        router.push({name: 'eventInfo'})
       })
     },
     addUserToBand(context, credentials) {
       return axios.post('/api/bandmate', credentials).then(res => {
-
+        router.push({name: 'bandDashboard'})
       })
     },
     createBandToken( { commit }, credentials){

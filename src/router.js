@@ -25,7 +25,7 @@ export default new Router({
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userToken) store.dispatch('getUserPage', {userName: store.state.userName, token: store.state.userToken}).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials).then(() => next())
         else next('/login')
       }
     },
@@ -34,7 +34,7 @@ export default new Router({
       name: 'login',
       component: Login,
       beforeEnter : (to, from, next) => {
-        store.state.userToken ? next('/dashboard') : next()
+        store.state.userCredentials.userToken ? next('/dashboard') : next()
       },
     },
     {
@@ -42,7 +42,7 @@ export default new Router({
       name: 'bandCreator',
       component: BandCreator,
       beforeEnter: (to, from, next) => {
-        store.state.userToken ? next() : next('/login')
+        store.state.userCredentials.userToken ? next() : next('/login')
       }
     },
     {
@@ -50,7 +50,7 @@ export default new Router({
       name: 'bandDashboard',
       component: BandDashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
         else next('/login')
       }
     },
@@ -59,7 +59,7 @@ export default new Router({
       name: 'eventCreator',
       component: EventCreator,
       beforeEnter: (to, from, next) => {
-        store.state.userToken ? next() : next('/login')
+        store.state.userCredentials.userToken ? next() : next('/login')
       }
     },
     {
@@ -67,7 +67,7 @@ export default new Router({
       name: 'eventInfo',
       component: EventInfo,
       beforeEnter: (to, from, next) => {
-        if (store.state.userToken) store.dispatch('getEventPage', store.state.eventsid).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getEventPage', store.state.eventsid).then(() => next())
         else next('/login')
       }
     },
