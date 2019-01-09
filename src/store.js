@@ -68,17 +68,21 @@ export default new Vuex.Store({
   getters: {
     getCurrentUploadedImage(state) {
       return state.currentUploadedImage
+    },
+    getCurrentErrors(state) {
+      return state.errors
     }
   },
   actions: {
     userLogin({ commit }, credentials) {
-      return axios.post('/api/auth', credentials).then(({ data, error })  => {
-        if (error) {
-          commit('addError', error)
-        } else { 
-          commit('setUserCredentials', data)
-          router.push({name: 'dashboard'})
-        }
+      return axios.post('/api/auth', credentials).then(({data})  => {
+        console.log(data)
+          if (data.message) {
+            commit('addError', data.message)
+          } else {
+            commit('setUserCredentials', data)
+            router.push({name: 'dashboard'})
+          }
       })
     },
     createUser(context, credentials) {
