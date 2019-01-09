@@ -116,6 +116,17 @@ const orm = (() => {
         })
     }
 
+    const deleteOneTwoCond = (table, condition1, condition2) => {
+        return new Promise((resolve, reject) => {
+            let queryString = `DELETE FROM ?? WHERE ${condition1} AND ${condition2}`
+            connection.query(queryString, [table], (err, res) => {
+                if (err) reject(err);
+                console.log(res)
+                resolve(res);
+            })
+        })
+    }
+
     return {
         selectAll,
         selectSome,
@@ -124,6 +135,7 @@ const orm = (() => {
         updateOne,
         selectSomeJoin,
         deleteOne,
+        deleteOneTwoCond,
         selectTripleJoin,
         selectSomeWhereOrderBy
     }

@@ -27,7 +27,10 @@ const { addNewUser,
   getUserInfo,
   getEventInfo,
   getCalendarInfo,
-  getUserNotes
+  getUserNotes,
+  deleteBand,
+  deleteEvent,
+  deleteBandMate
 } = require('./db/dbLib')
 
 
@@ -236,6 +239,38 @@ app.get('/api/usernotes/:id', (req, res) => {
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 
 })
+
+
+// delete a band
+app.delete('/api/band/', (req, res) => {
+  deleteBand(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows === 1)
+  })
+  .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// delete an event
+app.delete('/api/event/', (req, res) => {
+  deleteEvent(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows === 1)
+  })
+  .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// remove a user from bandmates
+app.delete('/api/bandmates/', (req, res) => {
+  deleteBandMate(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows === 1)
+  })
+  .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+
+
+
 
 // Cloudinary Image processing
 
