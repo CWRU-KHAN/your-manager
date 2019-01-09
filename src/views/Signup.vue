@@ -101,7 +101,6 @@ export default {
         }
 
         this.$store.dispatch('createUser', credentials)
-          .then(() => this.$router.push({ name: 'login' }))
       }
     },
 

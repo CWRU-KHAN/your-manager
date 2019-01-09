@@ -1,4 +1,4 @@
-const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, updateOne, deleteOne, deleteOneTwoCond, selectTripleJoin } = require('./orm')
+const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, insertMany, updateOne, deleteOne, deleteOneTwoCond, selectTripleJoin } = require('./orm')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -64,9 +64,11 @@ const dbLib = (() => {
       return bcrypt.compare(password, data[0].password)
         .then(valid => {
           if (!valid) return {
-            code: 403,
-            message: 'The password you entered is incorrect.',
-            auth: false
+            error: {
+              code: 403,
+              message: 'The password you entered is incorrect.',
+              auth: false
+            }
           }
           const token = jwt.sign({ user: userName }, secret, loginOptions)
           return {
@@ -98,7 +100,7 @@ const dbLib = (() => {
   }
 
   // adds a band to the database, takes a band object
-  const addNewBand = ({ bandName, usersid, token, userName }) => {
+  const addNewBand = ({ bandName, usersid, token, userName, genres }) => {
     verifyToken(userName, token)
     return insertOne(
       'bands',
@@ -108,6 +110,16 @@ const dbLib = (() => {
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Band '${bandName}' not added.`)
         return results
+      })
+      .then(results => {
+        if (!genres.length) return results
+        const { insertId: bandsid } = results
+        const formattedGenres = genres.map(genre => [bandsid, genre])
+        return insertMany(
+          'bandsgenres',
+          ['bandsid', 'genre'],
+          formattedGenres
+        )        
       })
       .catch(translateDbErr)
   }

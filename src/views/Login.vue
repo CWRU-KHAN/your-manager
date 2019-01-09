@@ -31,9 +31,7 @@
         type="button">
           Login
       </button>    
-
     </form>
-
   </div>
 </template>
 
@@ -57,9 +55,7 @@ export default {
       }
 
       this.$store.dispatch('userLogin', credentials)
-        .then(() => {
-          this.$store.state.userToken ? this.$router.push({ name: 'dashboard' }) : this.password = ''
-        })
+           
     }    
   }
 }

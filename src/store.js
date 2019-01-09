@@ -26,6 +26,7 @@ export default new Vuex.Store({
     events: [],
     currentPageJson: {},
     calendarData: {},
+    currentUploadedImage: ''
     errors: []
   },
   mutations: {
@@ -53,6 +54,14 @@ export default new Vuex.Store({
     setBandToken(state, data){
       state.bandCredentials.bandToken = data
     },
+    setCurrentUploadedImage(state, data) {
+      console.log(data)
+      state.currentUploadedImage = data
+    }
+  },
+  getters: {
+    getCurrentUploadedImage(state) {
+      return state.currentUploadedImage
     addError(state, error){
       state.errors.push(error)
     },
@@ -128,14 +137,12 @@ export default new Vuex.Store({
       return axios.get(queryString) 
         .then(data => commit('fillNotes', data))
     },
-    uploadImg(context, data) {
+    uploadImg({ commit }, data) {
       return axios.post('/api/upload', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      }).then(res => {
-
-      })
+      }).then(res => commit('setCurrentUploadedImage', res.data))
     }
   }
 })

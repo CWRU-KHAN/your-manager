@@ -143,3 +143,14 @@ CREATE TABLE `notes`
 
 );
 
+-- ***** bandsgenres
+CREATE TABLE `bandsgenres`
+(
+  `id`           integer auto_increment NOT NULL ,
+  `createdAt`    timestamp NOT NULL ,
+  `bandsid`      integer NOT NULL ,
+  `genre`        integer NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  KEY `fkIdx_53` (`bandsid`),
+  CONSTRAINT `FK_53` FOREIGN KEY `fkIdx_53` (`bandsid`) REFERENCES `bands` (`id`) ON DELETE CASCADE
+);
