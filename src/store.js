@@ -11,14 +11,21 @@ export default new Vuex.Store({
   state: {
     currentUser: {},
     currentBand: {},
+    currentEvent: {},
     userCredentials: { 
       userToken: '',
       username: '',
       usersid: ''
     },
-    bandToken: '',
+    bandCredentials: {
+      bandToken: '',
+      bandsid: ''
+    },
+    eventsid: '',
+    userNotes: {},
     events: [],
-    currentPageJson: {}
+    currentPageJson: {},
+    calendarData: {}
   },
   mutations: {
     setPage(state, data) {
@@ -28,8 +35,20 @@ export default new Vuex.Store({
       state.userCredentials.userToken = token
       state.userCredentials.username = userName
       state.userCredentials.usersid = usersid
+    },
+    setBandCredentials(state, { token, bandsid }){
+      state.bandCredentials.bandToken = token
+      state.bandCredentials.bandsid = bandsid
+    },
+    setEvent(state, { eventsid }){
+      state.eventsid = eventsid
+    },
+    fillCalendar(state, data) {
+      state.calendarData = data
+    },
+    fillNotes(state, data) {
+      state.userNotes = data
     }
-
   },
   actions: {
     userLogin({ commit }, credentials) {
@@ -65,20 +84,34 @@ export default new Vuex.Store({
 
       })
     },
-    getBandPage( { commit }, { id }){
-      const queryString = `/api/band/${id}`
+    createBandToken( { commit }, credentials){
+      return axios.post('/api/bandtoken', credentials)
+        .then(results => commit('setBandToken', results))
+    },
+    getBandPage( { commit }, { bandsid }){
+      const queryString = `/api/band/${bandsid}`
       return axios.get(queryString)
         .then(data => commit('setPage', data))
     },
-    getUserPage( { commit }, { id }){
-      const queryString = `/api/user/${id}`
+    getUserPage( { commit }, { usersid }){
+      const queryString = `/api/user/${usersid}`
       return axios.get(queryString)
         .then(data => commit('setPage', data))
     },
-    getEventPage( { commit }, { id }){
+    getEventPage( { commit }, id){
       const queryString = `/api/event/${id}`
       return axios.get(queryString)
         .then(data => commit('setPage', data))
+    },
+    getCalendarInfo( { commit }, { bandsid }){
+      const queryString = `/api/event/${bandsid}`
+      return axios.get(queryString)
+        .then(data => commit('fillCalendar', data))
+    },
+    getUserNotes( { commit }, { usersid }){
+      const queryString = `/api/usernotes/${usersid}`
+      return axios.get(queryString) 
+        .then(data => commit('fillNotes', data))
     },
     uploadImg(context, data) {
       return axios.post('/api/upload', data, {

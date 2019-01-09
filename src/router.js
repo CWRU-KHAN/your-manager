@@ -7,6 +7,7 @@ import BandCreator from './views/BandCreator.vue'
 import BandDashboard from './views/BandDashboard.vue'
 import EventCreator from './views/EventCreator.vue'
 import EventInfo from './views/EventInfo.vue'
+import store from './store'
 
 Vue.use(Router)
 
@@ -39,22 +40,36 @@ export default new Router({
     {
       path: '/band/create',
       name: 'bandCreator',
-      component: BandCreator
+      component: BandCreator,
+      beforeEnter: (to, from, next) => {
+        store.state.userToken ? next() : next('/login')
+      }
     },
     {
       path: '/band/dashboard',
       name: 'bandDashboard',
-      component: BandDashboard
+      component: BandDashboard,
+      beforeEnter: (to, from, next) => {
+        if (store.state.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
+        else next('/login')
+      }
     },
     {
       path: '/event/create',
       name: 'eventCreator',
-      component: EventCreator
+      component: EventCreator,
+      beforeEnter: (to, from, next) => {
+        store.state.userToken ? next() : next('/login')
+      }
     },
     {
       path: '/event/info',
       name: 'eventInfo',
-      component: EventInfo
+      component: EventInfo,
+      beforeEnter: (to, from, next) => {
+        if (store.state.userToken) store.dispatch('getEventPage', store.state.eventsid).then(() => next())
+        else next('/login')
+      }
     },
     {
       path: '*',
