@@ -26,7 +26,7 @@ export default new Vuex.Store({
     events: [],
     currentPageJson: {},
     calendarData: {},
-    currentUploadedImage: ''
+    currentUploadedImage: '',
     errors: []
   },
   mutations: {
@@ -57,16 +57,17 @@ export default new Vuex.Store({
     setCurrentUploadedImage(state, data) {
       console.log(data)
       state.currentUploadedImage = data
-    }
-  },
-  getters: {
-    getCurrentUploadedImage(state) {
-      return state.currentUploadedImage
+    },
     addError(state, error){
       state.errors.push(error)
     },
     clearErrors(state){
       state.errors = []
+    }
+  },
+  getters: {
+    getCurrentUploadedImage(state) {
+      return state.currentUploadedImage
     }
   },
   actions: {
