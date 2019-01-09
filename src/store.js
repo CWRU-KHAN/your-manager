@@ -9,13 +9,14 @@ Vue.use(VueAxios, axios);
 
 export default new Vuex.Store({
   state: {
+    test: 'test',
     currentUser: {},
     currentBand: {},
     currentEvent: {},
     userCredentials: { 
       userToken: '',
-      username: '',
-      usersid: ''
+      username: 'asdf',
+      usersid: 'asdf'
     },
     bandCredentials: {
       bandToken: '',
@@ -55,8 +56,9 @@ export default new Vuex.Store({
   },
   actions: {
     userLogin({ commit }, credentials) {
-      return axios.post('/api/auth', credentials).then(data => {
+      return axios.post('/api/auth', credentials).then(({ data }) => {
         commit('setUserCredentials', data)
+        router.push({name: 'dashboard'})
       })
     },
     createUser(context, credentials) {
