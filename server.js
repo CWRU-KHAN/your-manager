@@ -46,6 +46,7 @@ app.post('/api/auth/', (req, res) => {
 
   authUser(req.body)
     .then(results => {
+      console.log(results)
       if (results.error) throw results.error
       res.json(results)
     })
