@@ -56,9 +56,11 @@ const dbLib = (() => {
     return selectSomeWhere('users', 'username', userName, ['username', 'password', 'id'])
     .then(data => {
       if (data.length === 0) return {
-        code: 404,
-        message: `The username '${userName}' is incorrect.`,
-        auth: false
+        error: {
+          code: 404,
+          message: `The username '${userName}' is incorrect.`,
+          auth: false
+        }
       }
 
       return bcrypt.compare(password, data[0].password)
