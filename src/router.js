@@ -9,7 +9,9 @@ import BandDashboard from './views/BandDashboard.vue'
 import EventCreator from './views/EventCreator.vue'
 import EventInfo from './views/EventInfo.vue'
 import CalendarView from './views/CalendarView'
+import JoinBand from './views/JoinBand.vue'
 import store from './store'
+import axios from 'axios'
 
 Vue.use(Router)
 
@@ -33,9 +35,17 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
         .then(() => {
-          
+          const bands = store.state.currentPageJson.data.bands
+          return Promise.all(bands.map(band => {
+            console.log(band.id)
+            return axios.get(`/api/calendar/${band.id}`)
+          }))
         })
-        
+        .then(x => x.forEach(({ data }) => {
+          // console.log(data.events)
+          store.commit('addDashboardEvents', data.events)
+          store.commit('addDashboardNotes', data.notes)
+        }))        
         .then(() => next())
         else next('/login')
       }
@@ -75,6 +85,11 @@ export default new Router({
         if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
         else next('/login')
       }
+    },
+    {
+      path: '/band/join',
+      name: 'joinBand',
+      component: JoinBand,
     },
     {
       path: '/event/create',

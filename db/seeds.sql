@@ -49,9 +49,10 @@ use hgjvhowcs9snx6dw;
 -- (6, 2);
 
 
--- select * from users;
+select * from users;
 -- select * from events;
 select * from bands;
+select * from bandmates;
 -- select * from bandsevents;
 -- select * from bandmates;
-select * from bandsgenres;
+-- select * from bandsgenres;
