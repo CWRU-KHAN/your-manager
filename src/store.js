@@ -9,14 +9,13 @@ Vue.use(VueAxios, axios);
 
 export default new Vuex.Store({
   state: {
-    test: 'test',
     currentUser: {},
     currentBand: {},
     currentEvent: {},
     userCredentials: { 
       userToken: '',
-      username: 'asdf',
-      usersid: 'asdf'
+      username: '',
+      usersid: ''
     },
     bandCredentials: {
       bandToken: '',
