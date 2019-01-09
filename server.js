@@ -65,6 +65,7 @@ app.post('/api/user/', (req, res) => {
 
 // add a new band
 app.post('/api/band/', (req, res) => {
+  console.log(req.body)
   addNewBand(req.body)
     .then(results => {
       if (results.error) throw results.error

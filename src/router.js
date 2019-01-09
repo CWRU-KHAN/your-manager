@@ -30,7 +30,12 @@ export default new Router({
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
+        .then(() => {
+          
+        })
+        
+        .then(() => next())
         else next('/login')
       }
     },

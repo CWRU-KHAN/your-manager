@@ -55,7 +55,6 @@ export default new Vuex.Store({
       state.bandCredentials.bandToken = data
     },
     setCurrentUploadedImage(state, data) {
-      console.log(data)
       state.currentUploadedImage = data
     },
     addError(state, error){
@@ -73,6 +72,7 @@ export default new Vuex.Store({
   actions: {
     userLogin({ commit }, credentials) {
       return axios.post('/api/auth', credentials).then(({ data, error })  => {
+        
         if (error) {
           commit('addError', error)
         } else { 

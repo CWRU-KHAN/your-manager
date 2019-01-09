@@ -56,9 +56,11 @@ const dbLib = (() => {
     return selectSomeWhere('users', 'username', userName, ['username', 'password', 'id'])
     .then(data => {
       if (data.length === 0) return {
-        code: 404,
-        message: `The username '${userName}' is incorrect.`,
-        auth: false
+        error: {
+          code: 404,
+          message: `The username '${userName}' is incorrect.`,
+          auth: false
+        }
       }
 
       return bcrypt.compare(password, data[0].password)
@@ -100,12 +102,12 @@ const dbLib = (() => {
   }
 
   // adds a band to the database, takes a band object
-  const addNewBand = ({ bandName, usersid, token, userName, genres }) => {
+  const addNewBand = ({ bandName, usersid, token, userName, genres, bandimage }) => {
     verifyToken(userName, token)
     return insertOne(
       'bands',
-      ['bandname', 'ownerid'],
-      [bandName, usersid]
+      ['bandname', 'ownerid', 'bandimage'],
+      [bandName, usersid, bandimage]
     )
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Band '${bandName}' not added.`)
@@ -330,7 +332,6 @@ const dbLib = (() => {
       ['bandsid']
     )
       .then(results => {
-        console.log(results)
         if (results.affectedRows === 0) throw new Error('500: No associated bands for this user.')
         return Promise.all(        
           results.map(({ bandsid }) => {
