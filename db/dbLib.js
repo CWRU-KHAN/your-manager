@@ -1,4 +1,4 @@
-const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, updateOne, deleteOne, deleteOneTwoCond, selectTripleJoin } = require('./orm')
+const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, insertMany, updateOne, deleteOne, deleteOneTwoCond, selectTripleJoin } = require('./orm')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -100,7 +100,7 @@ const dbLib = (() => {
   }
 
   // adds a band to the database, takes a band object
-  const addNewBand = ({ bandName, usersid, token, userName }) => {
+  const addNewBand = ({ bandName, usersid, token, userName, genres }) => {
     verifyToken(userName, token)
     return insertOne(
       'bands',
@@ -110,6 +110,16 @@ const dbLib = (() => {
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Band '${bandName}' not added.`)
         return results
+      })
+      .then(results => {
+        if (!genres.length) return results
+        const { insertId: bandsid } = results
+        const formattedGenres = genres.map(genre => [bandsid, genre])
+        return insertMany(
+          'bandsgenres',
+          ['bandsid', 'genre'],
+          formattedGenres
+        )        
       })
       .catch(translateDbErr)
   }

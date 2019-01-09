@@ -43,10 +43,15 @@ use hgjvhowcs9snx6dw;
 -- (5, 1),
 -- (5, 3);
 
+-- INSERT INTO bandsgenres (bandsid, genre)
+-- VALUES
+-- (6, 1),
+-- (6, 2);
 
 
-select * from users;
-select * from events;
+-- select * from users;
+-- select * from events;
 select * from bands;
-select * from bandsevents;
-select * from bandmates;
+-- select * from bandsevents;
+-- select * from bandmates;
+select * from bandsgenres;

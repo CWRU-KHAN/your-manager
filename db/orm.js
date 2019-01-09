@@ -4,6 +4,7 @@ const orm = (() => {
 
     const questions = num => Array(num).fill('?').toString();
     const dblQuestions = num => Array(num).fill('??').toString();
+    const multQuestions = num => Array(num).fill('(?, ?)').toString();
 
     const sqlVals = object => {
         let arrPairs = Object.entries(object)
@@ -96,6 +97,20 @@ const orm = (() => {
         })
     }
 
+    const insertMany = (table, cols, vals) => {
+        const questionString = multQuestions(vals.length)
+        const valArray = vals.reduce((acc, val) => acc.concat(val))
+        console.log(questionString, valArray)
+        return new Promise((resolve, reject) => {
+            let queryString = `INSERT INTO ${table} (${cols.toString()}) VALUES ${questionString};`;
+            console.log(queryString)
+            connection.query(queryString, valArray, (err, res) => {
+                if (err) reject(err);
+                resolve(res);
+            })
+        })
+    }
+
     const updateOne = (table, vals, condition) => {
         return new Promise((resolve, reject) => {
             let queryString = `UPDATE ${table} SET ${sqlVals(vals)} WHERE ${condition};`;
@@ -121,7 +136,6 @@ const orm = (() => {
             let queryString = `DELETE FROM ?? WHERE ${condition1} AND ${condition2}`
             connection.query(queryString, [table], (err, res) => {
                 if (err) reject(err);
-                console.log(res)
                 resolve(res);
             })
         })
@@ -132,6 +146,7 @@ const orm = (() => {
         selectSome,
         selectSomeWhere,
         insertOne,
+        insertMany,
         updateOne,
         selectSomeJoin,
         deleteOne,
@@ -142,4 +157,5 @@ const orm = (() => {
 
 })()
 
+// orm.insertMany('bandsgenres', ['bandsid', 'genre'], [[6,3], [6,4]])
 module.exports = orm;
