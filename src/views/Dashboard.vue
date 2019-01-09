@@ -3,7 +3,7 @@
     <h1>Dashboard</h1>
     <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
     <div>
-      Calendar goes here
+      <router-link to='/calendar'>View Calendar</router-link>
     </div>
     <br>
     <h4>Bands</h4>
