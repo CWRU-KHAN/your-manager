@@ -25,7 +25,8 @@ export default new Vuex.Store({
     userNotes: {},
     events: [],
     currentPageJson: {},
-    calendarData: {}
+    calendarData: {},
+    errors: []
   },
   mutations: {
     setPage(state, data) {
@@ -51,12 +52,23 @@ export default new Vuex.Store({
     },
     setBandToken(state, data){
       state.bandCredentials.bandToken = data
+    },
+    addError(state, error){
+      state.errors.push(error)
+    },
+    clearErrors(state){
+      state.errors = []
     }
   },
   actions: {
     userLogin({ commit }, credentials) {
-      return axios.post('/api/auth', credentials).then(data => {
-        commit('setUserCredentials', data)
+      return axios.post('/api/auth', credentials).then(({ data, error })  => {
+        if (error) {
+          commit('addError', error)
+        } else { 
+          commit('setUserCredentials', data)
+          router.push({name: 'dashboard'})
+        }
       })
     },
     createUser(context, credentials) {
