@@ -64,9 +64,11 @@ const dbLib = (() => {
       return bcrypt.compare(password, data[0].password)
         .then(valid => {
           if (!valid) return {
-            code: 403,
-            message: 'The password you entered is incorrect.',
-            auth: false
+            error: {
+              code: 403,
+              message: 'The password you entered is incorrect.',
+              auth: false
+            }
           }
           const token = jwt.sign({ user: userName }, secret, loginOptions)
           return {
