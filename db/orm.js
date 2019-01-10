@@ -100,10 +100,8 @@ const orm = (() => {
     const insertMany = (table, cols, vals) => {
         const questionString = multQuestions(vals.length)
         const valArray = vals.reduce((acc, val) => acc.concat(val))
-        console.log(questionString, valArray)
         return new Promise((resolve, reject) => {
             let queryString = `INSERT INTO ${table} (${cols.toString()}) VALUES ${questionString};`;
-            console.log(queryString)
             connection.query(queryString, valArray, (err, res) => {
                 if (err) reject(err);
                 resolve(res);

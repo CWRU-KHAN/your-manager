@@ -43,8 +43,7 @@ export default {
       genres: [],
       bandName: '',
       errors: [],
-      file: '',
-      bandimage: ''
+      file: ''
     }
   },
   methods: {
@@ -56,7 +55,7 @@ export default {
         const bandInfo = {
           bandName: this.bandName,
           genres: this.genres,
-          bandimage: this.bandimage,
+          bandimage: this.$store.state.currentUploadedImage,
           usersid: this.$store.state.userCredentials.usersid,
           token: this.$store.state.userCredentials.userToken,
           userName: this.$store.state.userCredentials.username
@@ -67,7 +66,6 @@ export default {
     },
     processUpload () {
       this.file = this.$refs.file.files[0]
-      // this.fileChosen = true
     },
     submitImage() {
       let formData = new FormData()

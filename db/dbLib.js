@@ -102,12 +102,12 @@ const dbLib = (() => {
   }
 
   // adds a band to the database, takes a band object
-  const addNewBand = ({ bandName, usersid, token, userName, genres }) => {
+  const addNewBand = ({ bandName, usersid, token, userName, genres, bandimage }) => {
     verifyToken(userName, token)
     return insertOne(
       'bands',
-      ['bandname', 'ownerid'],
-      [bandName, usersid]
+      ['bandname', 'ownerid', 'bandimage'],
+      [bandName, usersid, bandimage]
     )
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Band '${bandName}' not added.`)
@@ -332,7 +332,6 @@ const dbLib = (() => {
       ['bandsid']
     )
       .then(results => {
-        console.log(results)
         if (results.affectedRows === 0) throw new Error('500: No associated bands for this user.')
         return Promise.all(        
           results.map(({ bandsid }) => {

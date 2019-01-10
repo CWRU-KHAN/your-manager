@@ -27,7 +27,9 @@ export default new Vuex.Store({
     currentPageJson: {},
     calendarData: {},
     currentUploadedImage: '',
-    errors: []
+    errors: [],
+    dashboardNotes: [],
+    dashboardEvents: []
   },
   mutations: {
     setPage(state, data) {
@@ -63,6 +65,12 @@ export default new Vuex.Store({
     },
     clearErrors(state){
       state.errors = []
+    },
+    addDashboardEvents(state, data) {
+      state.dashboardEvents = state.dashboardEvents.concat(data)
+    },
+    addDashboardNotes(state, data) {
+      state.dashboardNotes = state.dashboardNotes.concat(data)
     }
   },
   getters: {
@@ -76,7 +84,6 @@ export default new Vuex.Store({
   actions: {
     userLogin({ commit }, credentials) {
       return axios.post('/api/auth', credentials).then(({data})  => {
-        console.log(data)
           if (data.message) {
             commit('addError', data.message)
           } else {
