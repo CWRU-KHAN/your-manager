@@ -46,7 +46,11 @@ export default {
       show1: false
     }
   },
-
+  computed: {
+    ...mapGetters({
+      errors: 'getCurrentErrors'
+    })
+  },
   methods: {
     submit() {      
       const credentials = {
