@@ -1,0 +1,34 @@
+{
+    "bandname": "Slayer",
+    "bandimage": null,
+    "genre": null,
+    "ownerid": 3,
+    "users": [
+        {
+            "username": "nate",
+            "id": 1
+        },
+        {
+            "username": "dusty",
+            "id": 3
+        },
+        {
+            "username": "karol",
+            "id": 5
+        }
+    ],
+    "events": [
+        {
+            "eventname": "Pitchfork",
+            "id": 4
+        },
+        {
+            "eventname": "Slayer Plays The Rock Hall",
+            "id": 5
+        },
+        {
+            "eventname": "A Chill Ass Show",
+            "id": 6
+        }
+    ]
+}

@@ -14,6 +14,7 @@
       </ul>
       <router-link to='/band/create'>Create A Band</router-link>
       <router-link to='/band/join'>Join A Band</router-link>
+      <br>
     </div>
     <br>
     <h4>Events</h4>
@@ -71,11 +72,15 @@ export default {
   },
   methods: {
     goToBand(id) {
-      console.log(id)
+      id = 34
+      console.log("id: " + id)
+      this.$store.commit("setBandToken", {bandid: id})
+      this.$router.push({name : "bandDashboard"})
+
     },
     gotoEvent(id) {
       console.log("id: " + id)
-      this.$store.commit("setEvent", {eventsid: id})
+      this.$store.commit("setEvent", {eventid: id})
       this.$router.push({"path" : "/event/info"})
     }
   }
