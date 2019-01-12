@@ -23,6 +23,8 @@
         <p v-if="!eventsList">None of your bands have upcoming events.</p>
         <ul v-if="eventsList">
           <li v-for="event in eventsList" :key="Object.keys(event)[0]"> {{ event[Object.keys(event)[0]][0].eventname }} </li>
+                  <button type="button" @click="gotoEvent(6)">go to event</button>
+                  <!-- how to pass an event's id as a prop if not through Object.keys(event)[0][0].id?  -->
         </ul>
       </div>
     </div>
@@ -37,6 +39,10 @@
         </ul>
       </div>
     </div>
+
+    <router-link to="event/create">go to event create</router-link>
+    <br>
+    <router-link to="event/info">go to event info</router-link>
   </div>
 </template>
 
@@ -66,6 +72,11 @@ export default {
   methods: {
     goToBand(id) {
       console.log(id)
+    },
+    gotoEvent(id) {
+      console.log("id: " + id)
+      this.$store.commit("setEvent", {eventsid: id})
+      this.$router.push({"path" : "/event/info"})
     }
   }
 }
