@@ -83,7 +83,7 @@ export default new Router({
       name: 'bandDashboard',
       component: BandDashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials.bandsid).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
         else next('/login')
       }
     },
