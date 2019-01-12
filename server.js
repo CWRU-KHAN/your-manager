@@ -62,7 +62,7 @@ app.post('/api/user/', (req, res) => {
       if (results.error) throw results.error
       res.json(results)
     })
-    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .catch(err => res.status(200).send(err || 'Internal server error.'))
 })
 
 // add a new band

@@ -14,19 +14,22 @@
       </ul>
       <router-link to='/band/create'>Create A Band</router-link>
       <router-link to='/band/join'>Join A Band</router-link>
+      <br>
     </div>
     <br>
     <h4>Events</h4>
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
-
     </div>
     <br>
     <h4>Notes</h4>
     <div>
-      <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>
-  
+      <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
     </div>
+
+    <router-link to="event/create">go to event create</router-link>
+    <br>
+    <router-link to="event/info">go to event info</router-link>
   </div>
 </template>
 
@@ -55,7 +58,16 @@ export default {
   },
   methods: {
     goToBand(id) {
-      console.log(id)
+      id = 34
+      console.log("id: " + id)
+      this.$store.commit("setBandCredentials", id)
+      this.$router.push({name : "bandDashboard"})
+
+    },
+    gotoEvent(id) {
+      console.log("id: " + id)
+      this.$store.commit("setEvent", {eventid: id})
+      this.$router.push({"path" : "/event/info"})
     }
   }
 }

@@ -95,7 +95,14 @@ const dbLib = (() => {
           [userName, email, hash, firstname, lastname])
       })
       .then(results => {
-        if (results.affectedRows === 0) throw new Error(`500: User '${userName}' not added.`)
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: `User '${userName}' not added.`
+          }
+        }
+      }
         return results
       })
       .catch(translateDbErr)

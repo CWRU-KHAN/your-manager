@@ -29,7 +29,11 @@ export default new Vuex.Store({
     currentUploadedImage: '',
     errors: [],
     dashboardNotes: [],
-    dashboardEvents: []
+    dashboardEvents: [],
+    bandDashboardNotes: [],
+    bandDashboardEvents: [],
+    bandMembers: []
+
   },
   mutations: {
     setPage(state, data) {
@@ -40,9 +44,14 @@ export default new Vuex.Store({
       state.userCredentials.username = userName
       state.userCredentials.usersid = usersid
     },
-    setBandCredentials(state, { token, bandsid }){
-      state.bandCredentials.bandToken = token
-      state.bandCredentials.bandsid = bandsid
+    fillUserData(state, { data} ){
+      state.currentUser = data
+    },
+    fillBandData(state, { data }){
+      state.currentBand = data
+    },
+    setBandCredentials(state, id){
+      state.bandCredentials.bandsid = id
     },
     setEvent(state, { eventsid }){
       state.eventsid = eventsid
@@ -71,6 +80,20 @@ export default new Vuex.Store({
     },
     addDashboardNotes(state, data) {
       state.dashboardNotes = state.dashboardNotes.concat(data)
+    },
+    addBandDashboardEvents(state, data) {
+      state.bandDashboardEvents = state.bandDashboardEvents.concat(data)
+      console.log("events is empty?" + bandDashboardEvents)
+    },
+    addBandDashboardNotes(state, data) {
+      state.bandDashboardNotes = state.bandDashboardNotes.concat(data)
+    },
+    addBandMembers(state, data) {
+      state.bandMembers = state.bandMembers.concat(data)
+    },
+    clearDashboard(state) {
+      state.dashboardEvents = []
+      state.dashboardNotes = [] 
     }
   },
   getters: {
@@ -92,9 +115,13 @@ export default new Vuex.Store({
           }
       })
     },
-    createUser(context, credentials) {
-      return axios.post('/api/user', credentials).then(res => {
-        router.push({name: 'login'})
+    createUser({ commit }, credentials) {
+      return axios.post('/api/user', credentials).then(({ data }) => {
+          if (data.message) {
+            commit('addError', data.message)
+          } else {
+            router.push({name: 'login'})
+          }
       })
     },
     createBand(context, credentials) {

@@ -19,7 +19,7 @@
       What: <input type="text" placeholder="event description" v-model="description">
       Where: <input type="text" placeholder="location" v-model="eventlocation">
       When: <input type="datetime-local" v-model="date">
-
+    
       <br><br>
 
       <button type='button' @click='submit'>Create Event</button>
@@ -39,6 +39,7 @@ export default {
       description: '',
       eventlocation: '',
       date: '',
+      time: '12:00',
       errors: [],
       file: '',
     }
@@ -55,18 +56,19 @@ export default {
 
       if (!this.errors.length) {
         const eventInfo = {
-            eventname: this.eventName,
+            eventName: this.eventName,
             createdAt: new Date,
-            eventlocation: this.location,
+            eventLocation: this.eventlocation,
             // eventImage: this.eventImage,
             // bandName: this.bandName,
             eventdescription: this.description,
             date: this.date,
-            // ownerId: this.$store.state.userCredentials.usersid,
-            // token: this.$store.state.userCredentials.userToken,
-            // userName: this.$store.state.userCredentials.username
+            time: this.time,
+            usersid: this.$store.state.userCredentials.usersid,
+            token: this.$store.state.userCredentials.userToken,
+            userName: this.$store.state.userCredentials.username
         }
-
+        this.$store.commit('clearErrors')
         this.$store.dispatch('createEvent', eventInfo)
       }
     },

@@ -33,6 +33,7 @@ export default new Router({
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
+
        if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
         .then(() => store.commit('fillUserData', store.state.currentPageJson))
         .then(() => next())
@@ -71,7 +72,11 @@ export default new Router({
       name: 'bandDashboard',
       component: BandDashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials)
+        .then(() => {
+          store.commit('fillBandData', store.state.currentPageJson)
+          next()
+        })
         else next('/login')
       }
     },
