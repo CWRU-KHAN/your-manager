@@ -74,7 +74,7 @@ export default {
     goToBand(id) {
       id = 34
       console.log("id: " + id)
-      this.$store.commit("setBandToken", {bandid: id})
+      this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
 
     },
