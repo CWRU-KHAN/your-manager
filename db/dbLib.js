@@ -99,10 +99,10 @@ const dbLib = (() => {
           return {
             error: {
               code: 403,
-              message: `User '${userName}' not added.`
+              message: `Username or email address already in use.`
+            }  
           }
-        }
-      }
+       }
         return results
       })
       .catch(translateDbErr)
@@ -117,7 +117,14 @@ const dbLib = (() => {
       [bandName, usersid, bandimage]
     )
       .then(results => {
-        if (results.affectedRows === 0) throw new Error(`500: Band '${bandName}' not added.`)
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: `Error. Band not created.`
+            }  
+          }
+       }
         return Promise.all([
           results,
           insertOne(

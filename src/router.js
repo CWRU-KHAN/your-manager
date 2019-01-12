@@ -33,7 +33,6 @@ export default new Router({
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-
        if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
         .then(() => store.commit('fillUserData', store.state.currentPageJson))
         .then(() => next())
@@ -84,6 +83,9 @@ export default new Router({
       path: '/band/join',
       name: 'joinBand',
       component: JoinBand,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
     },
     {
       path: '/event/create',

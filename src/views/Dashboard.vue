@@ -66,7 +66,7 @@ export default {
     },
     gotoEvent(id) {
       console.log("id: " + id)
-      this.$store.commit("setEvent", {eventid: id})
+      this.$store.commit("setEvent", id)
       this.$router.push({"path" : "/event/info"})
     }
   }
