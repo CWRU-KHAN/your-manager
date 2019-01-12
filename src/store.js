@@ -40,6 +40,9 @@ export default new Vuex.Store({
       state.userCredentials.username = userName
       state.userCredentials.usersid = usersid
     },
+    fillUserData(state, { data} ){
+      state.currentUser = data
+    },
     setBandCredentials(state, { token, bandsid }){
       state.bandCredentials.bandToken = token
       state.bandCredentials.bandsid = bandsid
@@ -71,6 +74,10 @@ export default new Vuex.Store({
     },
     addDashboardNotes(state, data) {
       state.dashboardNotes = state.dashboardNotes.concat(data)
+    },
+    clearDashboard(state) {
+      state.dashboardEvents = []
+      state.dashboardNotes = [] 
     }
   },
   getters: {
@@ -92,9 +99,13 @@ export default new Vuex.Store({
           }
       })
     },
-    createUser(context, credentials) {
-      return axios.post('/api/user', credentials).then(res => {
-        router.push({name: 'login'})
+    createUser({ commit }, credentials) {
+      return axios.post('/api/user', credentials).then(({ data }) => {
+          if (data.message) {
+            commit('addError', data.message)
+          } else {
+            router.push({name: 'login'})
+          }
       })
     },
     createBand(context, credentials) {

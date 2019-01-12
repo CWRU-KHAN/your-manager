@@ -66,7 +66,7 @@ export default {
             // token: this.$store.state.userCredentials.userToken,
             // userName: this.$store.state.userCredentials.username
         }
-
+        this.$store.commit('clearErrors')
         this.$store.dispatch('createEvent', eventInfo)
       }
     },

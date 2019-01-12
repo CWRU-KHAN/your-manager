@@ -37,6 +37,8 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Login',
   data() {
@@ -46,7 +48,11 @@ export default {
       show1: false
     }
   },
-
+  computed: {
+    ...mapGetters({
+      errors: 'getCurrentErrors'
+    })
+  },
   methods: {
     submit() {      
       const credentials = {

@@ -23,6 +23,7 @@ export default {
         token: this.token,
         usersid: this.$store.state.userCredentials.usersid
       }
+      this.$store.commit('clearErrors')
       this.$store.dispatch('addUserToBand', payload)
     }
   }
