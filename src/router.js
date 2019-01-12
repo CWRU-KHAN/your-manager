@@ -35,20 +35,21 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
         .then(() => {
-          const bands = store.state.currentPageJson.data.bands
+          store.commit('fillUserData', store.state.currentPageJson)
+          const bands = store.state.currentUser.bands
           return Promise.all(bands.map(band => {
             console.log(band.id)
-            return axios.get(`/api/calendar/${band.id}`)
-          }))
         })
-        .then(x => x.forEach(({ data }) => {
-          // console.log(data.events)
-          store.commit('addDashboardEvents', data.events)
-          store.commit('addDashboardNotes', data.notes)
-        }))        
+        .then(x => {
+          store.commit('clearDashboard')
+          return x ? 
+            x.forEach(({ data }) => {
+              store.commit('addDashboardEvents', data.events)
+              store.commit('addDashboardNotes', data.notes)
+            }) : false
+        })        
         .then(() => next())
         else next('/login')
-      }
     },
     //remove this route once calendar implemented onto dashboard
     {
