@@ -130,7 +130,7 @@ export default new Vuex.Store({
         .then(data => commit('setPage', data))
     },
     getUserPage( { commit }, { usersid }){
-      const queryString = `/api/user/${usersid}`
+      const queryString = `/api/userdashboard/${usersid}`
       return axios.get(queryString)
         .then(data => commit('setPage', data))
     },

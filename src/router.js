@@ -33,21 +33,8 @@ export default new Router({
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
-        .then(() => {
-          const bands = store.state.currentPageJson.data.bands
-          return bands ? Promise.all(bands.map(band => {
-            // console.log(band.id)
-            return axios.get(`/api/calendar/${band.id}`)
-          })) : false
-        })
-        .then(x => {
-          return x ? 
-            x.forEach(({ data }) => {
-              store.commit('addDashboardEvents', data.events)
-              store.commit('addDashboardNotes', data.notes)
-            }) : false
-        })        
+       if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
+        .then(() => store.commit('fillUserData', store.state.currentPageJson))
         .then(() => next())
         else next('/login')
       }
