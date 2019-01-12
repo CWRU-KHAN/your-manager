@@ -29,7 +29,11 @@ export default new Vuex.Store({
     currentUploadedImage: '',
     errors: [],
     dashboardNotes: [],
-    dashboardEvents: []
+    dashboardEvents: [],
+    bandDashboardNotes: [],
+    bandDashboardEvents: [],
+    bandMembers: []
+
   },
   mutations: {
     setPage(state, data) {
@@ -74,6 +78,16 @@ export default new Vuex.Store({
     },
     addDashboardNotes(state, data) {
       state.dashboardNotes = state.dashboardNotes.concat(data)
+    },
+    addBandDashboardEvents(state, data) {
+      state.bandDashboardEvents = state.bandDashboardEvents.concat(data)
+      console.log("events is empty?" + bandDashboardEvents)
+    },
+    addBandDashboardNotes(state, data) {
+      state.bandDashboardNotes = state.bandDashboardNotes.concat(data)
+    },
+    addBandMembers(state, data) {
+      state.bandMembers = state.bandMembers.concat(data)
     },
     clearDashboard(state) {
       state.dashboardEvents = []
