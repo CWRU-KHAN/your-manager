@@ -69,6 +69,8 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: "Signup",
 
@@ -82,7 +84,11 @@ export default {
       errors: []
     }
   },
-
+  computed: {
+    ...mapGetters({
+      serverErrors: 'getCurrentErrors'
+    })
+  },
   methods: {
     submit() {
       this.errors = []
@@ -99,7 +105,7 @@ export default {
           password: this.password,
           email: this.email
         }
-
+        this.$store.commit('clearErrors')
         this.$store.dispatch('createUser', credentials)
       }
     },
