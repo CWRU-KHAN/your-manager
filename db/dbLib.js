@@ -355,6 +355,10 @@ const dbLib = (() => {
       .catch(translateDbErr)
   }
 
+  const getDashboardInfo = ({ usersid }) => {
+    
+  }
+
   // updates user information, takes a user object with two keys: userName and updates.
   // updates should be an object with key/value pairs corresponding to column names/values to be updated
   // returns confirmation message
