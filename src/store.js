@@ -40,8 +40,11 @@ export default new Vuex.Store({
       state.userCredentials.username = userName
       state.userCredentials.usersid = usersid
     },
-    fillUserData(state, { data} ){
+    fillUserData(state, { data }){
       state.currentUser = data
+    },
+    fillBandData(state, { data }){
+      state.currentBand = data
     },
     setBandCredentials(state, { token, bandsid }){
       state.bandCredentials.bandToken = token
