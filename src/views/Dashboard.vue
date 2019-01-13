@@ -20,24 +20,43 @@
     <h4>Events</h4>
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
+      <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
+        <h3>{{ band.name }}</h3>
+        <div v-for="event in band.notes" :key="event.id"> 
+          <event-card :eventInfo="event"></event-card> 
+        </div>
+      </div>
     </div>
+    
     <br>
     <h4>Notes</h4>
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
     </div>
-
     <router-link to="event/create">go to event create</router-link>
     <br>
     <router-link to="event/info">go to event info</router-link>
   </div>
 </template>
 
+<style scoped>
+.bandBox {
+  border: 3px solid blue;
+  margin: 10px;
+}
+</style>
+
 
 <script>
+import EventCard from '../components/EventCard.vue'
+import NoteCard from '../components/NoteCard.vue'
 
 export default {
   name: 'Dashboard',
+  components: {
+    EventCard,
+    NoteCard
+  },
   computed: {
     hasBands() {
       return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
