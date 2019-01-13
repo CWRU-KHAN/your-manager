@@ -141,12 +141,12 @@ const dbLib = (() => {
   }
 
   // adds an event to the database, takes an event object
-  const addNewEvent = ({ eventName, date, time, eventLocation, usersid, token, userName }) => {
+  const addNewEvent = ({ eventName, date, eventLocation, usersid, token, userName }) => {
     verifyToken(userName, token)
     return insertOne(
       'events',
-      ['eventname', 'date', 'time', 'eventlocation', 'ownerid'],
-      [eventName, date, time, eventLocation, usersid]
+      ['eventname', 'date', 'eventlocation', 'ownerid'],
+      [eventName, date, eventLocation, usersid]
     )
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Event '${eventName}' not added.`)
@@ -289,7 +289,7 @@ const dbLib = (() => {
         'bandsid',
         'events',
         'bands',
-        ['eventname', 'eventdescription', 'date', 'time', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation'],
         ['bandname', 'id'],
         eventsid
       ),
@@ -317,7 +317,7 @@ const dbLib = (() => {
         'bands',
         'events',
         ['bandname'],
-        ['eventname', 'eventdescription', 'date', 'time', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation'],
         bandsid
       ),
       selectSomeWhere(
@@ -383,8 +383,8 @@ const dbLib = (() => {
             'eventsid', 
             'bands', 
             'events', 
-            [], 
-            ['eventname', 'date', 'eventlocation', 'time', 'id'],
+            ['bandname'], 
+            ['eventname', 'date', 'eventlocation', 'id'],
             result.bandsid
           )
         })
