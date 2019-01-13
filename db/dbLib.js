@@ -349,8 +349,8 @@ const dbLib = (() => {
             return selectSomeJoin(
               'notes',
               'bands',
-              ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat'],
-              ['bandname', 'id'],
+              ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat', 'id'],
+              ['bandname'],
               'bands.id',
               'notes.bandsid',
               'bandsid',

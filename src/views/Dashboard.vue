@@ -22,7 +22,7 @@
       <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
       <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
         <h3>{{ band.name }}</h3>
-        <div v-for="event in band.notes" :key="event.id"> 
+        <div v-for="event in band.events" :key="event.id"> 
           <event-card :eventInfo="event"></event-card> 
         </div>
       </div>
@@ -32,6 +32,12 @@
     <h4>Notes</h4>
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
+      <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
+        <h3>{{ band.name }}</h3>
+        <div v-for="note in band.notes" :key="note.id">
+          <note-card :noteInfo="note"></note-card>
+        </div>
+      </div>
     </div>
     <router-link to="event/create">go to event create</router-link>
     <br>
@@ -66,22 +72,20 @@ export default {
     },
     eventsList() {
       return this.$store.state.currentPageJson.data[2].length ? 
-        this.$store.state.currentPageJson.data[2] : 
+        this.$store.state.currentPageJson.data[2].filter(entry => entry.name) : 
         false
     },
     notesList() {
       return this.$store.state.currentPageJson.data[1].length ? 
-        this.$store.state.currentPageJson.data[1] : 
+        this.$store.state.currentPageJson.data[1].filter(entry => entry.bandsid) : 
         false
     }
   },
   methods: {
     goToBand(id) {
-      id = 34
-      console.log("id: " + id)
+      // console.log("id: " + id)
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
-
     },
     gotoEvent(id) {
       console.log("id: " + id)
