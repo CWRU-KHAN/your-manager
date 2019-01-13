@@ -359,11 +359,56 @@ const dbLib = (() => {
           })
         )
       })
-      .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
-        return results
+     
+    .then(results => {
+      const bandsWithNotes = results.filter(bandNotes => bandNotes.length)
+
+      const filterUnique = (value, index, self) => self.indexOf(value) === index
+
+      const userIdList = bandsWithNotes.map(band => {
+        return band.reduce((acc, cur) => {
+          return acc.includes(cur.usersid) ? acc : acc.concat(cur.usersid)
+        }, [])
       })
-      .catch(translateDbErr)
+      .reduce((acc,cur) => acc.concat(cur))
+      .filter( filterUnique )
+
+      return Promise.all([
+        results,
+        ...userIdList.map(id => {
+          return selectSomeWhere(
+            'users',
+            'id',
+            id,
+            ['username', 'id']
+          )
+        })
+      ])
+    })
+    .then(results => {
+      if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
+
+      const [bands, ...userArray] = results
+
+      const userMap = userArray
+        .reduce((acc, cur) => acc.concat(cur))
+        .reduce((acc, cur) => {
+          const {id, username} = cur
+          acc[id] = username
+          return acc
+        }, {})
+
+      const modifiedNotes = bands.map(band => {          
+        if (band.length === 0) return band
+        return band.map(note => {
+          note.author = userMap[note.usersid]
+          return note
+        }) 
+      })
+
+      return modifiedNotes
+    })
+    .catch(translateDbErr)
   }
 
   // gets notes relevant to a user
@@ -390,12 +435,11 @@ const dbLib = (() => {
         })
       )
     })
-
       .then(results => {
         if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
         return results
       })
-      .catch(x => console.log(x))
+      .catch(translateDbErr)
   }
 
   // updates user information, takes a user object with two keys: userName and updates.

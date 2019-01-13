@@ -47,7 +47,6 @@ app.post('/api/auth/', (req, res) => {
 
   authUser(req.body)
     .then(results => {
-      console.log(results)
       if (results.error) throw results.error
       res.json(results)
     })
@@ -279,7 +278,7 @@ app.get('/api/userdashboard/:id', (req, res) => {
         if (result.length === 0) return result
         return {
           name: result[0].bandname,
-          notes: result
+          events: result
         }
       }))
   ])
