@@ -2,8 +2,9 @@
   <div>
     <h1>Dashboard</h1>
     <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
-    <div>
-      <router-link to='/calendar'>View Calendar</router-link>
+    <div id="CalendarView">
+      <h4>Calendar</h4>
+      <calendar-view :eventsProp="events" />
     </div>
     <br>
     <h4>Bands</h4>
@@ -56,13 +57,39 @@
 <script>
 import EventCard from '../components/EventCard.vue'
 import NoteCard from '../components/NoteCard.vue'
+import CalendarView from './CalendarView'
+
+	const eventsJson = [
+		{
+			id: 0,
+			startDate: '2019-01-10 12:00:00',
+			title: 'go to the park'
+
+		},
+		{
+			id: 1,
+			startDate: '2019-01-11 12:00:00',
+			title: 'does this work?'
+		}
+  ]
+  
 
 export default {
   name: 'Dashboard',
+  
   components: {
+    CalendarView
     EventCard,
     NoteCard
   },
+  
+  data() {
+    return { 
+      showDate: new Date(),
+      events: eventsJson 
+    }
+  },
+
   computed: {
     hasBands() {
       return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
@@ -81,17 +108,17 @@ export default {
         false
     }
   },
+  
   methods: {
     goToBand(id) {
-      // console.log("id: " + id)
+      id = 34
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
     },
     gotoEvent(id) {
-      console.log("id: " + id)
-      this.$store.commit("setEvent", {eventid: id})
+      this.$store.commit("setEvent", id)
       this.$router.push({"path" : "/event/info"})
-    }
+    },    
   }
 }
 </script>
