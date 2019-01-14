@@ -28,6 +28,7 @@ const { addNewUser,
   getEventInfo,
   getCalendarInfo,
   getUserNotes,
+  getUserEvents,
   deleteBand,
   deleteEvent,
   deleteBandMate
@@ -46,7 +47,6 @@ app.post('/api/auth/', (req, res) => {
 
   authUser(req.body)
     .then(results => {
-      console.log(results)
       if (results.error) throw results.error
       res.json(results)
     })
@@ -235,10 +235,54 @@ app.get('/api/calendar/:id', (req, res) => {
 // get notes for a user
 app.get('/api/usernotes/:id', (req, res) => {
   getUserNotes({usersid: req.params.id}).then(results => {
-      res.json(results)
+    const parsed = results.map(result => {
+      if (result.length === 0) return result
+      return {
+        name: result[0].bandname,
+        bandsid: result[0].id,
+        notes: result
+      }      
+    })
+      res.json(parsed)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
 
+// get dashboard information for a user
+app.get('/api/userdashboard/:id', (req, res) => {
+  return Promise.all([
+    getUserInfo({ usersid: req.params.id })
+    .then(userRes => userRes.reduce((acc, entry) => {
+      const { bandname, id, ...rest } = entry
+      return acc.bands ? 
+        {
+          ...rest,
+          bands: acc.bands.concat({ bandname, id })
+        } :
+        {
+          ...rest,
+          bands: [{ bandname, id }]
+        }
+    }, {})),
+    getUserNotes({ usersid: req.params.id })
+      .then(notesRes => notesRes.map(result => {
+        if (result.length === 0) return result
+        return {
+          name: result[0].bandname,
+          bandsid: result[0].id,
+          notes: result
+        }      
+      })),
+    getUserEvents({ usersid: req.params.id })
+      .then(eventsRes => eventsRes.map(result => {
+        if (result.length === 0) return result
+        return {
+          name: result[0].bandname,
+          events: result
+        }
+      }))
+  ])
+  .then(results => res.json(results))
 })
 
 

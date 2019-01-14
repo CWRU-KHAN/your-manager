@@ -23,13 +23,14 @@ use hgjvhowcs9snx6dw;
 -- ('A Chill Ass Show', '2020-06-15', '12:30:00', 'Blossom, Cuyahoga Falls, OH');
 
 -- INSERT INTO bandsevents (bandsid, eventsid)
--- VALUES (1, 4),
+-- VALUES 
 -- (2, 4),
 -- (3, 4),
 -- (4, 4),
 -- (3, 5),
 -- (2, 6),
 -- (3, 6);
+
 
 -- INSERT INTO bandmates (usersid, bandsid)
 -- VALUES
@@ -49,10 +50,12 @@ use hgjvhowcs9snx6dw;
 -- (6, 2);
 
 
-select * from users;
--- select * from events;
-select * from bands;
-select * from bandmates;
+
+-- select * from users;
+select * from events;
+-- select * from notes;
+-- select * from bands;
+-- select * from bandmates;
 -- select * from bandsevents;
 -- select * from bandmates;
 -- select * from bandsgenres;

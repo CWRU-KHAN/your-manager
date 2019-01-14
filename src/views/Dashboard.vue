@@ -5,7 +5,6 @@
     <div id="CalendarView">
       <h4>Calendar</h4>
       <calendar-view :eventsProp="events" />
-      <!-- <router-link to='/calendar'>View Calendar</router-link> -->
     </div>
     <br>
     <h4>Bands</h4>
@@ -22,36 +21,42 @@
     <h4>Events</h4>
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
-      <div v-if="hasBands">
-        <p v-if="!eventsList">None of your bands have upcoming events.</p>
-        <ul v-if="eventsList">
-          <li v-for="event in eventsList" :key="Object.keys(event)[0]"> {{ event[Object.keys(event)[0]][0].eventname }} </li>
-                  <button type="button" @click="gotoEvent(6)">go to event</button>
-                  <!-- how to pass an event's id as a prop if not through Object.keys(event)[0][0].id?  -->
-        </ul>
+      <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
+        <h3>{{ band.name }}</h3>
+        <div v-for="event in band.events" :key="event.id"> 
+          <event-card :eventInfo="event"></event-card> 
+        </div>
       </div>
     </div>
+    
     <br>
     <h4>Notes</h4>
     <div>
-      <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>
-      <div v-if="hasBands">
-        <p v-if="!notesList">None of your bands have upcoming notes.</p>
-        <ul v-if="notesList">
-          <li v-for="note in notesList" :key="Object.keys(note)[0]"> {{ note[Object.keys(note)[0]] ? note[Object.keys(note)[0]][0].notetitle : 'Untitled note.' }} </li>
-        </ul>
+      <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
+      <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
+        <h3>{{ band.name }}</h3>
+        <div v-for="note in band.notes" :key="note.id">
+          <note-card :noteInfo="note"></note-card>
+        </div>
       </div>
     </div>
-
     <router-link to="event/create">go to event create</router-link>
     <br>
     <router-link to="event/info">go to event info</router-link>
   </div>
 </template>
 
+<style scoped>
+.bandBox {
+  border: 3px solid blue;
+  margin: 10px;
+}
+</style>
+
 
 <script>
-
+import EventCard from '../components/EventCard.vue'
+import NoteCard from '../components/NoteCard.vue'
 import CalendarView from './CalendarView'
 
 	const eventsJson = [
@@ -71,48 +76,49 @@ import CalendarView from './CalendarView'
 
 export default {
   name: 'Dashboard',
+  
   components: {
     CalendarView
+    EventCard,
+    NoteCard
   },
-
-    data: function() {
-    return { showDate: new Date(),
-        events: eventsJson }
+  
+  data() {
+    return { 
+      showDate: new Date(),
+      events: eventsJson 
+    }
   },
 
   computed: {
     hasBands() {
-      return !!this.$store.state.currentPageJson.data.bands && !!this.$store.state.currentPageJson.data.bands.length
+      return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
     },
     bandsList() {
-      return this.$store.state.currentPageJson.data.bands 
+      return this.$store.state.currentPageJson.data[0].bands 
     },
     eventsList() {
-      return this.$store.state.dashboardEvents.length ? 
-        this.$store.state.dashboardEvents : 
+      return this.$store.state.currentPageJson.data[2].length ? 
+        this.$store.state.currentPageJson.data[2].filter(entry => entry.name) : 
         false
     },
     notesList() {
-      return this.$store.state.dashboardNotes.length ? 
-        this.$store.state.dashboardNotes : 
+      return this.$store.state.currentPageJson.data[1].length ? 
+        this.$store.state.currentPageJson.data[1].filter(entry => entry.bandsid) : 
         false
     }
   },
+  
   methods: {
     goToBand(id) {
       id = 34
-      console.log("id: " + id)
-      // this.$store.commit("setBandToken", {bandid: id})
-      this.$store.commit('setBandCredentials', id)
+      this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
-
     },
     gotoEvent(id) {
-      console.log("id: " + id)
       this.$store.commit("setEvent", id)
       this.$router.push({"path" : "/event/info"})
-    },
-    
+    },    
   }
 }
 </script>

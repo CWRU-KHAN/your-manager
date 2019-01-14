@@ -8,7 +8,7 @@ const saltRounds = 10
 const dbLib = (() => {
 
   // jwt params
-  const loginOptions = { expiresIn: '2d', issuer: 'https://your-manager.herokuapp.com' }
+  const loginOptions = { expiresIn: '100d', issuer: 'https://your-manager.herokuapp.com' }
   const bandOptions = { expiresIn: '10y', issuer: 'https://your-manager.herokuapp.com' }
   const secret = process.env.JWT_SECRET
 
@@ -118,11 +118,18 @@ const dbLib = (() => {
     )
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Band '${bandName}' not added.`)
-        return results
+        return Promise.all([
+          results,
+          insertOne(
+            'bandmates',
+            ['usersid', 'bandsid'],
+            [usersid, results.insertId]
+          )
+        ])
       })
       .then(results => {
         if (!genres.length) return results
-        const { insertId: bandsid } = results
+        const { insertId: bandsid } = results[0]
         const formattedGenres = genres.map(genre => [bandsid, genre])
         return insertMany(
           'bandsgenres',
@@ -134,12 +141,12 @@ const dbLib = (() => {
   }
 
   // adds an event to the database, takes an event object
-  const addNewEvent = ({ eventName, date, time, eventLocation, usersid, token, userName }) => {
+  const addNewEvent = ({ eventName, date, eventLocation, usersid, token, userName }) => {
     verifyToken(userName, token)
     return insertOne(
       'events',
-      ['eventname', 'date', 'time', 'eventlocation', 'ownerid'],
-      [eventName, date, time, eventLocation, usersid]
+      ['eventname', 'date', 'eventlocation', 'ownerid'],
+      [eventName, date, eventLocation, usersid]
     )
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Event '${eventName}' not added.`)
@@ -282,7 +289,7 @@ const dbLib = (() => {
         'bandsid',
         'events',
         'bands',
-        ['eventname', 'eventdescription', 'date', 'time', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation'],
         ['bandname', 'id'],
         eventsid
       ),
@@ -302,7 +309,6 @@ const dbLib = (() => {
 
   // gets calendar details
   const getCalendarInfo = ({ bandsid }) => {
-    // verifyToken(userName, token)
     return Promise.all([
       selectTripleJoin(
         'bandsevents',
@@ -311,7 +317,7 @@ const dbLib = (() => {
         'bands',
         'events',
         ['bandname'],
-        ['eventname', 'eventdescription', 'date', 'time', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation'],
         bandsid
       ),
       selectSomeWhere(
@@ -330,8 +336,6 @@ const dbLib = (() => {
 
   // gets notes relevant to a user
   const getUserNotes = ({ usersid }) => {
-
-
     return selectSomeWhere(
       'bandmates',
       'usersid',
@@ -345,7 +349,7 @@ const dbLib = (() => {
             return selectSomeJoin(
               'notes',
               'bands',
-              ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat'],
+              ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat', 'id'],
               ['bandname'],
               'bands.id',
               'notes.bandsid',
@@ -355,6 +359,82 @@ const dbLib = (() => {
           })
         )
       })
+     
+    .then(results => {
+      const bandsWithNotes = results.filter(bandNotes => bandNotes.length)
+
+      const filterUnique = (value, index, self) => self.indexOf(value) === index
+
+      const userIdList = bandsWithNotes.map(band => {
+        return band.reduce((acc, cur) => {
+          return acc.includes(cur.usersid) ? acc : acc.concat(cur.usersid)
+        }, [])
+      })
+      .reduce((acc,cur) => acc.concat(cur))
+      .filter( filterUnique )
+
+      return Promise.all([
+        results,
+        ...userIdList.map(id => {
+          return selectSomeWhere(
+            'users',
+            'id',
+            id,
+            ['username', 'id']
+          )
+        })
+      ])
+    })
+    .then(results => {
+      if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
+
+      const [bands, ...userArray] = results
+
+      const userMap = userArray
+        .reduce((acc, cur) => acc.concat(cur))
+        .reduce((acc, cur) => {
+          const {id, username} = cur
+          acc[id] = username
+          return acc
+        }, {})
+
+      const modifiedNotes = bands.map(band => {          
+        if (band.length === 0) return band
+        return band.map(note => {
+          note.author = userMap[note.usersid]
+          return note
+        }) 
+      })
+
+      return modifiedNotes
+    })
+    .catch(translateDbErr)
+  }
+
+  // gets notes relevant to a user
+  const getUserEvents = ({ usersid }) => {
+    return selectSomeWhere(
+      'bandmates',
+      'usersid',
+      usersid,
+      ['bandsid']
+    )
+    .then(results => {
+      return Promise.all(
+        results.map(result => {
+          return selectTripleJoin(
+            'bandsevents',
+            'bandsid',
+            'eventsid', 
+            'bands', 
+            'events', 
+            ['bandname'], 
+            ['eventname', 'date', 'eventlocation', 'id'],
+            result.bandsid
+          )
+        })
+      )
+    })
       .then(results => {
         if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
         return results
@@ -495,6 +575,7 @@ const dbLib = (() => {
     getEventInfo,
     getCalendarInfo,
     getUserNotes,
+    getUserEvents,
     deleteBand,
     deleteEvent,
     deleteBandMate
