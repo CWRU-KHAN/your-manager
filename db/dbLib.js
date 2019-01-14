@@ -141,12 +141,12 @@ const dbLib = (() => {
   }
 
   // adds an event to the database, takes an event object
-  const addNewEvent = ({ eventName, date, time, eventLocation, usersid, token, userName }) => {
+  const addNewEvent = ({ eventName, date, eventLocation, usersid, token, userName }) => {
     verifyToken(userName, token)
     return insertOne(
       'events',
-      ['eventname', 'date', 'time', 'eventlocation', 'ownerid'],
-      [eventName, date, time, eventLocation, usersid]
+      ['eventname', 'date', 'eventlocation', 'ownerid'],
+      [eventName, date, eventLocation, usersid]
     )
       .then(results => {
         if (results.affectedRows === 0) throw new Error(`500: Event '${eventName}' not added.`)
@@ -289,7 +289,7 @@ const dbLib = (() => {
         'bandsid',
         'events',
         'bands',
-        ['eventname', 'eventdescription', 'date', 'time', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation'],
         ['bandname', 'id'],
         eventsid
       ),
@@ -317,7 +317,7 @@ const dbLib = (() => {
         'bands',
         'events',
         ['bandname'],
-        ['eventname', 'eventdescription', 'date', 'time', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation'],
         bandsid
       ),
       selectSomeWhere(
@@ -349,8 +349,8 @@ const dbLib = (() => {
             return selectSomeJoin(
               'notes',
               'bands',
-              ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat'],
-              ['bandname', 'id'],
+              ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat', 'id'],
+              ['bandname'],
               'bands.id',
               'notes.bandsid',
               'bandsid',
@@ -359,11 +359,56 @@ const dbLib = (() => {
           })
         )
       })
-      .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
-        return results
+     
+    .then(results => {
+      const bandsWithNotes = results.filter(bandNotes => bandNotes.length)
+
+      const filterUnique = (value, index, self) => self.indexOf(value) === index
+
+      const userIdList = bandsWithNotes.map(band => {
+        return band.reduce((acc, cur) => {
+          return acc.includes(cur.usersid) ? acc : acc.concat(cur.usersid)
+        }, [])
       })
-      .catch(translateDbErr)
+      .reduce((acc,cur) => acc.concat(cur))
+      .filter( filterUnique )
+
+      return Promise.all([
+        results,
+        ...userIdList.map(id => {
+          return selectSomeWhere(
+            'users',
+            'id',
+            id,
+            ['username', 'id']
+          )
+        })
+      ])
+    })
+    .then(results => {
+      if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
+
+      const [bands, ...userArray] = results
+
+      const userMap = userArray
+        .reduce((acc, cur) => acc.concat(cur))
+        .reduce((acc, cur) => {
+          const {id, username} = cur
+          acc[id] = username
+          return acc
+        }, {})
+
+      const modifiedNotes = bands.map(band => {          
+        if (band.length === 0) return band
+        return band.map(note => {
+          note.author = userMap[note.usersid]
+          return note
+        }) 
+      })
+
+      return modifiedNotes
+    })
+    .catch(translateDbErr)
   }
 
   // gets notes relevant to a user
@@ -383,19 +428,18 @@ const dbLib = (() => {
             'eventsid', 
             'bands', 
             'events', 
-            [], 
-            ['eventname', 'date', 'eventlocation', 'time', 'id'],
+            ['bandname'], 
+            ['eventname', 'date', 'eventlocation', 'id'],
             result.bandsid
           )
         })
       )
     })
-
       .then(results => {
         if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
         return results
       })
-      .catch(x => console.log(x))
+      .catch(translateDbErr)
   }
 
   // updates user information, takes a user object with two keys: userName and updates.
