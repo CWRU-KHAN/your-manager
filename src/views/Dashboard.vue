@@ -78,7 +78,7 @@ export default {
   name: 'Dashboard',
   
   components: {
-    CalendarView
+    CalendarView,
     EventCard,
     NoteCard
   },
