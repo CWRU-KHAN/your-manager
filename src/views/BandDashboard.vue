@@ -1,14 +1,14 @@
 <template>
   <div>
     <h1>Dashboard</h1>
-    <!-- <h2> {{ `Welcome ${this.$store.state.data.bandname}` }} </h2> -->
+    <h2> {{ `Welcome ${this.$store.state.currentPageJson.data.bandname}` }} </h2>
     <div>
       <router-link to='/calendar'>View Calendar</router-link>
     </div>
     <br>
     <h4>Members</h4>
-        <ul v-if="membersList">
-            <li v-for="username in usernamesList" :key="Object.keys(username)[0]"> {{ username[Object.keys(username)[0]] }} </li>
+        <ul>
+          <li v-for="user in usersList" :key="user.id"> {{ user.username }} </li>
         </ul>
     <br>
     <h4>Events</h4>
@@ -16,7 +16,7 @@
             <p v-if="!eventsList">Your band does not have any upcoming events.</p>
             <ul v-if="eventsList">
             <li v-for="event in eventsList" :key="Object.keys(event)[0]"> {{ event[Object.keys(event)[0]][0].eventname }} </li>
-                    <button type="button" @click="gotoEvent(6)">go to event</button>
+                    <button type="button" @click="gotoEvent(6)">go to event</button> -->
                     <!-- how to pass an event's id as a prop if not through Object.keys(event)[0][0].id?  -->
             </ul>
       </div>
@@ -36,23 +36,20 @@
     <router-link to="event/info">go to event info</router-link>
   </div>
 </template>
-
-do dashboard events and dashboard notes 
-
 <script>
 
 export default {
   name: 'bandDashboard',
   computed: {
-    usernameList() {
+    usersList() {
       return this.$store.state.currentPageJson.data.users 
     },
-    membersList() {
-        return this.$store.state.bandMembers.length ?
-        this.$store.state.bandMembers :
-        console.log("band has no members")
-        false
-    },
+    // membersList() {
+    //     return this.$store.state.bandMembers.length ?
+    //     this.$store.state.bandMembers :
+    //     console.log("band has no members")
+    //     false
+    // },
     eventsList() {
       return this.$store.state.bandDashboardEvents.length ? 
         this.$store.state.bandDashboardEvents : 

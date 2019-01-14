@@ -47,10 +47,13 @@ export default new Vuex.Store({
     fillUserData(state, { data} ){
       state.currentUser = data
     },
-    setBandCredentials(state, { token, bandsid }){
-      state.bandCredentials.bandToken = token
+    setBandCredentials(state, bandsid){
+      // state.bandCredentials.bandToken = token
       state.bandCredentials.bandsid = bandsid
     },
+
+    // setBandCredentials(state, { token, bandsid }){
+
     setEvent(state, { eventsid }){
       state.eventsid = eventsid
     },

@@ -37,20 +37,22 @@ export default new Router({
         .then(() => {
           store.commit('fillUserData', store.state.currentPageJson)
           const bands = store.state.currentUser.bands
-          return Promise.all(bands.map(band => {
-            console.log(band.id)
+          next()
+          // return Promise.all(bands.map(band => {
+          //   console.log(band.id)
         })
-        .then(x => {
-          store.commit('clearDashboard')
-          return x ? 
-            x.forEach(({ data }) => {
-              store.commit('addDashboardEvents', data.events)
-              store.commit('addDashboardNotes', data.notes)
-            }) : false
-        })        
-        .then(() => next())
-        else next('/login')
-    },
+        // .then(x => {
+        //   store.commit('clearDashboard')
+        //   return x ? 
+        //     x.forEach(({ data }) => {
+        //       store.commit('addDashboardEvents', data.events)
+        //       store.commit('addDashboardNotes', data.notes)
+        //     }) : false
+        // })        
+        // .then(() => next()) 
+        // else next('/login')
+    }
+  },
     //remove this route once calendar implemented onto dashboard
     {
       path: '/calendar',
@@ -85,6 +87,8 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
         else next('/login')
+
+        //nothing here points from the band credentials obj in the state to finding that band and pulling information from that band 
       }
     },
     {
