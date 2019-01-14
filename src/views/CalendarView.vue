@@ -1,19 +1,16 @@
 <template>
-	<div id="app">
-		<h1>My Calendar</h1>
-		<calendar-view
-			:show-date="showDate"
-			:events="events"
+	<calendar-view
+	:show-date="showDate"
+	:events="eventsProp"
 
-			class="theme-default">
-			<calendar-view-header
-				slot="header"
-				slot-scope="t"
-				:header-props="t.headerProps"
-				@input="setShowDate" />
+	class="theme-default">
+	<calendar-view-header
+		slot="header"
+		slot-scope="t"
+		:header-props="t.headerProps"
+		@input="setShowDate" />
 
-		</calendar-view>
-	</div>
+</calendar-view>
 </template>
 <script>
 	import { CalendarView, CalendarViewHeader } from "vue-simple-calendar"
@@ -23,27 +20,25 @@
 	require("vue-simple-calendar/static/css/holidays-us.css")
 
 
-//////get rid of this json once we start passing it actual data
-	const eventsJSON = [
-		{
-			id: 0,
-			startDate: '2019-01-10 12:00:00',
-			title: 'go to the park'
+// //////get rid of this json once we start passing it actual data
+// 	const eventsJSON = [
+// 		{
+// 			id: 0,
+// 			startDate: '2019-01-10 12:00:00',
+// 			title: 'go to the park'
 
-		},
-		{
-			id: 1,
-			startDate: '2019-01-11 12:00:00',
-			title: 'does this work?'
-		}
-	]
+// 		},
+// 		{
+// 			id: 1,
+// 			startDate: '2019-01-11 12:00:00',
+// 			title: 'does this work?'
+// 		}
+// 	]
 
 	export default {
-		name: 'app',
-		data: function() {
-			return { showDate: new Date(),
-					events: eventsJSON }
-		},
+		props: [
+			"eventsProp"
+		],
 		
 		components: {
 			CalendarView,
