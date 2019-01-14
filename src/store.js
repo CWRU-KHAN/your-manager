@@ -47,13 +47,12 @@ export default new Vuex.Store({
     fillUserData(state, { data} ){
       state.currentUser = data
     },
-    setBandCredentials(state, bandsid){
-      // state.bandCredentials.bandToken = token
-      state.bandCredentials.bandsid = bandsid
+    fillBandData(state, { data }){
+      state.currentBand = data
     },
-
-    // setBandCredentials(state, { token, bandsid }){
-
+    setBandCredentials(state, id){
+      state.bandCredentials.bandsid = id
+    },
     setEvent(state, { eventsid }){
       state.eventsid = eventsid
     },
@@ -158,7 +157,7 @@ export default new Vuex.Store({
         .then(data => commit('setPage', data))
     },
     getUserPage( { commit }, { usersid }){
-      const queryString = `/api/user/${usersid}`
+      const queryString = `/api/userdashboard/${usersid}`
       return axios.get(queryString)
         .then(data => commit('setPage', data))
     },

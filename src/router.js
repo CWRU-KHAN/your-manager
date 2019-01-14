@@ -33,26 +33,13 @@ export default new Router({
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
-        .then(() => {
-          store.commit('fillUserData', store.state.currentPageJson)
-          const bands = store.state.currentUser.bands
-          next()
-          // return Promise.all(bands.map(band => {
-          //   console.log(band.id)
-        })
-        // .then(x => {
-        //   store.commit('clearDashboard')
-        //   return x ? 
-        //     x.forEach(({ data }) => {
-        //       store.commit('addDashboardEvents', data.events)
-        //       store.commit('addDashboardNotes', data.notes)
-        //     }) : false
-        // })        
-        // .then(() => next()) 
-        // else next('/login')
-    }
-  },
+
+       if (store.state.userCredentials.userToken) store.dispatch('getUserPage', store.state.userCredentials)
+        .then(() => store.commit('fillUserData', store.state.currentPageJson))
+        .then(() => next())
+        else next('/login')
+      }
+    },
     //remove this route once calendar implemented onto dashboard
     {
       path: '/calendar',
@@ -85,10 +72,12 @@ export default new Router({
       name: 'bandDashboard',
       component: BandDashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials)
+        .then(() => {
+          store.commit('fillBandData', store.state.currentPageJson)
+          next()
+        })
         else next('/login')
-
-        //nothing here points from the band credentials obj in the state to finding that band and pulling information from that band 
       }
     },
     {
