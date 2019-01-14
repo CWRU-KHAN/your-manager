@@ -29,6 +29,9 @@ const { addNewUser,
   getCalendarInfo,
   getUserNotes,
   getUserEvents,
+  updateUser,
+  updateBand,
+  updateEvent,
   deleteBand,
   deleteEvent,
   deleteBandMate
@@ -285,6 +288,32 @@ app.get('/api/userdashboard/:id', (req, res) => {
   .then(results => res.json(results))
 })
 
+// update a user's personal info
+app.put('/api/user/', (req, res) => {
+  updateUser(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows > 0)
+  })
+  .catch(err => res.json(err))
+})
+
+// update a band's details
+app.put('/api/band/', (req, res) => {
+  updateBand(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows > 0)
+  })
+  .catch(err => res.json(err))
+})
+
+// update an event's details
+app.put('/api/event/', (req, res) => {
+  updateEvent(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows > 0)
+  })
+  .catch(err => res.json(err))
+})
 
 // delete a band
 app.delete('/api/band/', (req, res) => {

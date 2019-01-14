@@ -453,7 +453,57 @@ const dbLib = (() => {
       return results
     })
   }
+
   
+  const updateBand = ({ userName, updates, token, bandsid, usersid }) => {
+    verifyToken(userName, token)
+    return selectSomeWhere(
+      'bands',
+      'id',
+      bandsid,
+      ['ownerid', 'bandname']
+    )
+    .then(result => {
+      const { ownerid, bandname } = result[0]
+      if (ownerid !== usersid) return {
+        error: {
+          message: `You do not have permission to modify ${bandname}'s information.`,
+        }
+      }
+      return updateOne(
+        'bands',
+        updates,
+        `id = '${bandsid}'`
+      )
+    })
+    .catch(err => console.log(err))
+  }
+  
+
+  const updateEvent = ({ userName, updates, token, eventsid, usersid }) => {
+    verifyToken(userName, token)
+    return selectSomeWhere(
+      'events', 
+      'id',
+      eventsid,
+      ['ownerid', 'eventname']
+    )
+    .then(result => {
+      const { ownerid, eventname } = result[0]
+      if (ownerid !== usersid) return {
+        error: {
+          message: `You do not have permission to modify ${eventname}.`
+        }
+      }
+      return updateOne(
+        'events',
+        updates,
+        `id = '${eventsid}'`
+      )
+    })
+    .catch(err => console.log(err))
+  }
+
   const deleteUser = ({ userName, token }) => {
     verifyToken(userName, token)
     return deleteOne('users', `username = '${userName}'`)
@@ -556,6 +606,9 @@ const dbLib = (() => {
 
 
 
+
+
+
   // public methods
   return {
     checkUserName,
@@ -564,7 +617,9 @@ const dbLib = (() => {
     deleteUser,
     authUser,
     addNewBand,
+    updateBand,
     addNewEvent,
+    updateEvent,
     addNewBE,
     addNewBM,
     addNewNote,
@@ -579,7 +634,6 @@ const dbLib = (() => {
     deleteBand,
     deleteEvent,
     deleteBandMate
-    // createBandToken,
   }
 
 })()
