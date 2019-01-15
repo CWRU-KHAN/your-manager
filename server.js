@@ -34,7 +34,8 @@ const { addNewUser,
   updateEvent,
   deleteBand,
   deleteEvent,
-  deleteBandMate
+  deleteBandMate,
+  deleteBandEvent
 } = require('./db/dbLib')
 
 
@@ -315,6 +316,8 @@ app.put('/api/event/', (req, res) => {
   .catch(err => res.json(err))
 })
 
+
+
 // delete a band
 app.delete('/api/band/', (req, res) => {
   deleteBand(req.body).then(results => {
@@ -334,7 +337,7 @@ app.delete('/api/event/', (req, res) => {
 })
 
 // remove a user from bandmates
-app.delete('/api/bandmates/', (req, res) => {
+app.delete('/api/bandmate/', (req, res) => {
   deleteBandMate(req.body).then(results => {
     if (results.error) throw results.error
     res.send(results.affectedRows === 1)
@@ -344,6 +347,14 @@ app.delete('/api/bandmates/', (req, res) => {
 
 
 
+// remove a band from an event
+app.delete('/api/bandevent/', (req, res) => {
+  deleteBandEvent(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows === 1)
+  })
+  .catch(err => res.json(err))
+})
 
 
 // Cloudinary Image processing

@@ -442,9 +442,7 @@ const dbLib = (() => {
       .catch(translateDbErr)
   }
 
-  // updates user information, takes a user object with two keys: userName and updates.
-  // updates should be an object with key/value pairs corresponding to column names/values to be updated
-  // returns confirmation message
+  // update user information
   const updateUser = ({ userName, updates, token }) => {
     verifyToken(userName, token)
     return updateOne('users', updates, `username = '${userName}'`)
@@ -454,7 +452,7 @@ const dbLib = (() => {
     })
   }
 
-  
+  // update band information
   const updateBand = ({ userName, updates, token, bandsid, usersid }) => {
     verifyToken(userName, token)
     return selectSomeWhere(
@@ -479,7 +477,7 @@ const dbLib = (() => {
     .catch(err => console.log(err))
   }
   
-
+  // update event information
   const updateEvent = ({ userName, updates, token, eventsid, usersid }) => {
     verifyToken(userName, token)
     return selectSomeWhere(
@@ -574,7 +572,7 @@ const dbLib = (() => {
   }
 
   const deleteBandMate = ({ userName, token, bandsid, usersid }) => {
-    // verifyToken(userName, token)
+    verifyToken(userName, token)
     return selectSomeJoin(
       'bands',
       'users',
@@ -604,7 +602,29 @@ const dbLib = (() => {
     .catch(translateDbErr)
   }
 
-
+  const deleteBandEvent = ({ userName, token, bandsid, eventsid, usersid }) => {
+    verifyToken(userName, token)
+    return selectSomeWhere(
+      'events',
+      'id',
+      eventsid,
+      ['ownerid', 'eventname']
+    )
+    .then(result => {
+      const { ownerid, eventname } = result[0]
+      if (ownerid !== usersid) return {
+        error: {
+          message: `You do not have permission to modify ${eventname}.`
+        }
+      }
+      return deleteOneTwoCond(
+        'bandsevents',
+        `bandsid = '${bandsid}'`,
+        `eventsid = '${eventsid}'`
+      )
+    })
+    .catch(err => console.log(err))
+  }
 
 
 
@@ -633,7 +653,8 @@ const dbLib = (() => {
     getUserEvents,
     deleteBand,
     deleteEvent,
-    deleteBandMate
+    deleteBandMate,
+    deleteBandEvent
   }
 
 })()
