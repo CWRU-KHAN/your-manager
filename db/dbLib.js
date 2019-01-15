@@ -442,9 +442,7 @@ const dbLib = (() => {
       .catch(translateDbErr)
   }
 
-  // updates user information, takes a user object with two keys: userName and updates.
-  // updates should be an object with key/value pairs corresponding to column names/values to be updated
-  // returns confirmation message
+  // update user information
   const updateUser = ({ userName, updates, token }) => {
     verifyToken(userName, token)
     return updateOne('users', updates, `username = '${userName}'`)
@@ -453,7 +451,99 @@ const dbLib = (() => {
       return results
     })
   }
+
+  // update user password
+  const updateUserPassword = ({ userName, token, currentPassword, newPassword, confirmPassword }) => {
+    verifyToken(userName, token)
+    let usersid = ''
+    return selectSomeWhere('users', 'username', userName, ['username', 'password', 'id'])
+    .then(data => {
+      usersid = data[0].id
+      return bcrypt.compare(currentPassword, data[0].password)
+    })
+    .then(valid => {
+      if (!valid) return {
+        error: {
+          code: 403,
+          message: 'The password you entered is incorrect.',
+        }
+      }
+      if (newPassword !== confirmPassword) return {
+        error: {
+          message: "Passwords must match."
+        }
+      }
+      return bcrypt.hash(newPassword, saltRounds)
+      .then(hash => {
+        return updateOne(
+          'users', 
+          {'password': hash},
+          `id = '${usersid}'`)
+      })
+      .then(results => {
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: `Password not updated.`
+          }
+        }
+      }
+        return results
+      }) 
+    })
+  }
+
+  // update band information
+  const updateBand = ({ userName, updates, token, bandsid, usersid }) => {
+    verifyToken(userName, token)
+    return selectSomeWhere(
+      'bands',
+      'id',
+      bandsid,
+      ['ownerid', 'bandname']
+    )
+    .then(result => {
+      const { ownerid, bandname } = result[0]
+      if (ownerid !== usersid) return {
+        error: {
+          message: `You do not have permission to modify ${bandname}'s information.`,
+        }
+      }
+      return updateOne(
+        'bands',
+        updates,
+        `id = '${bandsid}'`
+      )
+    })
+    .catch(err => console.log(err))
+  }
   
+  // update event information
+  const updateEvent = ({ userName, updates, token, eventsid, usersid }) => {
+    verifyToken(userName, token)
+    return selectSomeWhere(
+      'events', 
+      'id',
+      eventsid,
+      ['ownerid', 'eventname']
+    )
+    .then(result => {
+      const { ownerid, eventname } = result[0]
+      if (ownerid !== usersid) return {
+        error: {
+          message: `You do not have permission to modify ${eventname}.`
+        }
+      }
+      return updateOne(
+        'events',
+        updates,
+        `id = '${eventsid}'`
+      )
+    })
+    .catch(err => console.log(err))
+  }
+
   const deleteUser = ({ userName, token }) => {
     verifyToken(userName, token)
     return deleteOne('users', `username = '${userName}'`)
@@ -524,7 +614,7 @@ const dbLib = (() => {
   }
 
   const deleteBandMate = ({ userName, token, bandsid, usersid }) => {
-    // verifyToken(userName, token)
+    verifyToken(userName, token)
     return selectSomeJoin(
       'bands',
       'users',
@@ -554,6 +644,31 @@ const dbLib = (() => {
     .catch(translateDbErr)
   }
 
+  const deleteBandEvent = ({ userName, token, bandsid, eventsid, usersid }) => {
+    verifyToken(userName, token)
+    return selectSomeWhere(
+      'events',
+      'id',
+      eventsid,
+      ['ownerid', 'eventname']
+    )
+    .then(result => {
+      const { ownerid, eventname } = result[0]
+      if (ownerid !== usersid) return {
+        error: {
+          message: `You do not have permission to modify ${eventname}.`
+        }
+      }
+      return deleteOneTwoCond(
+        'bandsevents',
+        `bandsid = '${bandsid}'`,
+        `eventsid = '${eventsid}'`
+      )
+    })
+    .catch(err => console.log(err))
+  }
+
+
 
 
   // public methods
@@ -561,10 +676,13 @@ const dbLib = (() => {
     checkUserName,
     addNewUser,
     updateUser,
+    updateUserPassword,
     deleteUser,
     authUser,
     addNewBand,
+    updateBand,
     addNewEvent,
+    updateEvent,
     addNewBE,
     addNewBM,
     addNewNote,
@@ -578,8 +696,8 @@ const dbLib = (() => {
     getUserEvents,
     deleteBand,
     deleteEvent,
-    deleteBandMate
-    // createBandToken,
+    deleteBandMate,
+    deleteBandEvent
   }
 
 })()
