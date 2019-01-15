@@ -30,6 +30,7 @@ const { addNewUser,
   getUserNotes,
   getUserEvents,
   updateUser,
+  updateUserPassword,
   updateBand,
   updateEvent,
   deleteBand,
@@ -294,6 +295,15 @@ app.put('/api/user/', (req, res) => {
   updateUser(req.body).then(results => {
     if (results.error) throw results.error
     res.send(results.affectedRows > 0)
+  })
+  .catch(err => res.json(err))
+})
+
+// update a user's password
+app.put('/api/user/password', (req, res) => {
+  updateUserPassword(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows === 1)
   })
   .catch(err => res.json(err))
 })

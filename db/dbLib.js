@@ -452,6 +452,48 @@ const dbLib = (() => {
     })
   }
 
+  // update user password
+  const updateUserPassword = ({ userName, token, currentPassword, newPassword, confirmPassword }) => {
+    verifyToken(userName, token)
+    let usersid = ''
+    return selectSomeWhere('users', 'username', userName, ['username', 'password', 'id'])
+    .then(data => {
+      usersid = data[0].id
+      return bcrypt.compare(currentPassword, data[0].password)
+    })
+    .then(valid => {
+      if (!valid) return {
+        error: {
+          code: 403,
+          message: 'The password you entered is incorrect.',
+        }
+      }
+      if (newPassword !== confirmPassword) return {
+        error: {
+          message: "Passwords must match."
+        }
+      }
+      return bcrypt.hash(newPassword, saltRounds)
+      .then(hash => {
+        return updateOne(
+          'users', 
+          {'password': hash},
+          `id = '${usersid}'`)
+      })
+      .then(results => {
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: `Password not updated.`
+          }
+        }
+      }
+        return results
+      }) 
+    })
+  }
+
   // update band information
   const updateBand = ({ userName, updates, token, bandsid, usersid }) => {
     verifyToken(userName, token)
@@ -634,6 +676,7 @@ const dbLib = (() => {
     checkUserName,
     addNewUser,
     updateUser,
+    updateUserPassword,
     deleteUser,
     authUser,
     addNewBand,
