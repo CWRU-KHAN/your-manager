@@ -159,7 +159,7 @@ app.get('/api/band/:id', (req, res) => {
             users: [{ username, id }]
           }
       }, {})
-      parsedResults.events = resultsArray[1].map(({ eventname, id }) => ({ eventname, id }))
+      parsedResults.events = resultsArray[1].map(({ eventname, id, date }) => ({ eventname, id, date }))
       res.json(parsedResults)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))

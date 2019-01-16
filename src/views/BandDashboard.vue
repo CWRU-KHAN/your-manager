@@ -61,12 +61,12 @@ export default {
       const calendarEvents = this.$store.state.currentPageJson.data.events
       .map(event => {
         return {
-          startDate: "2019-01-19 01:29:30",
+          startDate: event.date,
           title: event.eventname,
           id: event.id
         }
       })
-      return [... calendarEvents]
+      return [...calendarEvents]
     }
   },
 
