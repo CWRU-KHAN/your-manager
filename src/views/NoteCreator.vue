@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Create an Event</h1>
+    <h1>Write a Note</h1>
     <form >
 
       <p v-if="errors.length">
@@ -9,19 +9,11 @@
           <li v-for="error in errors" :key="error">{{ error }}</li>
         </ul>
       </p>
-
-      <!-- <img src="" alt="no image">
-      <input type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
-      <button type="button" @click='submitImage()'>Submit Image</button>
-      <br><br>
-      <br><br> -->
-      Name of event: <input type="text" placeholder="name of event" v-model="eventName">
+      Subject: <input type="text" placeholder="practice monday" v-model="noteTitle">
       <br>
-      What: <input type="text" placeholder="event description" v-model="description">
+      Message: <input type="text" placeholder="can't make practice tomrrow, what about monday?" v-model="noteBody">
       <br>
-      Where: <input type="text" placeholder="location" v-model="eventlocation">
-      <br>
-      When: <input type="datetime-local" v-model="date">
+      Regarding event on: <input type="datetime-local" v-model="calendarDate">
       <br>
       Band: <select name="bands" v-model="bandName">
                 <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
@@ -29,7 +21,7 @@
     
       <br><br>
 
-      <button type='button' @click='submit'>Create Event</button>
+      <button type='button' @click='submit'>Write Note</button>
 
     </form>
   </div>
@@ -41,23 +33,22 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'eventCreator',
+  name: 'noteCreator',
   data() {
     return {
-      eventName: '',
-      bandName: '',
-      description: '',
-      eventlocation: '',
-      date: '',
-      time: '12:00',
-      errors: [],
-      file: '',
+        noteTitle: '',
+        noteBody: '',
+        calendarDate: '',
+        bandName: '',
+        errors: [],
+        // file: '',
     }
   },
   computed: {
     ...mapGetters({
       serverErrors: 'getCurrentErrors'
     }),
+    //need to check CPJ.data for accurate path
     bandsList() {
       return this.$store.state.currentPageJson.data[2]
     }
@@ -66,28 +57,25 @@ export default {
     submit() {
       this.errors = []
 
-        if (!this.eventName.length) this.errors.push('Event must have a name.')
-        if (!this.eventlocation.length) this.errors.push('Event must have a location')
-        if (!this.date.length) this.errors.push('Event must have a date')
+        if (!this.noteTitle.length) this.errors.push('Note must have a title.')
+        if (!this.noteBody.length) this.errors.push('Note must have a message')
         if (!this.bandName.length) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {
-        const eventInfo = {
-            eventName: this.eventName,
-            createdAt: new Date,
-            eventLocation: this.eventlocation,
-            // eventImage: this.eventImage,
-            bandName: this.bandName,
-            eventdescription: this.description,
-            date: this.date,
-            time: this.time,
+        const noteInfo = {
+            notetitle: this.noteTitle,
+            notebody: this.noteBody,
+            calendardate: this.calendarDate,
+            bandname: this.bandName,
+            postedat: new Date,
+            errors: [],
             usersid: this.$store.state.userCredentials.usersid,
             token: this.$store.state.userCredentials.userToken,
             userName: this.$store.state.userCredentials.username
         }
         this.$store.commit('clearErrors')
-        this.$store.dispatch('createEvent', eventInfo)
+        this.$store.dispatch('createNote', noteInfo)
       }
     },
     processUpload () {
