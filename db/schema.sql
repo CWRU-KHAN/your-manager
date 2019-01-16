@@ -37,8 +37,8 @@ CREATE TABLE `events`
  `createdAt`        timestamp NOT NULL ,
  `eventname`        varchar(200) NOT NULL ,
  `eventdescription` varchar(500) ,
- `date`             date NOT NULL ,
- `time`             time NOT NULL ,
+ `date`             datetime NOT NULL ,
+ `eventimage`       varchar(500) ,
  `eventlocation`    varchar(100) NOT NULL ,
  `ownerid`          integer NOT NULL ,
 PRIMARY KEY (`id`)

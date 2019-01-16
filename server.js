@@ -29,9 +29,14 @@ const { addNewUser,
   getCalendarInfo,
   getUserNotes,
   getUserEvents,
+  updateUser,
+  updateUserPassword,
+  updateBand,
+  updateEvent,
   deleteBand,
   deleteEvent,
-  deleteBandMate
+  deleteBandMate,
+  deleteBandEvent
 } = require('./db/dbLib')
 
 
@@ -47,7 +52,6 @@ app.post('/api/auth/', (req, res) => {
 
   authUser(req.body)
     .then(results => {
-      console.log(results)
       if (results.error) throw results.error
       res.json(results)
     })
@@ -275,9 +279,53 @@ app.get('/api/userdashboard/:id', (req, res) => {
         }      
       })),
     getUserEvents({ usersid: req.params.id })
+      .then(eventsRes => eventsRes.map(result => {
+        if (result.length === 0) return result
+        return {
+          name: result[0].bandname,
+          events: result
+        }
+      }))
   ])
   .then(results => res.json(results))
 })
+
+// update a user's personal info
+app.put('/api/user/', (req, res) => {
+  updateUser(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows > 0)
+  })
+  .catch(err => res.json(err))
+})
+
+// update a user's password
+app.put('/api/user/password', (req, res) => {
+  updateUserPassword(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows === 1)
+  })
+  .catch(err => res.json(err))
+})
+
+// update a band's details
+app.put('/api/band/', (req, res) => {
+  updateBand(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows > 0)
+  })
+  .catch(err => res.json(err))
+})
+
+// update an event's details
+app.put('/api/event/', (req, res) => {
+  updateEvent(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows > 0)
+  })
+  .catch(err => res.json(err))
+})
+
 
 
 // delete a band
@@ -299,7 +347,7 @@ app.delete('/api/event/', (req, res) => {
 })
 
 // remove a user from bandmates
-app.delete('/api/bandmates/', (req, res) => {
+app.delete('/api/bandmate/', (req, res) => {
   deleteBandMate(req.body).then(results => {
     if (results.error) throw results.error
     res.send(results.affectedRows === 1)
@@ -309,6 +357,14 @@ app.delete('/api/bandmates/', (req, res) => {
 
 
 
+// remove a band from an event
+app.delete('/api/bandevent/', (req, res) => {
+  deleteBandEvent(req.body).then(results => {
+    if (results.error) throw results.error
+    res.send(results.affectedRows === 1)
+  })
+  .catch(err => res.json(err))
+})
 
 
 // Cloudinary Image processing

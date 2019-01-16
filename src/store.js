@@ -195,6 +195,48 @@ export default new Vuex.Store({
           'Content-Type': 'multipart/form-data'
         }
       }).then(res => commit('setCurrentUploadedImage', res.data))
-    }
+    },
+    updateUserInfo({ commit }, data) {
+      return axios.put('/api/user', data)
+        .then(success => {
+          if (!success) commit('addError', 'Update not successful.')
+          else router.push({name: 'dashboard'})
+        })
+    },
+    updateUserPassword({ commit }, data) {
+      return axios.put('/api/user/password', data)
+        .then(success => {
+          if (!success) commit('addError', 'Password not changed.')
+          else router.push({name: 'dashboard'})
+        })
+    },
+    updateBandInfo({ commit }, data) {
+      return axios.put('/api/band', data)
+        .then(success => {
+          if (!success) commit('addError', 'Update not successful.')
+          else router.push({name: 'bandDashboard'})
+        })
+    },
+    updateEventInfo({ commit }, data) {
+      return axios.put('/api/event', data)
+        .then(success => {
+          if (!success) commit('addError', 'Update not successful.')
+          else router.push({name: 'eventInfo'})
+        })
+    },
+    deleteBandmate({ commit }, data) {
+      return axios.delete('/api/bandmate', data)
+        .then(success => {
+          if (!success) commit('addError', 'Band member not successfully removed.')
+          else router.push({name: 'bandDashboard'})
+        })
+    },    
+    deleteBandevent({ commit }, data) {
+      return axios.delete('/api/bandevent', data)
+        .then(success => {
+          if (!success) commit('addError', 'Band not successfully removed from event.')
+          else router.push({name: 'eventInfo'})
+        })
+    },
   }
 })
