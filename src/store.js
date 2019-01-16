@@ -134,18 +134,30 @@ export default new Vuex.Store({
       })
     },
     createEvent(context, data) {
-      return axios.post('/api/event', data).then(res => {
+      return axios.post('/api/event', data).then(({ data }) => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
         router.push({name: 'bandDashboard'})
+        }
       })
     },
     createNote(context, data) {
       return axios.post('/api/note', data).then(res => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
         router.push({name: 'eventInfo'})
+        }
       })
     },
     addUserToBand(context, credentials) {
       return axios.post('/api/bandmate', credentials).then(res => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
         router.push({name: 'bandDashboard'})
+        }
       })
     },
     createBandToken( { commit }, credentials){

@@ -156,7 +156,14 @@ const dbLib = (() => {
       [eventName, date, time, eventLocation, usersid]
     )
       .then(results => {
-        if (results.affectedRows === 0) throw new Error(`500: Event '${eventName}' not added.`)
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: `Error. Event not created.`
+            }  
+          }
+       }
         return results
       })
       .catch(translateDbErr)
@@ -191,7 +198,14 @@ const dbLib = (() => {
       [verified.results.bandsid, usersid]
     )
       .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: User not added to band.')
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: `Error. Band member not added.`
+            }  
+          }
+       }
         return results
       })
       .catch(translateDbErr)
@@ -223,7 +237,14 @@ const dbLib = (() => {
       [usersid, bandsid, noteTitle, noteBody, calendarDate, postedAt]
     )
       .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: Note not added.')
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: `Error. Note not added.`
+            }  
+          }
+       }
         return results
       })
       .catch(translateDbErr)

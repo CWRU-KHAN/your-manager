@@ -30,6 +30,9 @@
 
 
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'eventCreator',
   data() {
@@ -43,6 +46,11 @@ export default {
       errors: [],
       file: '',
     }
+  },
+  computed: {
+    ...mapGetters({
+      serverErrors: 'getCurrentErrors'
+    })
   },
   methods: {
     submit() {
