@@ -70,12 +70,7 @@ export default {
     EventCard,
     NoteCard
   },
-  
-  data() {
-    return { 
-      showDate: new Date(),
-    }
-  },
+
 
   computed: {
     hasBands() {
