@@ -76,7 +76,7 @@ app.post('/api/band/', (req, res) => {
       if (results.error) throw results.error
       res.json(results)
     })
-    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .catch(err => res.status(200).send(err || 'Internal server error.'))
 })
 
 // add a new event
@@ -86,7 +86,7 @@ app.post('/api/event/', (req, res) => {
       if (results.error) throw results.error
       res.json(results)
     })
-    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .catch(err => res.status(200).send(err || 'Internal server error.'))
 })
 
 // add that a user is a member of a band
@@ -97,7 +97,7 @@ app.post('/api/bandmate/', (req, res) => {
       res.json(results)
     })
     .catch(err => {
-      res.status(err.code || 500).json(err.message || 'Internal server error.')
+      res.status(200).json(err || 'Internal server error.')
     })
 })
 
@@ -138,7 +138,7 @@ app.post('/api/note/', (req, res) => {
       if (results.error) throw results.error
       res.json(results)
     })
-    .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+    .catch(err => res.status(200).send(err || 'Internal server error.'))
 })
 
 // get info on a specific band

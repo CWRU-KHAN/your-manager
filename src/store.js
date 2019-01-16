@@ -18,9 +18,9 @@ export default new Vuex.Store({
       usersid: ''
     },
     bandCredentials: {
-      bandToken: '',
       bandsid: ''
     },
+    bandToken: '',
     eventsid: '',
     userNotes: {},
     events: [],
@@ -63,7 +63,7 @@ export default new Vuex.Store({
       state.userNotes = data
     },
     setBandToken(state, data){
-      state.bandCredentials.bandToken = data
+      state.bandToken = data
     },
     setCurrentUploadedImage(state, data) {
       console.log(data)
@@ -125,26 +125,39 @@ export default new Vuex.Store({
       })
     },
     createBand(context, credentials) {
-      return axios.post('/api/band', credentials).then(res => {
+      return axios.post('/api/band', credentials).then(({ data }) => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
         router.push({name: 'dashboard'})
+        }
       })
     },
-    cancelCreation({ commit }){
-
-    },
     createEvent(context, data) {
-      return axios.post('/api/event', data).then(res => {
+      return axios.post('/api/event', data).then(({ data }) => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
         router.push({name: 'bandDashboard'})
+        }
       })
     },
     createNote(context, data) {
       return axios.post('/api/note', data).then(res => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
         router.push({name: 'eventInfo'})
+        }
       })
     },
     addUserToBand(context, credentials) {
       return axios.post('/api/bandmate', credentials).then(res => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
         router.push({name: 'bandDashboard'})
+        }
       })
     },
     createBandToken( { commit }, credentials){
