@@ -1,35 +1,26 @@
 <template>
   <div>
     <h1>Dashboard</h1>
-    <!-- <h2> {{ `Welcome ${this.$store.state.data.bandname}` }} </h2> -->
-    <div>
-      <router-link to='/calendar'>View Calendar</router-link>
+    <div id="CalendarView">
+      <h4>Calendar</h4>
+      <calendar-view :eventsProp="eventsForCalendar" />
     </div>
     <br>
     <h4>Members</h4>
-        <ul v-if="membersList">
-            <li v-for="username in usernamesList" :key="Object.keys(username)[0]"> {{ username[Object.keys(username)[0]] }} </li>
+        <ul>
+            <li v-for="member in membersList" :key="member.id"> {{ member.username }} </li>
         </ul>
     <br>
     <h4>Events</h4>
-        <div>
-            <p v-if="!eventsList">Your band does not have any upcoming events.</p>
-            <ul v-if="eventsList">
-            <li v-for="event in eventsList" :key="Object.keys(event)[0]"> {{ event[Object.keys(event)[0]][0].eventname }} </li>
-                    <button type="button" @click="gotoEvent(6)">go to event</button>
-                    <!-- how to pass an event's id as a prop if not through Object.keys(event)[0][0].id?  -->
-            </ul>
-      </div>
+        <div v-for="event in eventsList" :key="event.id"> 
+          <event-card :eventInfo="event"></event-card> 
+        </div>
     <br>
+<!-- when we have notes rendering to band dash this will work -->
     <!-- <h4>Notes</h4>
-    <div>
-      <div v-if="hasBands">
-        <p v-if="!notesList">None of your bands have upcoming notes.</p>
-        <ul v-if="notesList">
-          <li v-for="note in notesList" :key="Object.keys(note)[0]"> {{ note[Object.keys(note)[0]] ? note[Object.keys(note)[0]][0].notetitle : 'Untitled note.' }} </li>
-        </ul>
-      </div>
-    </div> -->
+      <div v-for="note in notesList" :key="note.id"> 
+        <note-card :noteInfo="note"></note-card> 
+      </div> -->
 
     <router-link to="event/create">go to event create</router-link>
     <br>
@@ -37,43 +28,56 @@
   </div>
 </template>
 
-do dashboard events and dashboard notes 
-
 <script>
+import EventCard from '../components/EventCard.vue'
+import NoteCard from '../components/NoteCard.vue'
+import CalendarView from './CalendarView'
 
 export default {
   name: 'bandDashboard',
+
+  components: {
+    CalendarView,
+    EventCard,
+    NoteCard
+  },
+
   computed: {
-    usernameList() {
-      return this.$store.state.currentPageJson.data.users 
-    },
     membersList() {
-        return this.$store.state.bandMembers.length ?
-        this.$store.state.bandMembers :
-        console.log("band has no members")
-        false
+        return this.$store.state.currentPageJson.data.users 
     },
     eventsList() {
-      return this.$store.state.bandDashboardEvents.length ? 
-        this.$store.state.bandDashboardEvents : 
-        console.log("events has no length")
-        false
+      return this.$store.state.currentPageJson.data.events.length ?
+      this.$store.state.currentPageJson.data.events :
+      false
     },
-    notesList() {
-      return this.$store.state.bandDashboardNotes.length ? 
-        this.$store.state.bandDashboardNotes : 
-        false
+    //when we have events rendering to band page this will work
+    // notesList() {
+    //   return this.$store.state.currentPageJson.data.notes.length ? 
+    //     this.$store.state.currentPageJson.data.notes : 
+    //     false
+    // },
+    eventsForCalendar() {
+      const calendarEvents = this.$store.state.currentPageJson.data.events
+      .map(event => {
+        return {
+          startDate: "2019-01-19 01:29:30",
+          title: event.eventname,
+          id: event.id
+        }
+      })
+      return [... calendarEvents]
     }
   },
+
   methods: {
     goToBand(id) {
       console.log(id)
     },
     gotoEvent(id) {
-      console.log("id: " + id)
       this.$store.commit("setEvent", {eventsid: id})
       this.$router.push({"path" : "/event/info"})
     }
-  }
+    }
 }
 </script>
