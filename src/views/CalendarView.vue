@@ -8,7 +8,8 @@
 		slot="header"
 		slot-scope="t"
 		:header-props="t.headerProps"
-		@input="setShowDate" />
+		@input="setShowDate" 
+		/>
 
 </calendar-view>
 </template>
@@ -45,7 +46,11 @@
 			CalendarViewHeader
 		},
 
-		
+		data() {
+			return {
+				showDate: new Date()
+			}
+		},
 		
 		methods: {
 			setShowDate(d) {
