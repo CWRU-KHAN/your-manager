@@ -4,14 +4,14 @@
     <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
     <div id="CalendarView">
       <h4>Calendar</h4>
-      <calendar-view :eventsProp="events" />
+      <calendar-view :eventsProp="eventsForCalendar" />
     </div>
     <br>
     <h4>Bands</h4>
     <div>
       <p v-if="!hasBands">No Bands Exist</p>
       <ul v-if="hasBands">
-        <li v-for="userBand in bandsList" :key="userBand.id"> <button type="button" @click="goToBand(userBand.id)">{{ userBand.bandname }}</button> </li>
+        <li v-for="userBand in bandsList" :key="'bandid' + userBand.id"> <button type="button" @click="goToBand(userBand.id)">{{ userBand.bandname }}</button> </li>
       </ul>
       <router-link to='/band/create'>Create A Band</router-link>
       <router-link to='/band/join'>Join A Band</router-link>
@@ -59,19 +59,7 @@ import EventCard from '../components/EventCard.vue'
 import NoteCard from '../components/NoteCard.vue'
 import CalendarView from './CalendarView'
 
-	const eventsJson = [
-		{
-			id: 0,
-			startDate: '2019-01-10 12:00:00',
-			title: 'go to the park'
 
-		},
-		{
-			id: 1,
-			startDate: '2019-01-11 12:00:00',
-			title: 'does this work?'
-		}
-  ]
   
 
 export default {
@@ -86,7 +74,6 @@ export default {
   data() {
     return { 
       showDate: new Date(),
-      events: eventsJson 
     }
   },
 
@@ -106,6 +93,23 @@ export default {
       return this.$store.state.currentPageJson.data[1].length ? 
         this.$store.state.currentPageJson.data[1].filter(entry => entry.bandsid) : 
         false
+    },
+    eventsForCalendar() {
+      const formattedEvents = this.$store.state.currentPageJson.data[2]
+      .map(band => {
+        const calendarEvents = band.events.map(event => {
+          return {
+            startDate: event.date,
+            title: event.eventname,
+            id: event.id,
+            bandname: event.bandname
+          }
+        })
+        return [...calendarEvents]
+      })
+      .reduce((a, b) => a.concat(b))
+
+      return formattedEvents
     }
   },
   
