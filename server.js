@@ -144,24 +144,11 @@ app.post('/api/note/', (req, res) => {
 // get info on a specific band
 app.get('/api/band/:id', (req, res) => {
   getBandInfo({ bandsid: req.params.id })
-    .then(resultsArray => {
-      const usersResults = resultsArray[0]      
-      if (usersResults.error) throw usersResults.error
-      const parsedResults = usersResults.reduce((acc, entry) => {
-        const { username, id, ...rest } = entry
-        return acc.users ? 
-          {
-            ...rest,
-            users: acc.users.concat({ username, id })
-          } :
-          {
-            ...rest,
-            users: [{ username, id }]
-          }
-      }, {})
-      parsedResults.events = resultsArray[1].map(({ eventname, id, date }) => ({ eventname, id, date }))
-      res.json(parsedResults)
-    })
+    .then(results => {
+      console.log(results)
+      if (results.error) throw results.error
+      res.json(results)
+    })    
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
 })
 

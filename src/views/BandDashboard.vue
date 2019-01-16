@@ -12,15 +12,14 @@
         </ul>
     <br>
     <h4>Events</h4>
-        <div v-for="event in eventsList" :key="event.id"> 
+        <div v-for="event in eventsList" :key="'band'+event.id"> 
           <event-card :eventInfo="event"></event-card> 
         </div>
     <br>
-<!-- when we have notes rendering to band dash this will work -->
-    <!-- <h4>Notes</h4>
-      <div v-for="note in notesList" :key="note.id"> 
+    <h4>Notes</h4>
+      <div v-for="note in notesList" :key="'note'+note.id"> 
         <note-card :noteInfo="note"></note-card> 
-      </div> -->
+      </div>
 
     <router-link to="event/create">go to event create</router-link>
     <br>
@@ -51,33 +50,24 @@ export default {
       this.$store.state.currentPageJson.data.events :
       false
     },
-    //when we have events rendering to band page this will work
-    // notesList() {
-    //   return this.$store.state.currentPageJson.data.notes.length ? 
-    //     this.$store.state.currentPageJson.data.notes : 
-    //     false
-    // },
+    // when we have events rendering to band page this will work
+    notesList() {
+      return this.$store.state.currentPageJson.data.notes.length ? 
+        this.$store.state.currentPageJson.data.notes : 
+        false
+    },
     eventsForCalendar() {
-      const calendarEvents = this.$store.state.currentPageJson.data.events
+      const calendarEvents = this.$store.state.currentPageJson.data.events ? 
+      this.$store.state.currentPageJson.data.events
       .map(event => {
         return {
           startDate: event.date,
           title: event.eventname,
           id: event.id
         }
-      })
+      }) : []
       return [...calendarEvents]
     }
-  },
-
-  methods: {
-    goToBand(id) {
-      console.log(id)
-    },
-    gotoEvent(id) {
-      this.$store.commit("setEvent", {eventsid: id})
-      this.$router.push({"path" : "/event/info"})
-    }
-    }
+  }
 }
 </script>
