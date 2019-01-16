@@ -10,6 +10,7 @@ import EventCreator from './views/EventCreator.vue'
 import EventInfo from './views/EventInfo.vue'
 import CalendarView from './views/CalendarView'
 import JoinBand from './views/JoinBand.vue'
+import ChangePassword from './views/ChangePassword.vue'
 import store from './store'
 import axios from 'axios'
 
@@ -105,7 +106,12 @@ export default new Router({
       }
     },
     {
-      
+      path: '/user/changePassword',
+      name: 'changePassword',
+      component: ChangePassword,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
     },
     {
       path: '*',
