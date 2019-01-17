@@ -12,6 +12,7 @@ const dbLib = (() => {
   const bandOptions = { expiresIn: '10y', issuer: 'https://your-manager.herokuapp.com' }
   const secret = process.env.JWT_SECRET
 
+  // helper function to determine whether a username and token match
   const verifyToken = (userName, token) => {    
     const result = jwt.verify(token, secret, loginOptions)
     if (userName !== result.user) throw {
@@ -21,6 +22,7 @@ const dbLib = (() => {
     return result
   }
 
+  // helper function to make sense of MySQL DB error codes
   const translateDbErr = error => {
     const { errno } = error
     const errorTable = {
@@ -38,10 +40,10 @@ const dbLib = (() => {
     return errno ? {error: errorTable[errno]} : error
   }
 
-  const checkUserName = name => {
-    return selectSomeWhere('users', 'username', name, ['username'])
-    .then(data => !data.length)
-  }
+
+  // helper function to prune repeat entries in an array
+  const filterUnique = (value, index, self) => self.indexOf(value) === index
+
 
   // generate a token for use in joining a band
   const createBandToken = ({ bandsid }) => {
@@ -278,7 +280,17 @@ const dbLib = (() => {
         'bands', 
         'events', 
         [], 
-        ['eventname', 'id'], 
+        ['eventname', 'id', 'date'], 
+        bandsid
+      ),
+      selectSomeJoin(
+        'notes',
+        'bands',
+        ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat', 'id'],
+        [],
+        'bands.id',
+        'notes.bandsid',
+        'bandsid',
         bandsid
       )]
     )
@@ -286,6 +298,64 @@ const dbLib = (() => {
         if (results[0].affectedRows === 0) throw new Error('500: Not a valid band.')
         return results
       })
+      .then(resultsArray => {
+        const usersResults = resultsArray[0]      
+        if (usersResults.error) throw usersResults.error
+        const parsedResults = usersResults.reduce((acc, entry) => {
+          const { username, id, ...rest } = entry
+          return acc.users ? 
+            {
+              ...rest,
+              users: acc.users.concat({ username, id })
+            } :
+            {
+              ...rest,
+              users: [{ username, id }]
+            }
+        }, {})
+        parsedResults.events = resultsArray[1]
+          .map(({ eventname, id, date }) => ({ eventname, id, date }))
+
+        parsedResults.notes = resultsArray[2]        
+
+        const userIdList = resultsArray[2].reduce((acc, cur) => {
+            return acc.includes(cur.usersid) ? acc : acc.concat(cur.usersid)
+          }, [])        
+        .filter( filterUnique )
+        
+        return Promise.all([
+          parsedResults,
+          ...userIdList.map(id => {
+            return selectSomeWhere(
+              'users',
+              'id',
+              id,
+              ['username', 'id']
+            )
+          })
+        ])
+      })
+
+      .then(results => {
+
+        const [dashboardInfo, ...userArray] = results  
+        if (!userArray.length) return dashboardInfo
+        const userMap = userArray
+          .reduce((acc, cur) => acc.concat(cur))
+          .reduce((acc, cur) => {
+            const {id, username} = cur
+            acc[id] = username
+            return acc
+          }, {})
+  
+        const modifiedNotes = dashboardInfo.notes.map(note => {
+            note.author = userMap[note.usersid]
+            return note
+          }) 
+        
+        dashboardInfo.notes = modifiedNotes
+        return dashboardInfo
+      })      
       .catch(translateDbErr)
   }
 
@@ -391,7 +461,6 @@ const dbLib = (() => {
     .then(results => {
       const bandsWithNotes = results.filter(bandNotes => bandNotes.length)
 
-      const filterUnique = (value, index, self) => self.indexOf(value) === index
 
       const userIdList = bandsWithNotes.map(band => {
         return band.reduce((acc, cur) => {
@@ -702,7 +771,6 @@ const dbLib = (() => {
 
   // public methods
   return {
-    checkUserName,
     addNewUser,
     updateUser,
     updateUserPassword,

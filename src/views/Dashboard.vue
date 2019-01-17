@@ -21,7 +21,9 @@
     </div>
     <br>
     <h4>Events</h4>
+
     <div>
+      <router-link to="event/create">create an event</router-link>
       <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
       <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
         <h3>{{ band.name }}</h3>
@@ -33,6 +35,7 @@
     
     <br>
     <h4>Notes</h4>
+    <router-link to="/note/create"> write a note </router-link>
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
       <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
@@ -42,7 +45,6 @@
         </div>
       </div>
     </div>
-    <router-link to="event/create">go to event create</router-link>
     <br>
     <router-link to="event/info">go to event info</router-link>
   </div>
@@ -72,12 +74,7 @@ export default {
     EventCard,
     NoteCard
   },
-  
-  data() {
-    return { 
-      showDate: new Date(),
-    }
-  },
+
 
   computed: {
     hasBands() {
