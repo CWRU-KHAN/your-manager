@@ -269,7 +269,7 @@ const dbLib = (() => {
         'usersid', 
         'bands', 
         'users', 
-        ['bandname', 'bandimage', 'genre', 'ownerid'], 
+        ['bandname', 'bandimage', 'genre', 'ownerid', 'description'], 
         ['username', 'id'], 
         bandsid
       ),
@@ -387,7 +387,7 @@ const dbLib = (() => {
         'bandsid',
         'events',
         'bands',
-        ['eventname', 'eventdescription', 'date', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventimage'],
         ['bandname', 'id'],
         eventsid
       ),
@@ -618,6 +618,7 @@ const dbLib = (() => {
   
   // update event information
   const updateEvent = ({ userName, updates, token, eventsid, usersid }) => {
+
     verifyToken(userName, token)
     return selectSomeWhere(
       'events', 
@@ -627,11 +628,11 @@ const dbLib = (() => {
     )
     .then(result => {
       const { ownerid, eventname } = result[0]
-      if (ownerid !== usersid) return {
-        error: {
-          message: `You do not have permission to modify ${eventname}.`
-        }
-      }
+      // if (ownerid !== usersid) return {
+      //   error: {
+      //     message: `You do not have permission to modify ${eventname}.`
+      //   }
+      // }
       return updateOne(
         'events',
         updates,

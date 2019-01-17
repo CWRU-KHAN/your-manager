@@ -1,9 +1,15 @@
 <template>
   <div>
     <h1>Dashboard</h1>
+
+    <router-link to="/band/changeProfile">Edit Band Details</router-link>
+
+
+
     <div id="CalendarView">
       <h4>Calendar</h4>
       <calendar-view :eventsProp="eventsForCalendar" />
+
     </div>
     <br>
     <h4>Members</h4>

@@ -11,8 +11,11 @@ import NoteCreator from './views/NoteCreator.vue'
 import EventInfo from './views/EventInfo.vue'
 import CalendarView from './views/CalendarView'
 import JoinBand from './views/JoinBand.vue'
+import ChangePassword from './views/ChangePassword.vue'
+import ChangeUserProfile from './views/ChangeUserProfile.vue'
+import ChangeBandProfile from './views/ChangeBandProfile.vue'
+import ChangeEventProfile from './views/ChangeEventProfile.vue'
 import store from './store'
-import axios from 'axios'
 
 Vue.use(Router)
 
@@ -101,17 +104,52 @@ export default new Router({
       name: 'eventInfo',
       component: EventInfo,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getEventPage', store.state.eventsid).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getEventPage', store.state.eventsid)
+        .then(() => {
+          store.commit('fillEventData', store.state.currentPageJson)
+          next()
+        })
         else next('/login')
       }
     },
     {
-    path: '/note/create',
-    name: 'noteCreator',
-    component: NoteCreator,
-    beforeEnter: (to, from, next) => {
-      store.state.userCredentials.userToken ? next() : next('/login')
-    }
+      path: '/user/changePassword',
+      name: 'changePassword',
+      component: ChangePassword,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
+    },
+    {
+      path: '/band/changeProfile',
+      name: 'changeBandProfile',
+      component: ChangeBandProfile,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
+    },
+    {
+      path: '/user/changeProfile',
+      name: 'changeUserProfile',
+      component: ChangeUserProfile,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
+    },
+    {
+      path: '/event/changeProfile',
+      name: 'changeEventProfile',
+      component: ChangeEventProfile,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
+    },
+    {
+      path: '/note/create',
+      name: 'noteCreator',
+      component: NoteCreator,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
     },
     {
       path: '*',

@@ -1,6 +1,15 @@
 <template>
   <div>
     <img src="../assets/ym-logo-bad.png" alt="Your Manager Logo">
+    <form>
+    
+    <p v-if="errors.length">
+      <b>Please correct the following error(s):</b>
+      <ul>
+        <li v-for="error in errors" :key="error">{{ error }}</li>
+      </ul>
+    </p>
+
     <h3>Change Password</h3>
       <label for="currentPassword"> Current Password
         <input 
@@ -30,6 +39,20 @@
           autocomplete="new-password"
         />
       </label>
+
+      <button 
+        @click="show1 = !show1"
+        type="button"> 
+          {{ !show1 ? "Show Password" : "Hide Password" }} 
+      </button>
+
+      <button 
+        type="button" 
+        @click="submit">
+        Change Password
+      </button>
+      
+    </form>
   </div>
 </template>
 
@@ -41,6 +64,7 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      errors: [],
       show1: false,
       currentPassword: '',
       newPassword: '',
@@ -50,7 +74,7 @@ export default {
   methods: {
     submit() {
       this.errors = []
-      if (this.currentPassword !== this.confirmPassword) this.errors.push('Password and Confirm Password must match.')
+      if (this.newPassword !== this.confirmPassword) this.errors.push('Password and Confirm Password must match.')
 
 
       if (!this.errors.length) {
