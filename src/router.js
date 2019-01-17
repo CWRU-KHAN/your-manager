@@ -7,6 +7,7 @@ import Signup from './views/Signup.vue'
 import BandCreator from './views/BandCreator.vue'
 import BandDashboard from './views/BandDashboard.vue'
 import EventCreator from './views/EventCreator.vue'
+import NoteCreator from './views/NoteCreator.vue'
 import EventInfo from './views/EventInfo.vue'
 import CalendarView from './views/CalendarView'
 import JoinBand from './views/JoinBand.vue'
@@ -104,7 +105,14 @@ export default new Router({
         else next('/login')
       }
     },
-
+    {
+    path: '/note/create',
+    name: 'noteCreator',
+    component: NoteCreator,
+    beforeEnter: (to, from, next) => {
+      store.state.userCredentials.userToken ? next() : next('/login')
+    }
+    },
     {
       path: '*',
       redirect: '/'

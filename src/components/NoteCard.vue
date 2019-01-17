@@ -1,9 +1,10 @@
 <template>
   <div class='bordered'>
-    <h4> {{ noteInfo.notetitle }} </h4>
-    <p> By {{ noteInfo.author }} </p>
+    <h2> {{ noteInfo.notetitle }} </h2>
+    <h4>{{noteInfo.notebody}}</h4>
 <!-- This is the date on the calendar that the note is attached to.
       There must be a better way to organize this.-->
+    <p> By {{ noteInfo.author }} </p>
     <p> Regarding {{ calendarDate }} </p> 
 
     <p> Posted on {{ postedDate }} at {{ postedTime }} </p>
