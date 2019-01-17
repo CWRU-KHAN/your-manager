@@ -23,9 +23,11 @@
       <br>
       When: <input type="datetime-local" v-model="date">
       <br>
-      Band: <select name="bands" v-model="bandName">
-                <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
+      Band: <select name="bands" v-model="bandsid">
+                <option v-for="band in bandsList" :key="band.id" :value="band.id">{{ band.bandname }}</option>
+                <option value="none">None</option>
             </select>
+ 
     
       <br><br>
 
@@ -45,7 +47,7 @@ export default {
   data() {
     return {
       eventName: '',
-      bandName: '',
+      bandsid: '',
       description: '',
       eventlocation: '',
       date: '',
@@ -59,7 +61,7 @@ export default {
       serverErrors: 'getCurrentErrors'
     }),
     bandsList() {
-      return this.$store.state.currentPageJson.data[2]
+      return this.$store.state.currentPageJson.data[0].bands
     }
   },
   methods: {
@@ -78,7 +80,7 @@ export default {
             createdAt: new Date,
             eventLocation: this.eventlocation,
             // eventImage: this.eventImage,
-            bandName: this.bandName,
+            bandsid: this.bandsid,
             eventdescription: this.description,
             date: this.date,
             time: this.time,

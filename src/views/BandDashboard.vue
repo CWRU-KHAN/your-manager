@@ -2,7 +2,7 @@
   <div>
     <h1>Dashboard</h1>
 
-    <router-link to="/band/changeProfile">Edit Band Details</router-link>
+    <router-link v-if="bandOwner" to="/band/changeProfile">Edit Band Details</router-link>
 
 
 
@@ -73,6 +73,9 @@ export default {
         }
       }) : []
       return [...calendarEvents]
+    },
+    bandOwner() {
+      return this.$store.state.userCredentials.usersid === this.$store.state.currentPageJson.data.ownerid
     }
   }
 }

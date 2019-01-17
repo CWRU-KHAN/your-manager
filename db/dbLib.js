@@ -150,7 +150,7 @@ const dbLib = (() => {
   }
 
   // adds an event to the database, takes an event object
-  const addNewEvent = ({ eventName, date, eventLocation, usersid, token, userName }) => {
+  const addNewEvent = ({ eventName, date, eventLocation, usersid, token, userName, bandsid }) => {
     verifyToken(userName, token)
     return insertOne(
       'events',
@@ -269,7 +269,7 @@ const dbLib = (() => {
         'usersid', 
         'bands', 
         'users', 
-        ['bandname', 'bandimage', 'genre', 'ownerid', 'description'], 
+        ['bandname', 'bandimage', 'genre', 'ownerid', 'description', 'id'], 
         ['username', 'id'], 
         bandsid
       ),
@@ -387,7 +387,7 @@ const dbLib = (() => {
         'bandsid',
         'events',
         'bands',
-        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventimage'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventimage', 'ownerid'],
         ['bandname', 'id'],
         eventsid
       ),
