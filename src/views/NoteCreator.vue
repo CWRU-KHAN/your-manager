@@ -64,10 +64,10 @@ export default {
 
       if (!this.errors.length) {
         const noteInfo = {
-            notetitle: this.noteTitle,
-            notebody: this.noteBody,
-            calendardate: this.calendarDate,
-            bandname: this.bandName,
+            noteTitle: this.noteTitle,
+            noteBody: this.noteBody,
+            calendarDate: this.calendarDate,
+            bandsid: 6,
             postedat: new Date,
             errors: [],
             usersid: this.$store.state.userCredentials.usersid,
