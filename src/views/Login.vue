@@ -1,9 +1,9 @@
 <template>
 
-<div class="container py-4 my-3 mx-auto ">
+<div class="container py-4 my-3 mx-auto">
     <div class="row justify-content-start">
       <div class="col">
-        <img src="@/assets/svg/ym-icon-luggage.svg">
+        <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
       </div>
       <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
         
@@ -49,7 +49,7 @@
         type="button">
           Login
       </button>
-      <router-link class="btn btn-register" v-if="!loggedIn" to="/signup">
+      <router-link class="btn btn-register" to="/signup">
           <i class="fa fa-user-plus btn-icon" aria-hidden="true"></i>
           register
         </router-link>
@@ -95,9 +95,15 @@ export default {
 
 <style>
 
+.ym-luggage {
+  height: 500px;
+  width: auto;
+  float: right
+}
+
 input {
   font-family: 'Open Sans', 'san-serif';
-  
+  margin: .1em
 }
 
 .lead {
