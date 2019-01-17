@@ -267,7 +267,7 @@ const dbLib = (() => {
         'usersid', 
         'bands', 
         'users', 
-        ['bandname', 'bandimage', 'genre', 'ownerid'], 
+        ['bandname', 'bandimage', 'genre', 'ownerid', 'description'], 
         ['username', 'id'], 
         bandsid
       ),

@@ -29,7 +29,7 @@
       <label for="userimage"> Profile Image
         <h3 v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</h3>
         <img :src="displayImage" alt="User Profile">
-        <input v-if="!upload1" type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
+        <input v-if="!upload1" type="file" name="file" id="userImg" ref="file" accept="image/*" v-on:change="processUpload()">
         <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
       </label>
 
@@ -57,9 +57,6 @@ export default {
   computed: {
     displayImage() {
       return this.userimage ? this.userimage : require('../assets/no-profile-pic.png')
-    },
-    chooseFileText() {
-      return this.upload2 ? 'Choose Image' : 'Choose Another Image'
     }
   },
   methods: {

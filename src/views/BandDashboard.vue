@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Dashboard</h1>
+    <router-link to="/band/changeProfile">Edit Band Details</router-link>
     <!-- <h2> {{ `Welcome ${this.$store.state.data.bandname}` }} </h2> -->
     <div>
       <router-link to='/calendar'>View Calendar</router-link>
