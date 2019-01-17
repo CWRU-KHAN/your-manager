@@ -3,7 +3,7 @@
     
 
     <img src="https://via.placeholder.com/225x125.png" alt="placeholder">
-    <p> {{ eventInfo.eventname }} </p>
+    <p class="event-name"> {{ eventInfo.eventname }} </p>
     <p> {{ formattedDate }} </p>
     <p> {{ formattedTime }} </p>
     <p> {{ eventInfo.eventlocation }} </p>
@@ -41,4 +41,10 @@ export default {
   margin: 10px;
   padding: 10px;
 }
+
+p.event-name {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em
+}
+
 </style>
