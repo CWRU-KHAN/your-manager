@@ -2,7 +2,8 @@
   <div>
     <h1>Dashboard</h1>
     <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
-    <router-link to="/user/changePassword">Change Password</router-link>
+    <router-link to="/user/changePassword">Change Password</router-link> |
+    <router-link to="/user/changeProfile">Change User Profile</router-link>
     <div id="CalendarView">
       <h4>Calendar</h4>
       <calendar-view :eventsProp="eventsForCalendar" />
@@ -116,7 +117,6 @@ export default {
   
   methods: {
     goToBand(id) {
-      id = 34
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
     },

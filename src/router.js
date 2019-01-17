@@ -11,8 +11,10 @@ import EventInfo from './views/EventInfo.vue'
 import CalendarView from './views/CalendarView'
 import JoinBand from './views/JoinBand.vue'
 import ChangePassword from './views/ChangePassword.vue'
+import ChangeUserProfile from './views/ChangeUserProfile.vue'
+import ChangeBandProfile from './views/ChangeBandProfile.vue'
+import ChangeEventProfile from './views/ChangeEventProfile.vue'
 import store from './store'
-import axios from 'axios'
 
 Vue.use(Router)
 
@@ -109,6 +111,30 @@ export default new Router({
       path: '/user/changePassword',
       name: 'changePassword',
       component: ChangePassword,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
+    },
+    {
+      path: '/band/changeProfile',
+      name: 'changeBandProfile',
+      component: ChangeBandProfile,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
+    },
+    {
+      path: '/user/changeProfile',
+      name: 'changeUserProfile',
+      component: ChangeUserProfile,
+      beforeEnter: (to, from, next) => {
+        store.state.userCredentials.userToken ? next() : next('/login')
+      }
+    },
+    {
+      path: '/event/changeProfile',
+      name: 'changeEventProfile',
+      component: ChangeEventProfile,
       beforeEnter: (to, from, next) => {
         store.state.userCredentials.userToken ? next() : next('/login')
       }
