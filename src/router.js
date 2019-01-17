@@ -150,6 +150,7 @@ export default new Router({
       component: NoteCreator,
       beforeEnter: (to, from, next) => {
         store.state.userCredentials.userToken ? next() : next('/login')
+      }
     },
     {
       path: '*',
@@ -157,3 +158,7 @@ export default new Router({
     }
   ],
 })
+
+
+
+Collapse 
