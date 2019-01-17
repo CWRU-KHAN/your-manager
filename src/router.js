@@ -103,7 +103,11 @@ export default new Router({
       name: 'eventInfo',
       component: EventInfo,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getEventPage', store.state.eventsid).then(() => next())
+        if (store.state.userCredentials.userToken) store.dispatch('getEventPage', store.state.eventsid)
+        .then(() => {
+          store.commit('fillEventData', store.state.currentPageJson)
+          next()
+        })
         else next('/login')
       }
     },

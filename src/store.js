@@ -50,6 +50,9 @@ export default new Vuex.Store({
     fillBandData(state, { data }){
       state.currentBand = data
     },
+    fillEventData(state, { data }){
+      state.currentEvent = data
+    },
     setBandCredentials(state, id){
       state.bandCredentials.bandsid = id
     },
