@@ -110,7 +110,6 @@ export default {
   
   methods: {
     goToBand(id) {
-      id = 34
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
     },
