@@ -56,8 +56,8 @@ export default new Vuex.Store({
     setBandCredentials(state, id){
       state.bandCredentials.bandsid = id
     },
-    setEvent(state, { eventsid }){
-      state.eventsid = eventsid
+    setEvent(state, id){
+      state.eventsid = id
     },
     fillCalendar(state, data) {
       state.calendarData = data
@@ -134,12 +134,14 @@ export default new Vuex.Store({
         }
       })
     },
-    createEvent({ commit }, data) {
-      return axios.post('/api/event', data).then(({ data }) => {
+    createEvent({ commit }, details) {
+      return axios.post('/api/event', details).then(({ data }) => {
+
         if (data.message) {
           commit('addError', data.message)
         } else {
-        router.push({name: 'bandDashboard'})
+        commit('setEvent', data.insertId)
+        router.push({name: 'eventInfo'})
         }
       })
     },

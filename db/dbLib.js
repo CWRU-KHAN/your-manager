@@ -150,12 +150,12 @@ const dbLib = (() => {
   }
 
   // adds an event to the database, takes an event object
-  const addNewEvent = ({ eventName, date, eventLocation, eventcity, eventstate, usersid, token, userName }) => {
+  const addNewEvent = ({ eventName, date, eventLocation, eventcity, eventstate, usersid, token, userName, eventimage, eventdescription }) => {
     verifyToken(userName, token)
     return insertOne(
       'events',
-      ['eventname', 'date', 'eventlocation', 'eventcity', 'eventstate', 'ownerid'],
-      [eventName, date, eventLocation, eventcity, eventstate, usersid]
+      ['eventname', 'date', 'eventlocation', 'eventcity', 'eventstate', 'ownerid', 'eventdescription', 'eventimage'],
+      [eventName, date, eventLocation, eventcity, eventstate, usersid, eventdescription, eventimage]
     )
       .then(results => {
         if (results.affectedRows === 0) {
