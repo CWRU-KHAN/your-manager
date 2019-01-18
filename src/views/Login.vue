@@ -1,12 +1,12 @@
 <template>
 
 <div class="container py-4 my-3 mx-auto">
+      <form>
     <div class="row justify-content-start">
       <div class="col">
         <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
       </div>
       <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
-        
         <div class="form-box">
           <div class="row">
             <div class="col">
@@ -58,6 +58,7 @@
         </div>
       </div>
     </div>
+      </form>
   </div>
 
 </template>

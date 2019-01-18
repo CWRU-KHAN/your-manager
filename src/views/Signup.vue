@@ -1,6 +1,7 @@
 <template>
   
   <div class="container py-4 my-3 mx-auto">
+    <form>
     <div class="row justify-content-start">
       
       <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
@@ -101,6 +102,7 @@
         <img class="ym-luggage-icons" src="@/assets/ymLuggageIcons.png">
       </div>
     </div>
+    </form>
   </div>
 </template>
 
