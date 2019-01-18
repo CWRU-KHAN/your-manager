@@ -10,11 +10,11 @@
         </ul>
       </p>
 
-      <!-- <img src="" alt="no image">
-      <input type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
+      <img src="" alt="no image">
+      <input type="file" name="file" id="eventImg" ref="file" accept="image/*" v-on:change="processUpload()">
       <button type="button" @click='submitImage()'>Submit Image</button>
       <br><br>
-      <br><br> -->
+      <br><br> 
       Name of event: <input type="text" placeholder="name of event" v-model="eventName">
       <br>
       What: <input type="text" placeholder="event description" v-model="description">
@@ -77,7 +77,7 @@ export default {
             eventName: this.eventName,
             createdAt: new Date,
             eventLocation: this.eventlocation,
-            // eventImage: this.eventImage,
+            eventimage: this.$store.state.currentUploadedImage,
             bandName: this.bandName,
             eventdescription: this.description,
             date: this.date,
@@ -90,16 +90,14 @@ export default {
         this.$store.dispatch('createEvent', eventInfo)
       }
     },
-    processUpload () {
+     processUpload () {
       this.file = this.$refs.file.files[0]
-      // this.fileChosen = true
+    },
+    submitImage() {
+      let formData = new FormData()
+      formData.append('file', this.file)
+      this.$store.dispatch('uploadImg', formData)
     }
-    // submitImage() {
-    //   let formData = new FormData()
-    //   formData.append('file', this.file)
-    // //   this.$store.dispatch('uploadImg', formData)
-    //     // .then(() => this.bandimage = this.$store.getters.getCurrentUploadedImage)
-    // }
   }
 }
 </script>
