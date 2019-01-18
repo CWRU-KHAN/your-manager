@@ -9,6 +9,8 @@
     <p> {{ formattedDate }} </p>
     <p> {{ formattedTime }} </p>
     <p> {{ eventInfo.eventlocation }} </p>
+    <p> {{ eventInfo.eventcity }} </p>
+    <p> {{ eventInfo.eventstate }} </p>
     <button type="button" @click="viewEvent">View Event Details</button>
             </div>
             </div>

@@ -161,4 +161,3 @@ export default new Router({
 
 
 
-Collapse 
