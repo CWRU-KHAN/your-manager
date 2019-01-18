@@ -150,13 +150,21 @@ const dbLib = (() => {
   }
 
   // adds an event to the database, takes an event object
-  const addNewEvent = ({ eventName, date, eventLocation, eventcity, eventstate, usersid, token, userName, eventimage, eventdescription }) => {
+
+  const addNewEvent = ({ eventName, date, eventLocation, eventcity, eventstate, usersid, token, userName, eventimage, eventdescription, bandsid }) => {
     verifyToken(userName, token)
     return insertOne(
       'events',
       ['eventname', 'date', 'eventlocation', 'eventcity', 'eventstate', 'ownerid', 'eventdescription', 'eventimage'],
       [eventName, date, eventLocation, eventcity, eventstate, usersid, eventdescription, eventimage]
     )
+    .then(({insertId}) => {
+      return insertOne(
+        'bandsevents',
+        ['bandsid', 'eventsid'],
+        [bandsid, insertId]
+      )
+    })
       .then(results => {
         if (results.affectedRows === 0) {
           return {
@@ -269,7 +277,7 @@ const dbLib = (() => {
         'usersid', 
         'bands', 
         'users', 
-        ['bandname', 'bandimage', 'genre', 'ownerid', 'description'], 
+        ['bandname', 'bandimage', 'genre', 'ownerid', 'description', 'id'], 
         ['username', 'id'], 
         bandsid
       ),
@@ -387,7 +395,7 @@ const dbLib = (() => {
         'bandsid',
         'events',
         'bands',
-        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventcity', 'eventstate', 'eventimage'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventcity', 'eventstate', 'eventimage', 'ownerid'],
         ['bandname', 'id'],
         eventsid
       ),

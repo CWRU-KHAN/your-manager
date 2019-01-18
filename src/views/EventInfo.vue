@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>{{ this.$store.state.currentPageJson.data.eventname }}</h2>
-        <router-link to="/event/changeProfile">Change Event Details</router-link>
+        <router-link v-if="eventOwner" to="/event/changeProfile">Change Event Details</router-link>
         <h4> {{ formattedDate}} </h4>
         <h4>{{ this.$store.state.currentPageJson.data.eventlocation }}</h4>
         <h4>{{ this.$store.state.currentPageJson.data.eventcity }}</h4>
@@ -26,6 +26,9 @@ export default {
         formattedDate () {
             const day = moment(this.$store.state.currentPageJson.data.date)
             return day.format('MMMM Do YYYY, h:mm a')
+        },
+        eventOwner() {
+            return this.$store.state.userCredentials.usersid === this.$store.state.currentPageJson.data.ownerid
         }
     }
     //how to tell it that the event we are looking for is in the url? 

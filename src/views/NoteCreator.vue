@@ -5,7 +5,6 @@
       <div class="col">
         <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
       </div>
-
       <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
         <div class="form-box">
           <div class="row">
@@ -104,7 +103,7 @@ export default {
         noteTitle: '',
         noteBody: '',
         calendarDate: '',
-        bandName: '',
+        bandsid: '',
         errors: [],
         // file: '',
     }
@@ -115,7 +114,7 @@ export default {
     }),
     //need to check CPJ.data for accurate path
     bandsList() {
-      return this.$store.state.currentPageJson.data[2]
+      return this.$store.state.currentPageJson.data[0].bands
     }
   },
   methods: {
@@ -124,7 +123,7 @@ export default {
 
         if (!this.noteTitle.length) this.errors.push('Note must have a title.')
         if (!this.noteBody.length) this.errors.push('Note must have a message')
-        if (!this.bandName.length) this.errors.push('Please select one of your bands')
+        if (!this.bandsid) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {
@@ -132,7 +131,7 @@ export default {
             noteTitle: this.noteTitle,
             noteBody: this.noteBody,
             calendarDate: this.calendarDate,
-            bandsid: 6,
+            bandsid: this.bandsid,
             postedat: new Date,
             errors: [],
             usersid: this.$store.state.userCredentials.usersid,

@@ -27,9 +27,11 @@
       <br>
       When: <input type="datetime-local" v-model="date">
       <br>
-      Band: <select name="bands" v-model="bandName">
-                <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
+      Band: <select name="bands" v-model="bandsid">
+                <option v-for="band in bandsList" :key="band.id" :value="band.id">{{ band.bandname }}</option>
+                <option value="none">None</option>
             </select>
+ 
     
       <br><br>
 
@@ -49,7 +51,7 @@ export default {
   data() {
     return {
       eventName: '',
-      bandName: '',
+      bandsid: '',
       description: '',
       eventlocation: '',
       eventcity: '',
@@ -65,7 +67,7 @@ export default {
       serverErrors: 'getCurrentErrors'
     }),
     bandsList() {
-      return this.$store.state.currentPageJson.data[2]
+      return this.$store.state.currentPageJson.data[0].bands
     }
   },
   methods: {
@@ -75,7 +77,7 @@ export default {
         if (!this.eventName.length) this.errors.push('Event must have a name.')
         if (!this.eventlocation.length) this.errors.push('Event must have a location')
         if (!this.date.length) this.errors.push('Event must have a date')
-        if (!this.bandName.length) this.errors.push('Please select one of your bands')
+        if (!this.bandsid) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {
@@ -83,8 +85,10 @@ export default {
             eventName: this.eventName,
             createdAt: new Date,
             eventLocation: this.eventlocation,
+            bandsid: this.bandsid,
             eventimage: this.$store.state.currentUploadedImage,
-            bandName: this.bandName,
+            eventcity: this.eventcity,
+            eventstate: this.eventstate,
             eventdescription: this.description,
             date: this.date,
             time: this.time,
