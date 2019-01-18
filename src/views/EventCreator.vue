@@ -71,7 +71,7 @@ export default {
         if (!this.eventName.length) this.errors.push('Event must have a name.')
         if (!this.eventlocation.length) this.errors.push('Event must have a location')
         if (!this.date.length) this.errors.push('Event must have a date')
-        if (!this.bandName.length) this.errors.push('Please select one of your bands')
+        if (!this.bandsid) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {

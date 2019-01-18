@@ -15,8 +15,8 @@
       <br>
       Regarding event on: <input type="datetime-local" v-model="calendarDate">
       <br>
-      Band: <select name="bands" v-model="bandName">
-                <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
+      Band: <select name="bands" v-model="bandsid">
+                <option v-for="band in bandsList" :key="band.id" :value="band.id">{{ band.bandname }}</option>
             </select>
     
       <br><br>
@@ -39,7 +39,7 @@ export default {
         noteTitle: '',
         noteBody: '',
         calendarDate: '',
-        bandName: '',
+        bandsid: '',
         errors: [],
         // file: '',
     }
@@ -50,7 +50,7 @@ export default {
     }),
     //need to check CPJ.data for accurate path
     bandsList() {
-      return this.$store.state.currentPageJson.data[2]
+      return this.$store.state.currentPageJson.data[0].bands
     }
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
 
         if (!this.noteTitle.length) this.errors.push('Note must have a title.')
         if (!this.noteBody.length) this.errors.push('Note must have a message')
-        if (!this.bandName.length) this.errors.push('Please select one of your bands')
+        if (!this.bandsid) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {
@@ -67,7 +67,7 @@ export default {
             noteTitle: this.noteTitle,
             noteBody: this.noteBody,
             calendarDate: this.calendarDate,
-            bandsid: 6,
+            bandsid: this.bandsid,
             postedat: new Date,
             errors: [],
             usersid: this.$store.state.userCredentials.usersid,

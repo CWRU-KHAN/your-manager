@@ -157,6 +157,13 @@ const dbLib = (() => {
       ['eventname', 'date', 'eventlocation', 'ownerid'],
       [eventName, date, eventLocation, usersid]
     )
+    .then(({insertId}) => {
+      return insertOne(
+        'bandsevents',
+        ['bandsid', 'eventsid'],
+        [bandsid, insertId]
+      )
+    })
       .then(results => {
         if (results.affectedRows === 0) {
           return {
