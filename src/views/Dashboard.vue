@@ -2,6 +2,8 @@
   <div>
     <h1>Dashboard</h1>
     <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
+    <router-link to="/user/changePassword">Change Password</router-link> |
+    <router-link to="/user/changeProfile">Change User Profile</router-link>
     <div id="CalendarView">
       <h4>Calendar</h4>
       <calendar-view :eventsProp="eventsForCalendar" />
@@ -19,7 +21,9 @@
     </div>
     <br>
     <h4>Events</h4>
+
     <div>
+      <router-link to="event/create">create an event</router-link>
       <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
       <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
         <h3>{{ band.name }}</h3>
@@ -31,6 +35,7 @@
     
     <br>
     <h4>Notes</h4>
+    <router-link to="/note/create"> write a note </router-link>
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
       <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
@@ -40,7 +45,6 @@
         </div>
       </div>
     </div>
-    <router-link to="event/create">go to event create</router-link>
     <br>
     <router-link to="event/info">go to event info</router-link>
   </div>
@@ -70,12 +74,7 @@ export default {
     EventCard,
     NoteCard
   },
-  
-  data() {
-    return { 
-      showDate: new Date(),
-    }
-  },
+
 
   computed: {
     hasBands() {
@@ -115,7 +114,6 @@ export default {
   
   methods: {
     goToBand(id) {
-      id = 34
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
     },

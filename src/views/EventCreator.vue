@@ -16,9 +16,16 @@
       <br><br>
       <br><br> 
       Name of event: <input type="text" placeholder="name of event" v-model="eventName">
+      <br>
       What: <input type="text" placeholder="event description" v-model="description">
+      <br>
       Where: <input type="text" placeholder="location" v-model="eventlocation">
+      <br>
       When: <input type="datetime-local" v-model="date">
+      <br>
+      Band: <select name="bands" v-model="bandName">
+                <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
+            </select>
     
       <br><br>
 
@@ -50,7 +57,10 @@ export default {
   computed: {
     ...mapGetters({
       serverErrors: 'getCurrentErrors'
-    })
+    }),
+    bandsList() {
+      return this.$store.state.currentPageJson.data[2]
+    }
   },
   methods: {
     submit() {
@@ -59,7 +69,7 @@ export default {
         if (!this.eventName.length) this.errors.push('Event must have a name.')
         if (!this.eventlocation.length) this.errors.push('Event must have a location')
         if (!this.date.length) this.errors.push('Event must have a date')
-
+        if (!this.bandName.length) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {
@@ -68,6 +78,7 @@ export default {
             createdAt: new Date,
             eventLocation: this.eventlocation,
             eventimage: this.$store.state.currentUploadedImage,
+            bandName: this.bandName,
             eventdescription: this.description,
             date: this.date,
             time: this.time,

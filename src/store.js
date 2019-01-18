@@ -50,6 +50,9 @@ export default new Vuex.Store({
     fillBandData(state, { data }){
       state.currentBand = data
     },
+    fillEventData(state, { data }){
+      state.currentEvent = data
+    },
     setBandCredentials(state, id){
       state.bandCredentials.bandsid = id
     },
@@ -133,6 +136,7 @@ export default new Vuex.Store({
     },
     createEvent({ commit }, details) {
       return axios.post('/api/event', details).then(({ data }) => {
+
         if (data.message) {
           commit('addError', data.message)
         } else {
@@ -151,7 +155,7 @@ export default new Vuex.Store({
       })
     },
     addUserToBand({ commit }, credentials) {
-      return axios.post('/api/bandmate', credentials).then(({ data })=> {
+      return axios.post('/api/bandmate', credentials).then(({ data }) => {
         if (data.message) {
           commit('addError', data.message)
         } else {

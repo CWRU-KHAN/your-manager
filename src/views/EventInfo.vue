@@ -1,6 +1,7 @@
 <template>
     <div>
         <h2>{{ this.$store.state.currentPageJson.data.eventname }}</h2>
+        <router-link to="/event/changeProfile">Change Event Details</router-link>
         <h4> {{ formattedDate}} </h4>
         <h4>{{ this.$store.state.currentPageJson.data.eventlocation }}</h4>
         <h4 v-if="eventDescription"> {{ eventDescription }} </h4>
