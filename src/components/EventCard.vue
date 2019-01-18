@@ -1,13 +1,20 @@
 <template>
   <div class="bordered">
     
-
+<div class="form-box">
+          <div class="row">
+            <div class="col">
     <img src="https://via.placeholder.com/225x125.png" alt="placeholder">
-    <p> {{ eventInfo.eventname }} </p>
+    <p class="event-name"> {{ eventInfo.eventname }} </p>
     <p> {{ formattedDate }} </p>
     <p> {{ formattedTime }} </p>
     <p> {{ eventInfo.eventlocation }} </p>
+    <p> {{ eventInfo.eventcity }} </p>
+    <p> {{ eventInfo.eventstate }} </p>
     <button type="button" @click="viewEvent">View Event Details</button>
+            </div>
+            </div>
+            </div>
   </div>
   
 </template>
@@ -28,8 +35,8 @@ export default {
   ],
   methods: {
     viewEvent() {
-      this.$store.commit('setEvent', {eventsid: this.eventInfo.id})
-      this.$router.push('/event/info')
+      this.$store.commit('setEvent', this.eventInfo.id)
+      this.$router.push('event/info')
     }
   }
 }
@@ -41,4 +48,10 @@ export default {
   margin: 10px;
   padding: 10px;
 }
+
+p.event-name {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em
+}
+
 </style>

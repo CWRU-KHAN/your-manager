@@ -79,7 +79,6 @@ export default {
       let formData = new FormData()
       formData.append('file', this.file)
       this.$store.dispatch('uploadImg', formData)
-        .then(() => this.bandimage = this.$store.getters.getCurrentUploadedImage)
     }
   }
 }

@@ -10,16 +10,20 @@
         </ul>
       </p>
 
-      <!-- <img src="" alt="no image">
-      <input type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
+      <img src="" alt="no image">
+      <input type="file" name="file" id="eventImg" ref="file" accept="image/*" v-on:change="processUpload()">
       <button type="button" @click='submitImage()'>Submit Image</button>
       <br><br>
-      <br><br> -->
+      <br><br> 
       Name of event: <input type="text" placeholder="name of event" v-model="eventName">
       <br>
       What: <input type="text" placeholder="event description" v-model="description">
       <br>
-      Where: <input type="text" placeholder="location" v-model="eventlocation">
+      Venue Name: <input type="text" placeholder="location" v-model="eventlocation">
+      <br>
+      City: <input type="text" placeholder="city" v-model="eventcity">
+      <br>
+      State: <input type="text" placeholder="state" v-model="eventstate">
       <br>
       When: <input type="datetime-local" v-model="date">
       <br>
@@ -50,6 +54,8 @@ export default {
       bandsid: '',
       description: '',
       eventlocation: '',
+      eventcity: '',
+      eventstate: '',
       date: '',
       time: '12:00',
       errors: [],
@@ -79,8 +85,10 @@ export default {
             eventName: this.eventName,
             createdAt: new Date,
             eventLocation: this.eventlocation,
-            // eventImage: this.eventImage,
             bandsid: this.bandsid,
+            eventimage: this.$store.state.currentUploadedImage,
+            eventcity: this.eventcity,
+            eventstate: this.eventstate,
             eventdescription: this.description,
             date: this.date,
             time: this.time,
@@ -92,16 +100,14 @@ export default {
         this.$store.dispatch('createEvent', eventInfo)
       }
     },
-    processUpload () {
+     processUpload () {
       this.file = this.$refs.file.files[0]
-      // this.fileChosen = true
+    },
+    submitImage() {
+      let formData = new FormData()
+      formData.append('file', this.file)
+      this.$store.dispatch('uploadImg', formData)
     }
-    // submitImage() {
-    //   let formData = new FormData()
-    //   formData.append('file', this.file)
-    // //   this.$store.dispatch('uploadImg', formData)
-    //     // .then(() => this.bandimage = this.$store.getters.getCurrentUploadedImage)
-    // }
   }
 }
 </script>
