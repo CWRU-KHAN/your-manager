@@ -131,12 +131,11 @@ export default new Vuex.Store({
         }
       })
     },
-    createEvent({ commit }, data) {
-      return axios.post('/api/event', data).then(({ data }) => {
+    createEvent({ commit }, details) {
+      return axios.post('/api/event', details).then(({ data }) => {
         if (data.message) {
           commit('addError', data.message)
         } else {
-        console.log(data)
         commit('setEvent', data.insertId)
         router.push({name: 'eventInfo'})
         }
