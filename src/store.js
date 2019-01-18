@@ -53,8 +53,8 @@ export default new Vuex.Store({
     setBandCredentials(state, id){
       state.bandCredentials.bandsid = id
     },
-    setEvent(state, { eventsid }){
-      state.eventsid = eventsid
+    setEvent(state, id){
+      state.eventsid = id
     },
     fillCalendar(state, data) {
       state.calendarData = data
@@ -66,7 +66,6 @@ export default new Vuex.Store({
       state.bandToken = data
     },
     setCurrentUploadedImage(state, data) {
-      console.log(data)
       state.currentUploadedImage = data
     },
     addError(state, error){
@@ -83,7 +82,6 @@ export default new Vuex.Store({
     },
     addBandDashboardEvents(state, data) {
       state.bandDashboardEvents = state.bandDashboardEvents.concat(data)
-      console.log("events is empty?" + bandDashboardEvents)
     },
     addBandDashboardNotes(state, data) {
       state.bandDashboardNotes = state.bandDashboardNotes.concat(data)
@@ -124,7 +122,7 @@ export default new Vuex.Store({
           }
       })
     },
-    createBand(context, credentials) {
+    createBand({ commit }, credentials) {
       return axios.post('/api/band', credentials).then(({ data }) => {
         if (data.message) {
           commit('addError', data.message)
@@ -133,17 +131,19 @@ export default new Vuex.Store({
         }
       })
     },
-    createEvent(context, data) {
+    createEvent({ commit }, data) {
       return axios.post('/api/event', data).then(({ data }) => {
         if (data.message) {
           commit('addError', data.message)
         } else {
-        router.push({name: 'bandDashboard'})
+        console.log(data)
+        commit('setEvent', data.insertId)
+        router.push({name: 'eventInfo'})
         }
       })
     },
-    createNote(context, data) {
-      return axios.post('/api/note', data).then(res => {
+    createNote({ commit }, data) {
+      return axios.post('/api/note', data).then(({ data }) => {
         if (data.message) {
           commit('addError', data.message)
         } else {
@@ -151,8 +151,8 @@ export default new Vuex.Store({
         }
       })
     },
-    addUserToBand(context, credentials) {
-      return axios.post('/api/bandmate', credentials).then(res => {
+    addUserToBand({ commit }, credentials) {
+      return axios.post('/api/bandmate', credentials).then(({ data })=> {
         if (data.message) {
           commit('addError', data.message)
         } else {

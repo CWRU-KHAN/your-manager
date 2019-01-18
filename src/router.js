@@ -104,9 +104,9 @@ export default new Router({
         else next('/login')
       }
     },
-    {
+    // {
       
-    },
+    // },
     {
       path: '*',
       redirect: '/'
