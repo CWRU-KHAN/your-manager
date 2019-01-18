@@ -150,12 +150,12 @@ const dbLib = (() => {
   }
 
   // adds an event to the database, takes an event object
-  const addNewEvent = ({ eventName, date, eventLocation, usersid, token, userName, eventimage, eventdescription }) => {
+  const addNewEvent = ({ eventName, date, eventLocation, eventcity, eventstate, usersid, token, userName, eventimage, eventdescription }) => {
     verifyToken(userName, token)
     return insertOne(
       'events',
-      ['eventname', 'date', 'eventlocation', 'eventdescription', 'eventimage', 'ownerid'],
-      [eventName, date, eventLocation, eventdescription, eventimage, usersid]
+      ['eventname', 'date', 'eventlocation', 'eventcity', 'eventstate', 'ownerid', 'eventdescription', 'eventimage'],
+      [eventName, date, eventLocation, eventcity, eventstate, usersid, eventdescription, eventimage]
     )
       .then(results => {
         if (results.affectedRows === 0) {
@@ -294,7 +294,7 @@ const dbLib = (() => {
         bandsid
       )]
     )
-      .then(results => {
+      .then(results => {        
         if (results[0].affectedRows === 0) throw new Error('500: Not a valid band.')
         return results
       })
@@ -387,7 +387,7 @@ const dbLib = (() => {
         'bandsid',
         'events',
         'bands',
-        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventimage'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventcity', 'eventstate', 'eventimage'],
         ['bandname', 'id'],
         eventsid
       ),
@@ -415,7 +415,7 @@ const dbLib = (() => {
         'bands',
         'events',
         ['bandname'],
-        ['eventname', 'eventdescription', 'date', 'eventlocation'],
+        ['eventname', 'eventdescription', 'date', 'eventlocation', 'eventcity', 'eventstate'],
         bandsid
       ),
       selectSomeWhere(
@@ -526,7 +526,7 @@ const dbLib = (() => {
             'bands', 
             'events', 
             ['bandname'], 
-            ['eventname', 'date', 'eventlocation', 'id'],
+            ['eventname', 'date', 'eventlocation', 'eventcity', 'eventstate', 'id'],
             result.bandsid
           )
         })
