@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <site-navbar></site-navbar>
+    <site-navbar id="side-nav"></site-navbar>
     <router-view/>
   </div>
 </template>
@@ -24,14 +24,11 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+
+#side-nav {
+  float: left;
+  margin: 0 1em 0em 0em;
+  padding: 0;
 }
+
 </style>
