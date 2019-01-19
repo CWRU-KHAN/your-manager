@@ -30,7 +30,7 @@
                   <input
                       id="message"
                       class="form-control"
-                      type="text"
+                      type="textarea"
                       placeholder=""
                       v-model="noteBody">
                 </label>
