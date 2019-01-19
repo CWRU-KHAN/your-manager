@@ -94,7 +94,9 @@ export default {
         false
     },
     eventsForCalendar() {
-      const formattedEvents = this.$store.state.currentPageJson.data[2]
+      const rawEvents = this.$store.state.currentPageJson.data[2]
+      if (!rawEvents.length) return []
+      const formattedEvents = rawEvents
       .map(band => {
         const calendarEvents = band.events.map(event => {
           return {

@@ -145,7 +145,6 @@ app.post('/api/note/', (req, res) => {
 app.get('/api/band/:id', (req, res) => {
   getBandInfo({ bandsid: req.params.id })
     .then(results => {
-      console.log(results)
       if (results.error) throw results.error
       res.json(results)
     })    
@@ -257,14 +256,18 @@ app.get('/api/userdashboard/:id', (req, res) => {
         }
     }, {})),
     getUserNotes({ usersid: req.params.id })
-      .then(notesRes => notesRes.map(result => {
-        if (result.length === 0) return result
-        return {
-          name: result[0].bandname,
-          bandsid: result[0].id,
-          notes: result
-        }      
-      })),
+      .then(notesRes => {
+        console.log("notesres",notesRes)
+        return notesRes.map(result => {
+          if (result.length === 0) return result
+          return {
+            name: result[0].bandname,
+            bandsid: result[0].id,
+            notes: result
+          }      
+        }
+      )
+    }),
     getUserEvents({ usersid: req.params.id })
       .then(eventsRes => eventsRes.map(result => {
         if (result.length === 0) return result

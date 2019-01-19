@@ -469,7 +469,7 @@ const dbLib = (() => {
     .then(results => {
       const bandsWithNotes = results.filter(bandNotes => bandNotes.length)
 
-
+      if (!bandsWithNotes.length) return [results]
       const userIdList = bandsWithNotes.map(band => {
         return band.reduce((acc, cur) => {
           return acc.includes(cur.usersid) ? acc : acc.concat(cur.usersid)
@@ -492,9 +492,9 @@ const dbLib = (() => {
     })
     .then(results => {
       if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
-
+      if (results.length === 1) return results[0]
       const [bands, ...userArray] = results
-
+      
       const userMap = userArray
         .reduce((acc, cur) => acc.concat(cur))
         .reduce((acc, cur) => {
