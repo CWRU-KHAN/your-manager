@@ -1,40 +1,96 @@
 <template>
   <div>
-    <h3>Profile Information</h3>
-
-    <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="error in errors" :key="error">{{ error }}</li>
-      </ul>
-    </p>
-
+  <div class="container mx-auto">
+    <div class="form-box-register">
+      <div class="row">
+        <div class="col">
+          <h1>User Profile</h1>
+        </div>
+      </div>
     <form>
-      <label for="email"> Email
-        <input type="text" id="email" v-model="email">
-      </label>
 
-      <label for="username"> Username
-        <input type="text" id="username" v-model="username">
-      </label>
+    <div class="row">
+      <div class="col mt-4">
+        <label for="email"> Email
+          <input
+            class="form-control"
+            type="text" 
+            id="email"
+            v-model="email"
+          />
+        </label>
+      </div>
+    </div>
 
-      <label for="firstname"> First Name
-        <input type="text" id="firstname" v-model="firstname">
+    <div class="row">
+      <div class="col mt-4">
+        <label for="username"> Username
+        <input 
+          class="form-control"
+          type="text"
+          id="username"
+          v-model="username"
+        />
       </label>
+      </div>
+    </div>
 
-      <label for="lastname"> Last Name
-        <input type="text" id="lastname" v-model="lastname">
-      </label>
+    <div class="row">
+      <div class="col mt-4">
+        <label for="firstname"> First Name
+          <input
+            class="form-control"
+            type="text"
+            id="firstname"
+            v-model="firstname">
+        </label>
+      </div>
+    </div>
 
-      <label for="userimage"> Profile Image
-        <h3 v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</h3>
-        <img :src="displayImage" alt="User Profile">
-        <input v-if="!upload1" type="file" name="file" id="userImg" ref="file" accept="image/*" v-on:change="processUpload()">
-        <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
-      </label>
+    <div class="row">
+      <div class="col mt-4">
+        <label for="lastname"> Last Name
+          <input
+            class="form-control"
+            type="text"
+            id="lastname"
+            v-model="lastname">
+        </label>
+      </div>
+    </div>
 
-      <button type="button" @click="submit">Save Changes</button>
+    <div class="row">
+      <div class="col mt-4">
+        <label for="userimage"> Profile Image
+          <h3 class="form-header" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</h3>
+          <img :src="displayImage" alt="User Profile">
+          <input v-if="!upload1" type="file" name="file" id="userImg" ref="file" accept="image/*" v-on:change="processUpload()">
+          <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col mt-4">
+        <button type="button" @click="submit">Save Changes</button>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col mt-4">
+        <p v-if="errors.length">
+          <b>Please correct the following error(s):</b>
+          <ul>
+            <li v-for="error in errors" :key="error">{{ error }}</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+
     </form>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -109,5 +165,9 @@ export default {
 <style scoped>
   label {
     display: block;
+  }
+
+  .form-header {
+    font-family: 'Open Sans', 'sans-serif'
   }
 </style>
