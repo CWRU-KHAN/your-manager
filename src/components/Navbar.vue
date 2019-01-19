@@ -122,7 +122,7 @@ export default {
 
   .btn-login {
     background-color: transparent;
-    border: solid 1px #ededed;
+    border: solid 2px transparent;
     color: #ededed;
   }
 
@@ -134,7 +134,7 @@ export default {
   
   .btn-logout {
     background-color: #d9534f;
-    border: solid 1px #d9534f;
+    border: solid 2px transparent;
     color: #ededed;
   }
 
@@ -146,7 +146,7 @@ export default {
 
   .btn-register {
     background-color: #fbaf2c;
-    border: solid 1px #fbaf2c;
+    border: solid 2px transparent;
     color: #373737;
   }
 
@@ -158,7 +158,7 @@ export default {
   
   .btn-dashboard {
     background-color: #fbaf2c;
-    border: solid 1px #fbaf2c;
+    border: solid 2px transparent;
     color: #373737;
   }
 
@@ -170,7 +170,7 @@ export default {
   
   .btn-event-create {
     background-color: #677794;
-    border: solid 1px #677794;
+    border: solid 2px transparent;
     color: #ededed;
   }
 
@@ -182,7 +182,7 @@ export default {
 
   .btn-note-create {
     background-color: #979797;
-    border: solid 1px #979797;
+    border: solid 2px transparent;
     color: #ededed;
   }
 
