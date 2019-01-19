@@ -42,7 +42,7 @@
                   <input
                       id="note-date"
                       class="form-control"
-                      type="text"
+                      type="date"
                       placeholder=""
                       v-model="calendarDate">
                 </label>
