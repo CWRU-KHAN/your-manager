@@ -7,7 +7,7 @@
                     <div @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>
                 </div>
                 <div class="col-lg-3 col-md-6 band">
-                    <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+                    <i class="fa fa-plus btn-icon" aria-hidden="true" @click="goToCreate()"></i>
                 </div>
                 <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 col-md-6 band">
                     <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
@@ -158,6 +158,9 @@ export default {
     goToBand(id) {
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
+    },
+    goToCreate() {
+      this.$router.push({name : "joinBand"})
     }
   }
 }
