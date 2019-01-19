@@ -1,43 +1,139 @@
 <template>
   <div>
-    <h1>Create an Event</h1>
+  <div class="container mx-auto">
     <form >
+        <div class="form-box-register">
+          <div class="row">
+            <div class="col">
+              <h1>Create an Event</h1>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col">
+              <img src="" alt="no image"><br>
+              <input class="form-control" type="file" name="file" id="eventImg" ref="file" accept="image/*" v-on:change="processUpload()">
+              <button type="button" @click='submitImage()'>Submit Image</button>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col mt-4">
+              <label for="event-name">Name of Event
+                <input 
+                    class="form-control"
+                    type="text"
+                    id="event-name"
+                    v-model="eventName"
+                    placeholder=""
+                  />
+                </label>
+  
+              <label for="event-date">Date
+                <input 
+                    class="form-control"
+                    type="datetime-local"
+                    id="event-date"
+                    v-model="date"
+                    placeholder=""
+                  />
+                </label> <br>
+            
+              <label for="event-description">Description
+                <input 
+                    class="form-control"
+                    type="textarea"
+                    id="event-description"
+                    v-model="description"
+                    placeholder=""
+                  />
+                </label> <br>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col mt-4">
+              <h1>Venue Information</h1>
 
-      <p v-if="errors.length">
-        <b>Please correct the following error(s):</b>
-        <ul>
-          <li v-for="error in errors" :key="error">{{ error }}</li>
-        </ul>
-      </p>
+              <label for="event-location">Venue Name
+                <input 
+                    class="form-control"
+                    type="text"
+                    id="event-location"
+                    v-model="eventlocation"
+                    placeholder=""
+                  />
+                </label>
 
-      <img src="" alt="no image">
-      <input type="file" name="file" id="eventImg" ref="file" accept="image/*" v-on:change="processUpload()">
-      <button type="button" @click='submitImage()'>Submit Image</button>
-      <br><br>
-      <br><br> 
-      Name of event: <input type="text" placeholder="name of event" v-model="eventName">
-      <br>
-      What: <input type="text" placeholder="event description" v-model="description">
-      <br>
-      Venue Name: <input type="text" placeholder="location" v-model="eventlocation">
-      <br>
-      City: <input type="text" placeholder="city" v-model="eventcity">
-      <br>
-      State: <input type="text" placeholder="state" v-model="eventstate">
-      <br>
-      When: <input type="datetime-local" v-model="date">
-      <br>
-      Band: <select name="bands" v-model="bandsid">
-                <option v-for="band in bandsList" :key="band.id" :value="band.id">{{ band.bandname }}</option>
-                <option value="none">None</option>
-            </select>
- 
+              <label for="event-city">City
+                <input 
+                    class="form-control"
+                    type="text"
+                    id="event-city"
+                    v-model="eventcity"
+                    placeholder=""
+                  />
+                </label>
+
+              <label for="event-state">State
+                <input 
+                    class="form-control"
+                    type="text"
+                    id="event-state"
+                    v-model="eventstate"
+                    placeholder=""
+                  />
+                </label>
+            </div>
+          </div>
+  
     
-      <br><br>
+          <div class="row">
+            <div class="col mt-4">
+              <h1>Band Information</h1>
+            </div>
+          </div>
 
-      <button type='button' @click='submit'>Create Event</button>
+          <div class="row">
+            <div class="col mt-4">
+              <label for="event-bands">Your Band
+                <select 
+                    class="form-control"
+                    type="text"
+                    id="event-bands"
+                    v-model="bandName"
+                    placeholder=""
+                  >
+                    <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
+                  </select>
+                </label>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col mt-4">
+              <button class="btn btn-event-create-2" type='button' @click='submit'>
+                  <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+                    Create Event
+              </button>
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col">
+              <p v-if="errors.length">
+                <b>Please correct the following error(s):</b>
+                <ul>
+                  <li v-for="error in errors" :key="error">{{ error }}</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+        </div>
     </form>
+        </div>
+      
   </div>
 </template>
 
@@ -51,7 +147,7 @@ export default {
   data() {
     return {
       eventName: '',
-      bandsid: '',
+      bandName: '',
       description: '',
       eventlocation: '',
       eventcity: '',
@@ -67,7 +163,7 @@ export default {
       serverErrors: 'getCurrentErrors'
     }),
     bandsList() {
-      return this.$store.state.currentPageJson.data[0].bands
+      return this.$store.state.currentPageJson.data[2]
     }
   },
   methods: {
@@ -77,7 +173,7 @@ export default {
         if (!this.eventName.length) this.errors.push('Event must have a name.')
         if (!this.eventlocation.length) this.errors.push('Event must have a location')
         if (!this.date.length) this.errors.push('Event must have a date')
-        if (!this.bandsid) this.errors.push('Please select one of your bands')
+        if (!this.bandName.length) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {
@@ -85,10 +181,8 @@ export default {
             eventName: this.eventName,
             createdAt: new Date,
             eventLocation: this.eventlocation,
-            bandsid: this.bandsid,
             eventimage: this.$store.state.currentUploadedImage,
-            eventcity: this.eventcity,
-            eventstate: this.eventstate,
+            bandName: this.bandName,
             eventdescription: this.description,
             date: this.date,
             time: this.time,
@@ -112,3 +206,28 @@ export default {
   }
 }
 </script>
+
+<style>
+
+  label {
+    font-family: 'Open Sans', 'sans-serif';
+    font-size: 1em;
+    letter-spacing: .2em;
+    text-transform: uppercase
+  }
+
+  .btn-event-create-2 {
+    font-size: 1em;
+    padding: .5em 3em .5em 3em;
+    background-color: #677794;
+    border: solid 1px #677794;
+    color: #ededed
+  }
+
+  .btn-event-create-2:hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #677794
+  }
+
+</style>

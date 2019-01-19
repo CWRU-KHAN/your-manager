@@ -1,57 +1,91 @@
 <template>
-  <div>
-    <img src="../assets/ym-logo-bad.png" alt="Your Manager Logo">
-    <form>
-    
+  <div class="container py-4 my-3 mx-auto">
+      <form>
+    <div class="row justify-content-start">
+      <div class="col">
+        <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
+      </div>
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
+        <div class="form-box">
+          <div class="row">
+            <div class="col">
+    <h1>Change Password</h1>
+    </div>
+          </div>
+    <div class="row">
+            <div class="col">
     <p v-if="errors.length">
       <b>Please correct the following error(s):</b>
       <ul>
         <li v-for="error in errors" :key="error">{{ error }}</li>
       </ul>
     </p>
+</div>
+          </div>
 
-    <h3>Change Password</h3>
-      <label for="currentPassword"> Current Password
-        <input 
-          :type="show1 ? 'text' : 'password'"
-          id="currentPassword"
-          v-model="currentPassword"          
-          autocomplete="current-password"
-        />
-      </label>
+        <div class="row">
+          <div class="col mt-4">
+            <label for="currentPassword"> Current Password
+              <input
+                class="form-control"
+                :type="show1 ? 'text' : 'password'"
+                id="currentPassword"
+                v-model="currentPassword"          
+                autocomplete="current-password"
+              />
+            </label>
+          </div>
+        </div>
 
-      <label for="newPassword"> New Password
-        <input 
-          :type="show1 ? 'text' : 'password'" 
-          id="newPassword"
-          v-model="newPassword"
-          placeholder="At least 8 characters"
-          autocomplete="new-password"
-        />
-      </label>
+        <div class="row">
+          <div class="col mt-4">
+            <label for="newPassword"> New Password
+              <input
+                class="form-control"
+                :type="show1 ? 'text' : 'password'" 
+                id="newPassword"
+                v-model="newPassword"
+                placeholder="At least 8 characters"
+                autocomplete="new-password"
+              />
+            </label>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col mt-4">
+            <label for="confirmPassword"> Confirm Password
+              <input
+                class="form-control"
+                :type="show1 ? 'text' : 'password'" 
+                id="confirmPassword"
+                v-model="confirmPassword"
+                placeholder="At least 8 characters"
+                autocomplete="new-password"
+              />
+            </label>
+              <button 
+                class="btn btn-show-password-2"
+                @click="show1 = !show1"
+                type="button"> 
+                  {{ !show1 ? "Show Password" : "Hide Password" }} 
+              </button>
+          </div>
+        </div>
 
-      <label for="confirmPassword"> Confirm Password
-        <input 
-          :type="show1 ? 'text' : 'password'" 
-          id="confirmPassword"
-          v-model="confirmPassword"
-          placeholder="At least 8 characters"
-          autocomplete="new-password"
-        />
-      </label>
-
-      <button 
-        @click="show1 = !show1"
-        type="button"> 
-          {{ !show1 ? "Show Password" : "Hide Password" }} 
-      </button>
-
-      <button 
-        type="button" 
-        @click="submit">
-        Change Password
-      </button>
-      
+       <div class="row">
+          <div class="col mt-4">
+            <button 
+              class="btn btn-register-2"
+              type="button" 
+              @click="submit">
+              Change Password
+            </button>
+            </div>
+      </div>
+        </div>
+      </div>
+    </div>
     </form>
   </div>
 </template>

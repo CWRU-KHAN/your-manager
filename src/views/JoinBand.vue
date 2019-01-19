@@ -1,11 +1,35 @@
 <template>
-  <div>
+  <div class="container mx-auto">
+    <div class="form-box-register">
+      <div class="row">
+        <div class="col">
+            <h1>Join A Band</h1>
+            <h4>Please paste the unique band-code below</h4><hr>
+        </div>
+      </div>
+    <form>
+    
+    <div class="row">
+      <div class="col mt-4">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="band-code"
+          v-model="token">
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col mt-4">
+        <button
+          class="btn btn-register-2"
+          @click="submit()"> Join
+        </button>
+      </div>
+    </div>
 
-    <h1>Join A Band</h1>
-    <h4>Please paste the unique band-code below</h4>
-    <input type="text" placeholder="band-code" v-model="token">
-    <button @click="submit()">Join</button>
-
+    </form>  
+    </div>
   </div>
 </template>
 
