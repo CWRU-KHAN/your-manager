@@ -42,7 +42,7 @@
                   <input
                       id="note-date"
                       class="form-control"
-                      type="text"
+                      type="datetime-local"
                       placeholder=""
                       v-model="calendarDate">
                 </label>
@@ -56,7 +56,7 @@
                       name="bands"
                       class="form-control"
                       v-model="bandsid">
-                  <option v-for="band in bandsList" :key="band.id">{{ band.bandname }}</option>
+                  <option v-for="band in bandsList" :key="band.id" :value="band.id">{{ band.bandname }}</option>
                   </select>
                 </label>
             </div>

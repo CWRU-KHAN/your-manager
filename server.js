@@ -257,7 +257,6 @@ app.get('/api/userdashboard/:id', (req, res) => {
     }, {})),
     getUserNotes({ usersid: req.params.id })
       .then(notesRes => {
-        console.log("notesres",notesRes)
         return notesRes.map(result => {
           if (result.length === 0) return result
           return {

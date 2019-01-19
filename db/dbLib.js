@@ -240,6 +240,7 @@ const dbLib = (() => {
   // adds a new note
   const addNewNote = ({ token, userName, bandsid, usersid, calendarDate, noteTitle = 'Untitled', noteBody }) => {
     verifyToken(userName, token)
+
     const postedAt = new Date
     return insertOne(
       'notes',
@@ -257,7 +258,7 @@ const dbLib = (() => {
        }
         return results
       })
-      .catch(translateDbErr)
+      .catch(err => console.log(err))
   }
 
   // gets a band token for sharing
