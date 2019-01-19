@@ -141,7 +141,7 @@ export default new Vuex.Store({
           commit('addError', data.message)
         } else {
         commit('setEvent', data.insertId)
-        router.push({name: 'eventInfo'})
+        router.push({name: 'dashboard'})
         }
       })
     },
@@ -150,7 +150,7 @@ export default new Vuex.Store({
         if (data.message) {
           commit('addError', data.message)
         } else {
-        router.push({name: 'eventInfo'})
+        router.push({name: 'dashboard'})
         }
       })
     },

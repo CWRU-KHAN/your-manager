@@ -45,8 +45,6 @@
         </div>
       </div>
     </div>
-    <br>
-    <router-link to="event/info">go to event info</router-link>
   </div>
 </template>
 
