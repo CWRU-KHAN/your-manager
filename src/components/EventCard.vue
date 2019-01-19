@@ -1,7 +1,6 @@
 <template>
-  <div class="bordered">
     
-<div class="form-box">
+<!-- <div class="form-box">
           <div class="row">
             <div class="col">
     <img src="https://via.placeholder.com/225x125.png" alt="placeholder">
@@ -14,8 +13,13 @@
     <button type="button" @click="viewEvent">View Event Details</button>
             </div>
             </div>
-            </div>
-  </div>
+            </div> -->
+  <tr>
+      <td>{{ eventInfo.eventname }}</td>
+      <td>{{ formattedDate }}</td>
+      <td>{{ eventInfo.eventlocation }}</td>
+      <td><button type="button" @click="viewEvent">View Details</button></td>
+  </tr>
   
 </template>
 

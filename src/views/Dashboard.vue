@@ -1,78 +1,82 @@
-<template>
-  <div class="container">
-    <h1>Dashboard</h1><br><hr><br>
-    <img src="this.$store.state.currentPageJson.data[0].userimage">
-    <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
-    
-    <router-link
-      class="btn btn-event-create"
-      to="/user/changeProfile">Change User Profile
-    </router-link>
-    
-    <br><hr><br>
-    
-    <div id="CalendarView">
-      <h4>Calendar</h4>
-      <calendar-view :eventsProp="eventsForCalendar" />
-    </div>
-    
-    <br><hr><br>
-
-        <h4>Bands</h4>
-            <div>
-              <p v-if="!hasBands">No Bands Exist</p>
-              <ul v-if="hasBands">
-                <li v-for="userBand in bandsList" :key="'bandid' + userBand.id"> <button type="button" @click="goToBand(userBand.id)">{{ userBand.bandname }}</button> </li>
-              </ul>
-              <router-link class="btn btn-event-create" to='/band/create'>Create A Band</router-link>
-              <router-link class="btn btn-note-create" to='/band/join'>Join A Band</router-link>
-              <br>
+    <template>
+        <div class="container-fluid">
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-lg-3 band" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
+                    <div @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>
+                </div>
+                <div class="col-lg-3 band">
+                    <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+                </div>
+                <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 band">
+                    <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+                </div>
             </div>
-    
 
-    <br><hr><br>
-    
-    <div class="col-6 events-box">
-      <h4>Events</h4>
+            <br>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-lg-9">
+                    <div id="CalendarView">
+                        <calendar-view :eventsProp="eventsForCalendar" />
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <img class="profPic" :src="computedImage">
+                    <br>
+                    <h2> {{ `${this.$store.state.currentPageJson.data[0].username}` }} </h2>
+                    <router-link class="btn btn-event-create" to="/user/changeProfile">Change User Profile</router-link>
+                </div>
+            </div>
 
-    <div>
-      <router-link
-        class="btn btn-event-create"
-        to="event/create">create an event
-      </router-link>
-      
-      <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
-      <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
-        <h3>{{ band.name }}</h3>
-        <div v-for="event in band.events" :key="event.id"> 
-          <event-card :eventInfo="event"></event-card> 
+            <br>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-6 events-box">
+                    <h4>Events</h4>
+
+                    <div>
+                        <router-link class="btn btn-event-create" to="event/create">create an event
+                        </router-link>
+
+                        <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
+                        <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
+                          <div class="form-box">
+                            <h3>{{ band.name }}</h3>
+                            <table>
+                                  <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Venue</th>
+                                    <th>Info</th>
+                                  </tr>
+                                  <event-card v-for="event in band.events" :key="event.id" :event-info="event"/>
+                            </table>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h4>Notes</h4>
+                    <router-link class="btn btn-note-create" to="/note/create"> write a note
+                    </router-link>
+
+                    <div>
+                        <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>
+                        <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
+                            <h3>{{ band.name }}</h3>
+                            <div v-for="note in band.notes" :key="note.id">
+                                <note-card :noteInfo="note"></note-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    </div>
-    
-    <div class="col-6 notes-box">
-
-    <h4>Notes</h4>
-    <router-link
-      class="btn btn-note-create"
-      to="/note/create"> write a note
-    </router-link>
-    
-    <div>
-      <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
-      <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
-        <h3>{{ band.name }}</h3>
-        <div v-for="note in band.notes" :key="note.id">
-          <note-card :noteInfo="note"></note-card>
-        </div>
-      </div>
-    </div>
-
-    </div>
-
-  </div>
-</template>
+    </template>
 
 <style scoped>
 .bandBox {
@@ -136,6 +140,11 @@ export default {
 
       return formattedEvents
     },
+    computedImage() {
+      return this.$store.state.currentPageJson.data[0].userimage ?
+       this.$store.state.currentPageJson.data[0].userimage :
+       false
+    }
   },
   
   methods: {
@@ -204,6 +213,7 @@ export default {
     background-color: transparent;
     border: solid 2px #fbaf2c;
     color: #fbaf2c
+    
   }
   
   .btn-dashboard {
@@ -227,7 +237,8 @@ export default {
   .btn-event-create:hover {
     background-color: transparent;
     border: solid 2px #677794;
-    color: #ededed
+    color: #677794;
+
   }
 
   .btn-note-create {
@@ -240,6 +251,23 @@ export default {
     background-color: transparent;
     border: solid 2px #979797;
     color: #ededed
+  }
+
+  .profPic {
+    width: 100%;
+    border: 2px solid #979797;
+    border-radius: 5px;
+  }
+
+  .band {
+    height: 100px;
+    line-height: 100px;
+    border: 2px solid #979797;
+  }
+
+  .bandBox {
+    height: 200px;
+    overflow: scroll;
   }
 
 </style>
