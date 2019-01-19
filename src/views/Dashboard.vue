@@ -3,7 +3,6 @@
     <h1>Dashboard</h1><br><hr><br>
     <img src="this.$store.state.currentPageJson.data[0].userimage">
     <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
-    <router-link class="btn btn-register" to="/user/changePassword">Change Password</router-link>
     
     <router-link
       class="btn btn-event-create"
