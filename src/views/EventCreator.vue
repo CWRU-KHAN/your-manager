@@ -220,7 +220,7 @@ export default {
     font-size: 1em;
     padding: .5em 3em .5em 3em;
     background-color: #677794;
-    border: solid 1px #677794;
+    border: solid 2px transparent;
     color: #ededed
   }
 
