@@ -30,7 +30,7 @@
                   <input
                       id="message"
                       class="form-control"
-                      type="text"
+                      type="textarea"
                       placeholder=""
                       v-model="noteBody">
                 </label>
@@ -42,8 +42,7 @@
                   <input
                       id="note-date"
                       class="form-control"
-                      type="datetime-local"
-
+                      type="date"
                       placeholder=""
                       v-model="calendarDate">
                 </label>
