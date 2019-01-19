@@ -220,8 +220,7 @@ export default {
     padding: .5em 3em .5em 3em;
     background-color: #677794;
     border: solid 1px #677794;
-    color: #ededed;
-
+    color: #ededed
   }
 
   .btn-event-create-2:hover {
