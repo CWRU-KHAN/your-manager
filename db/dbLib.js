@@ -79,7 +79,7 @@ const dbLib = (() => {
             code: 200,
             auth: true,
             token,
-            userName,
+            userName: data[0].username,
             usersid: data[0].id
           }
         })
@@ -552,6 +552,7 @@ const dbLib = (() => {
     verifyToken(userName, token)
     return updateOne('users', updates, `username = '${userName}'`)
     .then(results => {
+      // console.log(results)
       if (results.affectedRows === 0) throw new Error('500: No rows updated.')
       return results
     })
@@ -597,6 +598,7 @@ const dbLib = (() => {
         return results
       }) 
     })
+    .catch(err => console.log(err))
   }
 
   // update band information
