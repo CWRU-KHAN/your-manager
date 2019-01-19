@@ -140,6 +140,8 @@ export default {
         }
         this.$store.commit('clearErrors')
         this.$store.dispatch('createNote', noteInfo)
+        this.$router.push({"path" : "/dashboard"})
+
       }
     },
     processUpload () {

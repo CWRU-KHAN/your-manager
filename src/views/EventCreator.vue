@@ -192,6 +192,7 @@ export default {
         }
         this.$store.commit('clearErrors')
         this.$store.dispatch('createEvent', eventInfo)
+
       }
     },
      processUpload () {
