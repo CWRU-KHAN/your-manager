@@ -210,7 +210,7 @@ export default new Vuex.Store({
       return axios.put('/api/user/password', data)
         .then(success => {
           if (!success) commit('addError', 'Password not changed.')
-          else router.push({name: 'dashboard'})
+          else router.push({name: 'changeUserProfile'})
         })
     },
     updateBandInfo({ commit }, data) {

@@ -22,6 +22,9 @@
       </div>
     </div>
 
+    <router-link class="btn btn-register" to="/user/changePassword">Change Password</router-link>
+
+
     <div class="row">
       <div class="col mt-4">
         <label for="username"> Username
@@ -169,5 +172,17 @@ export default {
 
   .form-header {
     font-family: 'Open Sans', 'sans-serif'
+  }
+
+  .btn-register {
+    background-color: #fbaf2c;
+    border: solid 2px transparent;
+    color: #373737;
+  }
+
+  .btn-register:hover {
+    background-color: transparent;
+    border: solid 2px #fbaf2c;
+    color: #fbaf2c
   }
 </style>
