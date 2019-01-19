@@ -101,10 +101,10 @@
                     class="form-control"
                     type="text"
                     id="event-bands"
-                    v-model="bandName"
+                    v-model="bandsid"
                     placeholder=""
                   >
-                    <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
+                    <option v-for="band in bandsList" :key="band.id" :value="band.id">{{ band.bandname }}</option>                    
                   </select>
                 </label>
             </div>
@@ -147,7 +147,7 @@ export default {
   data() {
     return {
       eventName: '',
-      bandName: '',
+      bandsid: '',
       description: '',
       eventlocation: '',
       eventcity: '',
@@ -163,7 +163,9 @@ export default {
       serverErrors: 'getCurrentErrors'
     }),
     bandsList() {
-      return this.$store.state.currentPageJson.data[2]
+      return this.$store.state.currentPageJson.data[0].bands ? 
+        this.$store.state.currentPageJson.data[0].bands :
+        false
     }
   },
   methods: {
@@ -173,7 +175,7 @@ export default {
         if (!this.eventName.length) this.errors.push('Event must have a name.')
         if (!this.eventlocation.length) this.errors.push('Event must have a location')
         if (!this.date.length) this.errors.push('Event must have a date')
-        if (!this.bandName.length) this.errors.push('Please select one of your bands')
+        if (!this.bandsid) this.errors.push('Please select one of your bands')
 
 
       if (!this.errors.length) {
@@ -182,7 +184,7 @@ export default {
             createdAt: new Date,
             eventLocation: this.eventlocation,
             eventimage: this.$store.state.currentUploadedImage,
-            bandName: this.bandName,
+            bandsid: this.bandsid,
             eventdescription: this.description,
             date: this.date,
             time: this.time,

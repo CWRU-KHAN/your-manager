@@ -541,7 +541,9 @@ const dbLib = (() => {
       )
     })
       .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
+        const testArray = results.reduce((a, b) => a.concat(b))
+
+        if (!testArray.length) return []
         return results
       })
       .catch(translateDbErr)

@@ -56,7 +56,7 @@ PRIMARY KEY (`id`)
 CREATE TABLE `bands`
 (
  `id`          integer auto_increment NOT NULL ,
- `bandname`    varchar(200) NOT NULL ,
+ `bandname`    varchar(200) NOT NULL UNIQUE ,
  `createdAt`   timestamp NOT NULL ,
  `bandimage`   varchar(500) ,
  `genre`       varchar(50) ,
