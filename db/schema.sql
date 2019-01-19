@@ -13,9 +13,9 @@ DROP TABLE IF EXISTS bandmates;
 CREATE TABLE `users`
 (
  `id`        integer auto_increment NOT NULL ,
- `username`  varchar(45) NOT NULL ,
+ `username`  varchar(45) NOT NULL UNIQUE ,
  `password`  varchar(500) NOT NULL ,
- `email`     varchar(100) NOT NULL ,
+ `email`     varchar(100) NOT NULL UNIQUE ,
  `userimage` varchar(500) ,
  `createdAt` timestamp NOT NULL ,
  `firstname` varchar(50) ,

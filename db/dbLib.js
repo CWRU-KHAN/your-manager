@@ -27,7 +27,7 @@ const dbLib = (() => {
     const { errno } = error
     const errorTable = {
       1062: {
-        message: 'Sorry, this name is already taken, please choose another.',
+        message: 'Sorry, this name or email address is already taken, please choose another.',
         code: 409
       },
       1048: {
