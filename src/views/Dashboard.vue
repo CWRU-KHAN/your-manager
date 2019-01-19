@@ -1,29 +1,47 @@
 <template>
-  <div>
-    <h1>Dashboard</h1>
+  <div class="container">
+    <h1>Dashboard</h1><br><hr><br>
+    <img src="this.$store.state.currentPageJson.data[0].userimage">
     <h2> {{ `Welcome ${this.$store.state.userCredentials.username}` }} </h2>
-    <router-link to="/user/changePassword">Change Password</router-link> |
-    <router-link to="/user/changeProfile">Change User Profile</router-link>
+    <router-link class="btn btn-register" to="/user/changePassword">Change Password</router-link>
+    
+    <router-link
+      class="btn btn-event-create"
+      to="/user/changeProfile">Change User Profile
+    </router-link>
+    
+    <br><hr><br>
+    
     <div id="CalendarView">
       <h4>Calendar</h4>
       <calendar-view :eventsProp="eventsForCalendar" />
     </div>
-    <br>
-    <h4>Bands</h4>
-    <div>
-      <p v-if="!hasBands">No Bands Exist</p>
-      <ul v-if="hasBands">
-        <li v-for="userBand in bandsList" :key="'bandid' + userBand.id"> <button type="button" @click="goToBand(userBand.id)">{{ userBand.bandname }}</button> </li>
-      </ul>
-      <router-link to='/band/create'>Create A Band</router-link>
-      <router-link to='/band/join'>Join A Band</router-link>
-      <br>
-    </div>
-    <br>
-    <h4>Events</h4>
+    
+    <br><hr><br>
+
+        <h4>Bands</h4>
+            <div>
+              <p v-if="!hasBands">No Bands Exist</p>
+              <ul v-if="hasBands">
+                <li v-for="userBand in bandsList" :key="'bandid' + userBand.id"> <button type="button" @click="goToBand(userBand.id)">{{ userBand.bandname }}</button> </li>
+              </ul>
+              <router-link class="btn btn-event-create" to='/band/create'>Create A Band</router-link>
+              <router-link class="btn btn-note-create" to='/band/join'>Join A Band</router-link>
+              <br>
+            </div>
+    
+
+    <br><hr><br>
+    
+    <div class="col-6 events-box">
+      <h4>Events</h4>
 
     <div>
-      <router-link to="event/create">create an event</router-link>
+      <router-link
+        class="btn btn-event-create"
+        to="event/create">create an event
+      </router-link>
+      
       <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
       <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
         <h3>{{ band.name }}</h3>
@@ -32,10 +50,16 @@
         </div>
       </div>
     </div>
+    </div>
     
-    <br>
+    <div class="col-6 notes-box">
+
     <h4>Notes</h4>
-    <router-link to="/note/create"> write a note </router-link>
+    <router-link
+      class="btn btn-note-create"
+      to="/note/create"> write a note
+    </router-link>
+    
     <div>
       <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>  
       <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
@@ -45,8 +69,7 @@
         </div>
       </div>
     </div>
-    <br>
-    <router-link to="event/info">go to event info</router-link>
+    </div>
   </div>
 </template>
 
@@ -124,3 +147,100 @@ export default {
   }
 }
 </script>
+
+<style>
+
+  .notes-box {
+    float: right
+  }
+
+  .events-box {
+    float: left
+  }
+
+  .btn {
+    font-family: 'Open Sans';
+    font-size: .75em;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: .5em 2em .5em 2em;
+    margin: 0em .5em 0em .5em
+  }
+
+  .btn-icon {
+    margin-right: .5em
+  }
+
+  .btn-login {
+    background-color: transparent;
+    border: solid 1px #ededed;
+    color: #ededed;
+  }
+
+  .btn-login:hover {
+    background-color: #ededed;
+    border: solid 2px #ededed;
+    color: #677794
+  }
+  
+  .btn-logout {
+    background-color: #d9534f;
+    border: solid 1px #d9534f;
+    color: #ededed;
+  }
+
+  .btn-logout:hover {
+    background-color: transparent;
+    border: solid 2px #d9534f;
+    color: #d9534f
+  }
+
+  .btn-register {
+    background-color: #fbaf2c;
+    border: solid 1px #fbaf2c;
+    color: #373737;
+  }
+
+  .btn-register:hover {
+    background-color: transparent;
+    border: solid 2px #fbaf2c;
+    color: #fbaf2c
+  }
+  
+  .btn-dashboard {
+    background-color: #fbaf2c;
+    border: solid 1px #fbaf2c;
+    color: #373737;
+  }
+
+  .btn-dashboard:hover {
+    background-color: transparent;
+    border: solid 2px #fbaf2c;
+    color: #fbaf2c
+  }
+  
+  .btn-event-create {
+    background-color: #677794;
+    border: solid 1px #677794;
+    color: #ededed;
+  }
+
+  .btn-event-create:hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #ededed
+  }
+
+  .btn-note-create {
+    background-color: #979797;
+    border: solid 1px #979797;
+    color: #ededed;
+  }
+
+  .btn-note-create:hover {
+    background-color: transparent;
+    border: solid 2px #979797;
+    color: #ededed
+  }
+
+</style>
