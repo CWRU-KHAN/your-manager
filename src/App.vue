@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <site-navbar id="side-nav"></site-navbar>
+    <site-navbar></site-navbar>
     <router-view/>
   </div>
 </template>
@@ -23,12 +23,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#side-nav {
-  float: left;
-  margin: 0 1em 0em 0em;
-  padding: 0;
 }
 
 </style>
