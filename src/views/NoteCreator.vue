@@ -43,6 +43,7 @@
                       id="note-date"
                       class="form-control"
                       type="datetime-local"
+
                       placeholder=""
                       v-model="calendarDate">
                 </label>

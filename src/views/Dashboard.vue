@@ -3,13 +3,13 @@
             <br>
             <br>
             <div class="row">
-                <div class="col-lg-3 band" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
+                <div class="col-lg-3 col-md-6 band" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
                     <div @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>
                 </div>
-                <div class="col-lg-3 band">
+                <div class="col-lg-3 col-md-6 band">
                     <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                 </div>
-                <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 band">
+                <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 col-md-6 band">
                     <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                         <calendar-view :eventsProp="eventsForCalendar" />
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-3 ipadHide">
                     <img class="profPic" :src="computedImage">
                     <br>
                     <h2> {{ `${this.$store.state.currentPageJson.data[0].username}` }} </h2>
@@ -35,55 +35,62 @@
             <hr>
             <br>
             <div class="row">
-                <div class="col-6 events-box">
+                <div class="col-lg-6 col-md-12 events-box">
                     <h4>Events</h4>
-
                     <div>
-                        <router-link class="btn btn-event-create" to="event/create">create an event
-                        </router-link>
-
                         <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
                         <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
-                          <div class="form-box">
-                            <h3>{{ band.name }}</h3>
-                            <table>
+                          <div>
+                            <div class="row">
+                              <div class="col-8">
+                                <h3>{{ band.name }}</h3>
+                              </div>
+                              <div class="col-4">
+                                <router-link class="btn btn-event-create floatRight" to="event/create">create an event</router-link>
+                              </div>
+
+                            </div>
+                            <table class="col-12">
                                   <tr>
                                     <th>Title</th>
                                     <th>Date</th>
                                     <th>Venue</th>
                                     <th>Info</th>
                                   </tr>
-                                  <event-card v-for="event in band.events" :key="event.id" :event-info="event"/>
+                                  <event-card v-for="event in band.events" :key="event.id" :event-info="event"></event-card>
                             </table>
                           </div>
                         </div>
                     </div>
+                  <br>
+                  <hr>
+                  <br>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-12">
                     <h4>Notes</h4>
-                    <router-link class="btn btn-note-create" to="/note/create"> write a note
-                    </router-link>
-
                     <div>
                         <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>
                         <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
+                          <div class="row">
+                            <div class="col-8">
                             <h3>{{ band.name }}</h3>
+                            </div>
+                            <div class="col-4">
+                              <router-link class="btn btn-note-create floatRight" to="/note/create"> write a note</router-link>
+                              </div>
+                          </div>
                             <div v-for="note in band.notes" :key="note.id">
                                 <note-card :noteInfo="note"></note-card>
                             </div>
                         </div>
                     </div>
+                  <br>
+                  <hr>
+                  <br>
                 </div>
             </div>
         </div>
     </template>
-
-<style scoped>
-.bandBox {
-  border: 3px solid blue;
-  margin: 10px;
-}
-</style>
 
 
 <script>
@@ -156,7 +163,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
   .notes-box {
     float: right
@@ -266,8 +273,23 @@ export default {
   }
 
   .bandBox {
-    height: 200px;
-    overflow: scroll;
+    height: 20em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 3px solid blue;
+    text-align: left;
   }
+
+  .floatRight {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+@media only screen and (max-width: 992px) {
+
+  .ipadHide {
+    display: none;
+  }
+}
 
 </style>
