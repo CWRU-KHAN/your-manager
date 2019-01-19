@@ -111,18 +111,14 @@ export default {
       .reduce((a, b) => a.concat(b))
 
       return formattedEvents
-    }
+    },
   },
   
   methods: {
     goToBand(id) {
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
-    },
-    gotoEvent(id) {
-      this.$store.commit("setEvent", id)
-      this.$router.push({"path" : "/event/info"})
-    },    
+    }
   }
 }
 </script>
