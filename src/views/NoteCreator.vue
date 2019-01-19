@@ -55,8 +55,8 @@
                       id="band-note-link"
                       name="bands"
                       class="form-control"
-                      v-model="bandName">
-                  <option v-for="band in bandsList" :key="band.id">{{ band.name }}</option>
+                      v-model="bandsid">
+                  <option v-for="band in bandsList" :key="band.id">{{ band.bandname }}</option>
                   </select>
                 </label>
             </div>
@@ -144,16 +144,6 @@ export default {
 
       }
     },
-    processUpload () {
-      this.file = this.$refs.file.files[0]
-      // this.fileChosen = true
-    }
-    // submitImage() {
-    //   let formData = new FormData()
-    //   formData.append('file', this.file)
-    // //   this.$store.dispatch('uploadImg', formData)
-    //     // .then(() => this.bandimage = this.$store.getters.getCurrentUploadedImage)
-    // }
   }
 }
 </script>
