@@ -27,7 +27,7 @@ const dbLib = (() => {
     const { errno } = error
     const errorTable = {
       1062: {
-        message: 'Sorry, this name is already taken, please choose another.',
+        message: 'Sorry, this name or email address is already taken, please choose another.',
         code: 409
       },
       1048: {
@@ -240,6 +240,7 @@ const dbLib = (() => {
   // adds a new note
   const addNewNote = ({ token, userName, bandsid, usersid, calendarDate, noteTitle = 'Untitled', noteBody }) => {
     verifyToken(userName, token)
+
     const postedAt = new Date
     return insertOne(
       'notes',
@@ -257,7 +258,7 @@ const dbLib = (() => {
        }
         return results
       })
-      .catch(translateDbErr)
+      .catch(err => console.log(err))
   }
 
   // gets a band token for sharing
@@ -541,7 +542,9 @@ const dbLib = (() => {
       )
     })
       .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: No associated notes for these bands.')
+        const testArray = results.reduce((a, b) => a.concat(b))
+
+        if (!testArray.length) return []
         return results
       })
       .catch(translateDbErr)

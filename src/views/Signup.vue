@@ -88,10 +88,12 @@
           </div>
           <div class="row mt-4">
             <div class="col">
-              <p v-if="errors.length">
+              <p v-if="errors.length || serverErrors.length">
         <b>Please correct the following error(s):</b>
         <ul>
           <li v-for="error in errors" :key="error">{{ error }}</li>
+          <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+
         </ul>
       </p>
             </div>

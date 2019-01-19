@@ -257,7 +257,6 @@ app.get('/api/userdashboard/:id', (req, res) => {
     }, {})),
     getUserNotes({ usersid: req.params.id })
       .then(notesRes => {
-        console.log("notesres",notesRes)
         return notesRes.map(result => {
           if (result.length === 0) return result
           return {
@@ -269,13 +268,16 @@ app.get('/api/userdashboard/:id', (req, res) => {
       )
     }),
     getUserEvents({ usersid: req.params.id })
-      .then(eventsRes => eventsRes.map(result => {
+      .then(eventsRes => {
+        if (!eventsRes.length) return eventsRes
+        return eventsRes.map(result => {
         if (result.length === 0) return result
-        return {
-          name: result[0].bandname,
-          events: result
-        }
-      }))
+          return {
+            name: result[0].bandname,
+            events: result
+          }
+      })
+    })
   ])
   .then(results => res.json(results))
 })
