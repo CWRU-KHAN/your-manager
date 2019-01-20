@@ -77,7 +77,7 @@
                             <h3 class="note-event-band">{{ band.name }}</h3>
                             </div>
                             <div class="col-4">
-                                <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-pencil boxEditor"></i></router-link>
+                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                               </div>
                           </div>
                           <div class="bandBox">
@@ -359,4 +359,17 @@ export default {
 }
 
 </style>
+
+<style>
+  .container-fluid {
+    margin-left: 264px;
+    width: auto;
+}
+.ym-luggage {
+  height: 500px;
+  width: auto;
+  float: right
+}
+</style>
+
 

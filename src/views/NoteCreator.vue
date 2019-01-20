@@ -1,4 +1,5 @@
 <template>
+<div class="container-fluid">
   <div class="container py-4 my-3 mx-auto">
         <form>
     <div class="row justify-content-start">
@@ -89,6 +90,7 @@
     </div>
     </form>
   </div>
+</div>
 </template>
 
 
