@@ -125,6 +125,7 @@ const dbLib = (() => {
               code: 403,
               message: `Error. Band not created.`
             }  
+          
           }
        }
         return Promise.all([
@@ -146,7 +147,10 @@ const dbLib = (() => {
           formattedGenres
         )        
       })
-      .catch(translateDbErr)
+      .then(({ insertId }) => {
+        return {bandsid: insertId}
+      })
+      .catch(x => console.log(x))
   }
 
   // adds an event to the database, takes an event object
@@ -381,7 +385,14 @@ const dbLib = (() => {
       usersid
     )
       .then(results => {
-        if (results.affectedRows === 0) throw new Error('500: Not a valid user.')
+        if (!results.length) {
+          return selectSomeWhere(
+            'users',
+            'id',
+            usersid,
+            ['username', 'email', 'userimage', 'firstname', 'lastname']
+          )
+        }
         return results
       })
       .catch(translateDbErr)
@@ -555,7 +566,6 @@ const dbLib = (() => {
     verifyToken(userName, token)
     return updateOne('users', updates, `username = '${userName}'`)
     .then(results => {
-      // console.log(results)
       if (results.affectedRows === 0) throw new Error('500: No rows updated.')
       return results
     })
