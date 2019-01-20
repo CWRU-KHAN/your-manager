@@ -369,3 +369,16 @@ export default {
 
 </style>
 
+<style>
+  .container-fluid {
+    margin-left: 264px;
+    width: auto;
+}
+.ym-luggage {
+  height: 500px;
+  width: auto;
+  float: right
+}
+</style>
+
+

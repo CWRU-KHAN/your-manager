@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container-fluid">
         <h2>{{ this.$store.state.currentPageJson.data.eventname }}</h2>
         <router-link v-if="eventOwner" to="/event/changeProfile">Change Event Details</router-link>
         <h4> {{ formattedDate}} </h4>

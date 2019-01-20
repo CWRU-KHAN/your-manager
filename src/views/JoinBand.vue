@@ -1,4 +1,5 @@
 <template>
+<div class="container-fluid">
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <div class="container mx-auto">
@@ -104,6 +105,7 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>

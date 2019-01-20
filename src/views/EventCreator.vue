@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
   <div class="container mx-auto">
     <form >
         <div class="form-box-register">
