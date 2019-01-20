@@ -425,6 +425,20 @@ const dbLib = (() => {
       .catch(translateDbErr)
   }
 
+  // get notes for a specific day for a specific band
+  const getNotesOnDate = ({ bandsid, date }) => {
+    return selectSomeWhere(
+      'notes',
+      'bandsid',
+      bandsid,
+      ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat']
+    )
+    .then(results => {
+      console.log(results)
+      return results
+    })
+  }
+
   // gets calendar details
   const getCalendarInfo = ({ bandsid }) => {
     return Promise.all([
@@ -814,6 +828,7 @@ const dbLib = (() => {
     getCalendarInfo,
     getUserNotes,
     getUserEvents,
+    getNotesOnDate,
     deleteBand,
     deleteEvent,
     deleteBandMate,

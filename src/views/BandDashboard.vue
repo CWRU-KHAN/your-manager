@@ -61,6 +61,7 @@
 import EventCard from '../components/EventCard.vue'
 import NoteCard from '../components/NoteCard.vue'
 import CalendarView from './CalendarView'
+import moment from 'moment'
 
 export default {
   name: 'bandDashboard',
@@ -77,7 +78,8 @@ export default {
     },
     eventsList() {
       return this.$store.state.currentPageJson.data.events.length ?
-      this.$store.state.currentPageJson.data.events :
+      this.$store.state.currentPageJson.data.events
+        .filter(({ date }) => moment().isBefore(date)) :
       false
     },
     // when we have events rendering to band page this will work

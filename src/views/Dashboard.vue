@@ -77,7 +77,7 @@
                             <h3 class="note-event-band">{{ band.name }}</h3>
                             </div>
                             <div class="col-4">
-                                <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-pencil boxEditor"></i></router-link>
+                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                               </div>
                           </div>
                           <div class="bandBox">
@@ -99,6 +99,7 @@
 import EventCard from '../components/EventCard.vue'
 import NoteCard from '../components/NoteCard.vue'
 import CalendarView from './CalendarView'
+import moment from 'moment'
 
 
   
@@ -122,7 +123,15 @@ export default {
     },
     eventsList() {
       return this.$store.state.currentPageJson.data[2].length ? 
-        this.$store.state.currentPageJson.data[2].filter(entry => entry.name) : 
+        this.$store.state.currentPageJson.data[2]
+          .filter(entry => entry.name)
+          .map(({ name, events }) => {
+            const futureEvents = events.filter(({ date }) => moment().isBefore(date))
+            return {
+              name,
+              events: futureEvents
+            }
+          }) : 
         false
     },
     notesList() {
@@ -135,7 +144,7 @@ export default {
       if (!rawEvents.length) return []
       const formattedEvents = rawEvents
       .map(band => {
-        if (!band.length) return []
+        if (!band.events) return []
         const calendarEvents = band.events.map(event => {
           return {
             startDate: event.date,
