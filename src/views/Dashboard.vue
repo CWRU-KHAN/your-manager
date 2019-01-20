@@ -335,6 +335,12 @@ export default {
     font-size: 2em;
   }
 
+  .container-fluid {
+    margin-left: 264px;
+    width: auto;
+
+}
+
 
 @media only screen and (max-width: 992px) {
 
@@ -344,3 +350,4 @@ export default {
 }
 
 </style>
+
