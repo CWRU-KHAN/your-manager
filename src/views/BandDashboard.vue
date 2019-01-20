@@ -115,5 +115,11 @@ export default {
   .top {
     margin-top: 3%;
   }
+  
+  .container-fluid {
+    margin-left: 264px;
+    width: auto;
+
+}
 
 </style>

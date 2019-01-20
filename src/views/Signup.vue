@@ -1,5 +1,5 @@
 <template>
-  
+  <div class="container-fluid">
   <div class="container py-4 my-3 mx-auto">
     <form>
     <div class="row justify-content-start">
@@ -106,6 +106,7 @@
     </div>
     </form>
   </div>
+  </div>
 </template>
 
 <script>
@@ -159,7 +160,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+
+  .container-fluid {
+    margin-left: 264px;
+    width: auto;
+
+}
 
 .ym-luggage-icons {
   float: left;
@@ -196,6 +204,8 @@ export default {
   border-radius: .25em;
   box-shadow: 0 .3125rem .875rem 0 rgba(129,129,129,.2) !important;
 }
+
+
 
 
 </style>

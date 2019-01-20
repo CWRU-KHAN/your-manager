@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <div class="container mx-auto">
     <div class="form-box-register">
       <div class="row">
@@ -142,7 +142,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .force-label {
   font-family: 'Open Sans', 'sans-serif';
@@ -151,6 +151,12 @@ export default {
   text-transform: uppercase;
   display: inline-block;
   margin-bottom: .5rem;
+}
+
+  .container-fluid {
+    margin-left: 264px;
+    width: auto;
+
 }
 
 </style>
