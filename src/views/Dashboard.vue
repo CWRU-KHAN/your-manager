@@ -78,7 +78,7 @@
                             <h3 class="note-event-band">{{ band.name }}</h3>
                             </div>
                             <div class="col-4">
-                                <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-pencil"></i></router-link>
+                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil"></i></router-link>
                               </div>
                           </div>
                             <div v-for="note in band.notes" :key="note.id">
