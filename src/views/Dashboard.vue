@@ -40,19 +40,20 @@
             <hr>
             <br>
             <div class="row">
-                <div class="col-lg-6 col-md-12 events-box">
+                <div class="col-lg-6 col-md-12">
                     <h4>Events</h4>
                     <div>
                         <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
-                        <div v-for="(band, i) in eventsList" :key="i" class='bandBox'>
+                        <div v-for="(band, i) in eventsList" :key="i">
                             <div class="row boxHeader">
                               <div class="col-8 ">
                                 <h3 class="note-event-band">{{ band.name }}</h3>
                               </div>
                               <div class="col-4">
-                                <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-plus" aria-hidden="true"></i></router-link>
+                                <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-plus boxEditor" aria-hidden="true"></i></router-link>
                               </div>
                             </div>
+                            <div class="bandBox">
                             <table class="col-12">
                                   <tr>
                                     <th>Title</th>
@@ -62,35 +63,34 @@
                                   </tr>
                                   <event-card v-for="event in band.events" :key="event.id" :event-info="event"></event-card>
                             </table>
+                            </div>
                         </div>
                     </div>
-                  <br>
-                  <hr>
-                  <br>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <h4>Notes</h4>
                     <div>
                         <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>
-                        <div v-for="(band, i) in notesList" :key="i" class='bandBox'>
+                        <div v-for="(band, i) in notesList" :key="i">
                           <div class="row boxHeader">
                             <div class="col-8 ">
                             <h3 class="note-event-band">{{ band.name }}</h3>
                             </div>
                             <div class="col-4">
-                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil"></i></router-link>
+                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                               </div>
                           </div>
+                          <div class="bandBox">
                             <div v-for="note in band.notes" :key="note.id">
                                 <note-card :noteInfo="note"></note-card>
                             </div>
+                          </div>
                         </div>
                     </div>
-                  <br>
-                  <hr>
-                  <br>
                 </div>
             </div>
+            <br>
+            <hr>
         </div>
     </template>
 
@@ -180,14 +180,6 @@ export default {
 
 <style scoped>
 
-  .notes-box {
-    float: right
-  }
-
-  .events-box {
-    float: left
-  }
-
   .btn {
     font-family: 'Open Sans';
     font-size: .75em;
@@ -265,21 +257,6 @@ export default {
     color: #fbaf2c
   }
   
-  .btn-event-create {
-    background-color: #677794;
-    font-size: 1.2em;
-    border: solid 2px transparent;
-    color: #ededed;
-    transition-property: background-color, color;
-    transition: 400ms;
-  }
-
-  .btn-event-create:hover {
-    background-color: transparent;
-    border: solid 2px #677794;
-    color: #677794;
-
-  }
 
   .profPic {
     width: 100%;
@@ -313,12 +290,43 @@ export default {
     overflow-y: scroll;
     overflow-x: hidden;
     margin-top: 3%;
-    border: 3px solid blue;
+    border: 2px solid black;
+    border-radius: 5px;
+    text-align: left;
+    padding: 3%;
+    
   }
 
-  .floatRight {
-    display: flex;
-    justify-content: flex-end;
+  .boxHeader {
+    background-color: #677794;
+    border: 1px solid #677794;
+    border-radius: 5px;
+    margin-left: 1%;
+    margin-right: 1%;
+    width: auto;
+    font-family: 'Open Sans';
+    font-size: .75em;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #ededed;
+    margin-top: 3%;
+  }
+
+  .btn-event-create {
+    background-color: #677794;
+    font-size: 1.5em;
+    border: solid 2px transparent;
+    color: #ededed;
+    transition-property: background-color, color;
+    transition: 400ms;
+    
+  }
+
+  .btn-event-create:hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #677794;
+
   }
 
   .calRow {
@@ -338,6 +346,7 @@ export default {
     line-height: 50px;
     text-align: left;
     margin-left: 5%;
+    font-size: 2em;
   }
 
   .plus {
