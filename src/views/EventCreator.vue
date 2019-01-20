@@ -183,6 +183,8 @@ export default {
             eventName: this.eventName,
             createdAt: new Date,
             eventLocation: this.eventlocation,
+            eventcity: this.eventcity,
+            eventstate: this.eventstate,
             eventimage: this.$store.state.currentUploadedImage,
             bandsid: this.bandsid,
             eventdescription: this.description,

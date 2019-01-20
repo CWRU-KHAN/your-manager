@@ -147,6 +147,9 @@ const dbLib = (() => {
           formattedGenres
         )        
       })
+      .then(({ insertId }) => {
+        return {bandsid: insertId}
+      })
       .catch(x => console.log(x))
   }
 

@@ -133,6 +133,7 @@ export default {
       if (!rawEvents.length) return []
       const formattedEvents = rawEvents
       .map(band => {
+        if (!band.length) return []
         const calendarEvents = band.events.map(event => {
           return {
             startDate: event.date,
