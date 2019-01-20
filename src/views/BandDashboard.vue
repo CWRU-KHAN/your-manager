@@ -1,35 +1,45 @@
 <template>
-  <div>
-    <h1>Dashboard</h1>
-
-    <router-link v-if="bandOwner" to="/band/changeProfile">Edit Band Details</router-link>
-
-
-
-    <div id="CalendarView">
-      <h4>Calendar</h4>
-      <calendar-view :eventsProp="eventsForCalendar" />
-
+  <div class="container-fluid">
+    <!-- <router-link v-if="bandOwner" to="/band/changeProfile">Edit Band Details</router-link> -->
+    <div class="row top">
+      <div class="col-lg-8">
+        <div id="CalendarView">
+          <calendar-view :eventsProp="eventsForCalendar" />
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <h1>{{ this.$store.state.currentPageJson.data.bandname }}</h1>
+        <h4>Members</h4>
+          <div class="members" v-for="member in membersList" :key="member.id"> {{ member.username }} </div>
+      </div>
     </div>
     <br>
-    <h4>Members</h4>
-        <ul>
-            <li v-for="member in membersList" :key="member.id"> {{ member.username }} </li>
-        </ul>
+    <hr>
     <br>
-    <h4>Events</h4>
-        <div v-for="event in eventsList" :key="'band'+event.id"> 
-          <event-card :eventInfo="event"></event-card> 
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <h4>Events</h4>
+        <div class="bandBox">
+          <table class="col-12">
+            <tr>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Info</th>
+            </tr>
+          <event-card v-for="event in eventsList" :key="event.id" :event-info="event"></event-card>
+          </table>
         </div>
-    <br>
-    <h4>Notes</h4>
-      <div v-for="note in notesList" :key="'note'+note.id"> 
-        <note-card :noteInfo="note"></note-card> 
       </div>
-
-    <router-link to="event/create">go to event create</router-link>
-    <br>
-    <router-link to="event/info">go to event info</router-link>
+      <br>
+      <div class="col-lg-6 col-md-12">
+        <h4>Notes</h4>
+        <div class="bandBox">
+          <div v-for="note in notesList" :key="'note'+note.id"> 
+            <note-card :noteInfo="note"></note-card> 
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -80,3 +90,30 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+  .bandName {
+    text-align: center;
+  }
+
+  .members {
+    text-align: left;
+  }
+
+  table {
+    text-align: left;
+  }
+  .bandBox {
+    height: 20em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 3px solid blue;
+    text-align: left;
+  }
+
+  .top {
+    margin-top: 3%;
+  }
+
+</style>
