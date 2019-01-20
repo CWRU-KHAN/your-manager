@@ -1,22 +1,14 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <h1 class="bandName">{{ this.$store.state.currentPageJson.data.bandname }}</h1>
-    </div>
-    <br>
-    <hr>
-    <br>
-
     <!-- <router-link v-if="bandOwner" to="/band/changeProfile">Edit Band Details</router-link> -->
-
-
-    <div class="row">
+    <div class="row top">
       <div class="col-lg-8">
         <div id="CalendarView">
           <calendar-view :eventsProp="eventsForCalendar" />
         </div>
       </div>
       <div class="col-lg-4">
+        <h1>{{ this.$store.state.currentPageJson.data.bandname }}</h1>
         <h4>Members</h4>
           <div class="members" v-for="member in membersList" :key="member.id"> {{ member.username }} </div>
       </div>
@@ -27,29 +19,27 @@
     <div class="row">
       <div class="col-lg-6 col-md-12">
         <h4>Events</h4>
+        <div class="bandBox">
           <table class="col-12">
             <tr>
               <th>Title</th>
               <th>Date</th>
-              <th>Venue</th>
               <th>Info</th>
             </tr>
-            <event-card v-for="event in events" :key="event.id" :event-info="event"></event-card>
+          <event-card v-for="event in eventsList" :key="event.id" :event-info="event"></event-card>
           </table>
+        </div>
       </div>
       <br>
       <div class="col-lg-6 col-md-12">
         <h4>Notes</h4>
+        <div class="bandBox">
           <div v-for="note in notesList" :key="'note'+note.id"> 
             <note-card :noteInfo="note"></note-card> 
           </div>
+        </div>
       </div>
     </div>
-
-
-    <router-link to="event/create">go to event create</router-link>
-    <br>
-    <router-link to="event/info">go to event info</router-link>
   </div>
 </template>
 
@@ -109,6 +99,21 @@ export default {
 
   .members {
     text-align: left;
+  }
+
+  table {
+    text-align: left;
+  }
+  .bandBox {
+    height: 20em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 3px solid blue;
+    text-align: left;
+  }
+
+  .top {
+    margin-top: 3%;
   }
 
 </style>

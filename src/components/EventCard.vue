@@ -1,11 +1,10 @@
 <template>
-  <tr>
+  <tr class="tableRow">
       <td>{{ eventInfo.eventname }}</td>
       <td>{{ formattedDate }}</td>
       <td>{{ eventInfo.eventlocation }}</td>
       <td><button type="button" @click="viewEvent">View Details</button></td>
-  </tr>
-  
+  </tr>  
 </template>
 
 <script>
@@ -37,5 +36,6 @@ p.event-name {
   font-family: 'Open Sans', sans-serif;
   font-size: 1em
 }
+
 
 </style>
