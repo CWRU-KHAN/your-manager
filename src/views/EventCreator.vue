@@ -11,9 +11,9 @@
           
           <div class="row">
             <div class="col">
-              <img src="" alt="no image"><br>
-              <input class="form-control" type="file" name="file" id="eventImg" ref="file" accept="image/*" v-on:change="processUpload()">
-              <button type="button" @click='submitImage()'>Submit Image</button>
+              <img class="eventPic" v-if="displayImage" :src="displayImage" alt="Event"><br>
+              <input v-if="!upload1" class="form-control" type="file" name="file" id="eventImg" ref="file" accept="image/*" v-on:change="processUpload()">
+              <button v-if="upload1 && !upload2" type="button" @click='submitImage()'>Submit Image</button>
             </div>
           </div>
           
@@ -156,6 +156,9 @@ export default {
       time: '12:00',
       errors: [],
       file: '',
+      upload1: false,
+      upload2: false,
+      eventimage: ''
     }
   },
   computed: {
@@ -166,6 +169,9 @@ export default {
       return this.$store.state.currentPageJson.data[0].bands ? 
         this.$store.state.currentPageJson.data[0].bands :
         false
+    },
+    displayImage() {
+      return this.eventimage ? this.eventimage : false
     }
   },
   methods: {
@@ -201,11 +207,16 @@ export default {
     },
      processUpload () {
       this.file = this.$refs.file.files[0]
+      this.upload1 = true
     },
     submitImage() {
       let formData = new FormData()
       formData.append('file', this.file)
       this.$store.dispatch('uploadImg', formData)
+        .then(() => {
+          this.eventimage = this.$store.getters.getCurrentUploadedImage
+          this.upload2 = true
+        })
     }
   }
 }
@@ -233,5 +244,10 @@ export default {
     border: solid 2px #677794;
     color: #677794
   }
-
+  .eventPic {
+    width: 400px;
+    height: auto;
+    border: 2px solid #979797;
+    border-radius: 5px;
+  }
 </style>

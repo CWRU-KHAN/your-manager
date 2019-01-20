@@ -40,11 +40,11 @@
                             <div class="col mt-4">
                                 <label for="bandImg"> Band Image <br>
                                     <hr>
-                                    <img src="" alt="no image">
-                                    <input type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
+                                    <img class="profPic" v-if="displayImage" :src="displayImage" alt="Band">
+                                    <input v-if="!upload1" type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
                                 </label>
                                 <br>
-                                <button class="btn btn-login" type="button" @click='submitImage()'>
+                                <button v-if="upload1 && !upload2" class="btn btn-login" type="button" @click='submitImage()'>
                                     Submit Image
                                 </button>
                             </div>
@@ -115,8 +115,16 @@ export default {
       genres: [],
       bandName: '',
       errors: [],
-      file: ''
+      file: '',
+      upload1: false,
+      upload2: false,
+      bandimage: ''
     }
+  },
+  computed: {
+      displayImage() {
+          return this.bandimage ? this.bandimage : false
+      }
   },
   methods: {
     submit() {
@@ -146,14 +154,26 @@ export default {
     },
     processUpload () {
       this.file = this.$refs.file.files[0]
+      this.upload1 = true
     },
     submitImage() {
       let formData = new FormData()
       formData.append('file', this.file)
       this.$store.dispatch('uploadImg', formData)
+        .then(() => {
+            this.bandimage = this.$store.getters.getCurrentUploadedImage
+            this.upload2 = true
+        })
     }
   }
 }
 </script>
 
+<style scoped>
+  .profPic {
+    width: 100%;
+    border: 2px solid #979797;
+    border-radius: 5px;
+  }
+</style>
 
