@@ -94,7 +94,7 @@
 
                         <div class="row">
                             <div class="col mt-4">
-                                <button class="btn btn-register-2" type='button' @click='submit'>
+                                <button class="btn btn-register-2" type='button' @click='submitNewBand'>
                                     Create Band
                                 </button>
                             </div>
@@ -111,7 +111,11 @@ export default {
   name: "joinBand",
   data() {
     return {
-      token: ''
+      token: '',
+      genres: [],
+      bandName: '',
+      errors: [],
+      file: ''
     }
   },
   methods: {
@@ -122,6 +126,31 @@ export default {
       }
       this.$store.commit('clearErrors')
       this.$store.dispatch('addUserToBand', payload)
+    },
+    submitNewBand() {
+      this.errors = []
+
+      if (this.bandName.length < 2) this.errors.push('Bandname must be at least 2 characters.')
+      if (!this.errors.length) {
+        const bandInfo = {
+          bandName: this.bandName,
+          genres: this.genres,
+          bandimage: this.$store.state.currentUploadedImage,
+          usersid: this.$store.state.userCredentials.usersid,
+          token: this.$store.state.userCredentials.userToken,
+          userName: this.$store.state.userCredentials.username
+        }
+        this.$store.commit('clearErrors')
+        this.$store.dispatch('createBand', bandInfo)
+      }
+    },
+    processUpload () {
+      this.file = this.$refs.file.files[0]
+    },
+    submitImage() {
+      let formData = new FormData()
+      formData.append('file', this.file)
+      this.$store.dispatch('uploadImg', formData)
     }
   }
 }
