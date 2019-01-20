@@ -287,6 +287,9 @@ export default {
     display: flex;
     justify-content: flex-end;
   }
+  #CalendarView {
+    height: 100%;
+  }
 
 @media only screen and (max-width: 992px) {
 
