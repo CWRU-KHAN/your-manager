@@ -29,6 +29,7 @@ const { addNewUser,
   getCalendarInfo,
   getUserNotes,
   getUserEvents,
+  getNotesOnDate,
   updateUser,
   updateUserPassword,
   updateBand,
@@ -196,6 +197,16 @@ app.get('/api/event/:id', (req, res) => {
       res.json(parsedResults)
     })
     .catch(err => res.status(err.code || 500).send(err.message || 'Internal server error.'))
+})
+
+// get notes for a specific band for a specific day
+app.get('/api/notedate/', (req, res) => {
+  const { eventdate, bandsid } = req.headers
+  getNotesOnDate({ eventdate, bandsid })
+    .then(results => {
+      res.json(results)
+    })
+    .catch(err => res.json(err))
 })
 
 // get calendar for a band

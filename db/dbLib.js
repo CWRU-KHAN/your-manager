@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 const saltRounds = 10
+const moment = require('moment')
 
 
 const dbLib = (() => {
@@ -244,7 +245,6 @@ const dbLib = (() => {
   // adds a new note
   const addNewNote = ({ token, userName, bandsid, usersid, calendarDate, noteTitle = 'Untitled', noteBody }) => {
     verifyToken(userName, token)
-
     const postedAt = new Date
     return insertOne(
       'notes',
@@ -426,16 +426,23 @@ const dbLib = (() => {
   }
 
   // get notes for a specific day for a specific band
-  const getNotesOnDate = ({ bandsid, date }) => {
-    return selectSomeWhere(
+  const getNotesOnDate = ({ bandsid, eventdate }) => {
+    return selectSomeJoin(
       'notes',
-      'bandsid',
+      'users',
+      ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat'],
+      ['username'],
+      'notes.usersid',
+      'users.id',
+      'notes.bandsid',
       bandsid,
-      ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat']
     )
     .then(results => {
-      console.log(results)
-      return results
+      const trimmedDate = eventdate.slice(0,10)
+      const relevantResults = results.filter(({ calendardate }) => {
+        return moment(calendardate).format().slice(0,10) === trimmedDate
+      })
+      return relevantResults
     })
   }
 

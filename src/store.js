@@ -25,6 +25,7 @@ export default new Vuex.Store({
     userNotes: {},
     events: [],
     currentPageJson: {},
+    currentEventPageNotes: [],
     calendarData: {},
     currentUploadedImage: '',
     errors: [],
@@ -70,6 +71,9 @@ export default new Vuex.Store({
     },
     setCurrentUploadedImage(state, data) {
       state.currentUploadedImage = data
+    },
+    setCurrentEventPageNotes(state, data) {
+      state.currentEventPageNotes = data
     },
     addError(state, error){
       state.errors.push(error)
@@ -181,6 +185,16 @@ export default new Vuex.Store({
       const queryString = `/api/event/${id}`
       return axios.get(queryString)
         .then(data => commit('setPage', data))
+    },
+    getEventPageNotes( { commit }, { eventdate, bandsid }) {
+      const config = {
+        headers: {
+          bandsid,
+          eventdate
+        }
+      }
+      return axios.get('/api/notedate', config)
+        .then(data => commit('setCurrentEventPageNotes', data))
     },
     getCalendarInfo( { commit }, { bandsid }){
       const queryString = `/api/event/${bandsid}`
