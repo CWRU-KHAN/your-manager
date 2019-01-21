@@ -145,6 +145,10 @@ export default {
     font-family: 'Open Sans', 'sans-serif'
   }
 
+  .form-box-register {
+    margin-top: 3%;
+  }
+
   .btn-register {
     background-color: #677794;
     border: solid 2px transparent;
