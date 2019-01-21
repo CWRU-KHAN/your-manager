@@ -1,9 +1,14 @@
 <template>
 <div class="navContainer">
     <div class="nav-left-sidebar">
-            <img class="nav-ym-icon" src="@/assets/svg/ym-icon.svg">
+            <router-link v-if="!loggedIn" to="/">
+                <img class="nav-ym-icon" src="@/assets/svg/ym-icon.svg">
+            </router-link>
+            <router-link v-if="loggedIn" to="/dashboard">
+                <img class="nav-ym-icon" src="@/assets/svg/ym-icon.svg">
+            </router-link>
         <nav class="navbar navbar-expand-lg">
-            <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+            <!-- <a class="d-xl-none d-lg-none" href="#">Dashboard</a> -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
