@@ -7,12 +7,13 @@
             <router-link v-if="loggedIn" to="/dashboard">
                 <img class="nav-ym-icon" src="@/assets/svg/ym-icon.svg">
             </router-link>
-        <nav class="navbar navbar-expand-lg">
-            <!-- <a class="d-xl-none d-lg-none" href="#">Dashboard</a> -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-md">
+            <p class="d-xl-none d-lg-none d-md-none text-white mx-auto">mobile menu will go here</p>
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button> -->
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- menu not logged in -->
                 <ul v-if="!loggedIn" class="navbar-nav flex-column">
                     <li class="nav-heading">
                         Your Manager
@@ -32,6 +33,7 @@
                         </router-link>
                     <!-- </li> -->
                 </ul>
+                <!-- menu logged in -->
                 <ul v-if="loggedIn" class="navbar-nav flex-column">
                     <li class="nav-heading">
                         YM: <span class="nav-heading nav-heading-username">{{ this.$store.state.userCredentials.username }}</span>
@@ -95,12 +97,12 @@
 
                     <br><br>
 
-                    <li class="nav-item">
-                        <button class="button button-red btn-block" type="button" @click="logout">
+                    <!-- <li class="nav-item"> -->
+                    <button class="button button-red btn-block nav-item" type="button" @click="logout">
                         <i class="fa fa-sign-out btn-icon" aria-hidden="true"></i>
                         Logout
-                        </button>
-                    </li>
+                    </button>
+                    <!-- </li> -->
                 </ul>
             </div>
         </nav>
