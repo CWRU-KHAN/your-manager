@@ -47,6 +47,26 @@
                     <br><br>
 
                     <li class="nav-heading">
+                        Bands
+                        <hr class="nav-line-break">
+                    </li>
+
+
+                    <li class="nav-item force-white" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
+                        <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
+                    </li>
+
+                    <li class="nav-item">
+                        <router-link class="" to="/band/create" alt>
+                        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+                            Band
+                        </router-link>
+                    </li>
+
+                    <br><br>
+
+
+                    <li class="nav-heading">
                         Events
                         <hr class="nav-line-break">
                     </li>
@@ -93,7 +113,13 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.userCredentials.userToken
-    }
+    },
+    hasBands() {
+      return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
+    },
+    bandsList() {
+      return this.$store.state.currentPageJson.data[0].bands 
+    },
   },
   methods: {
     logout() {
@@ -103,26 +129,34 @@ export default {
         usersid: ''
       })
       this.$router.push({ 'path': '/' })
-    }
+    },
+    goToBand(id) {
+      this.$store.commit("setBandCredentials", id)
+      this.$router.push({name : "bandDashboard"})
+    },
   }
 }
 </script>
 
 <style scoped>
 
-.force-blue {
+.force-white {
     color: #ededed
 }
 
 .nav-item {
     font-family: 'Open Sans', 'sans serif';
-    font-size: .9em;
+    font-size: .8em;
     line-height: 2em;
     letter-spacing: .1em;
     text-transform: uppercase;
     text-decoration: none;
-    padding: .2em;
-    margin: 0em
+    padding: 1em .2em;
+    margin: .1em 0em
+}
+
+.nav-item:hover {
+    color: #fbaf2c
 }
 
 a {
@@ -134,7 +168,7 @@ a {
     height: 1px;
     border: 0;
     border-top: 1px solid #ededed;
-    margin: 1em 0em;
+    margin: 1em 0em 0em 0em;
     padding: 0; 
 }
 
