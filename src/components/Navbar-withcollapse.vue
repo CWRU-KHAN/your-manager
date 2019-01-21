@@ -8,7 +8,10 @@
                 <img class="nav-ym-icon" src="@/assets/svg/ym-icon.svg">
             </router-link>
         <nav class="navbar navbar-expand-md">
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation" v-on:click="toggleNavbar">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav" v-bind:class="{ 'show': show }">
                 <!-- menu not logged in -->
                 <ul v-if="!loggedIn" class="navbar-nav flex-column">
                     <li class="nav-heading">
@@ -16,27 +19,31 @@
                         <hr class="nav-line-break">
                     </li>
                     
-                    <router-link tag="li" class="nav-item" to="/login">
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/login">
                         <i class="fa fa-sign-in btn-icon" aria-hidden="true"></i>
                         Login
-                    </router-link>
-                    <router-link tag="li" class="nav-item" to="/signup">
+                        </router-link>
+                    <!-- </li> -->
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/signup">
                         <i class="fa fa-user-plus btn-icon" aria-hidden="true"></i>
                         Register
-                    </router-link>
+                        </router-link>
+                    <!-- </li> -->
                 </ul>
-
                 <!-- menu logged in -->
                 <ul v-if="loggedIn" class="navbar-nav flex-column">
                     <li class="nav-heading">
                         YM: <span class="nav-heading nav-heading-username">{{ this.$store.state.userCredentials.username }}</span>
                         <hr class="nav-line-break">
                     </li>
-                    
-                    <router-link tag="li" class="nav-item" to="/dashboard">
-                        <i class="fa fa-home btn-icon" aria-hidden="true"></i>
-                        Dashboard
-                    </router-link>
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/dashboard">
+                            <i class="fa fa-home btn-icon" aria-hidden="true"></i>
+                            Dashboard
+                        </router-link>
+                    <!-- </li> -->
                     
                     <br><br>
 
@@ -45,14 +52,17 @@
                         <hr class="nav-line-break">
                     </li>
 
-                    <!-- <li class="nav-item force-white" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
-                        <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
-                    </li> -->
 
-                    <router-link tag="li" class="nav-item" to="/band/create" alt>
+                    <li class="nav-item force-white" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
+                        <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
+                    </li>
+
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/band/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Band
-                    </router-link>
+                        </router-link>
+                    <!-- </li> -->
 
                     <br><br>
 
@@ -62,10 +72,12 @@
                         <hr class="nav-line-break">
                     </li>
 
-                    <router-link tag="li" class="nav-item" to="/event/create" alt>
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/event/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Event
-                    </router-link>
+                        </router-link>
+                    <!-- </li> -->
 
                     <br><br>
 
@@ -75,17 +87,21 @@
                     </li>
 
 
-                    <router-link tag="li" class="nav-item" to="/note/create" alt>
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/note/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Note
-                    </router-link>
+                        </router-link>
+                    <!-- </li> -->
 
                     <br><br>
 
+                    <!-- <li class="nav-item"> -->
                     <button class="button button-red btn-block nav-item" type="button" @click="logout">
                         <i class="fa fa-sign-out btn-icon" aria-hidden="true"></i>
                         Logout
                     </button>
+                    <!-- </li> -->
                 </ul>
             </div>
         </nav>
@@ -106,6 +122,11 @@ export default {
       return this.$store.state.currentPageJson.data[0].bands 
     },
   },
+  data() {
+      return {
+          show: true
+      }
+  },
   methods: {
     logout() {
       this.$store.commit('setUserCredentials', {
@@ -118,6 +139,9 @@ export default {
     goToBand(id) {
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
+    },
+    toggleNavbar() {
+        this.show = !this.show
     }
   }
 }
@@ -237,6 +261,49 @@ export default {
     background-color: transparent;
     border: solid 2px #d9534f;
     color: #d9534f
+}
+
+/* .container {
+    padding-left: 0px;
+    width: 264px;
+} */
+
+ .navbar-toggler {
+    padding: .25rem 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: #fbaf2c;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.nav-link[data-toggle="collapse"] {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link[data-toggle="collapse"]::after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 20px;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+
+.nav-link[data-toggle="collapse"][aria-expanded="false"]:after {
+    transform: rotate(-90deg);
+}
+
+.nav-link[data-toggle="collapse"]:after {
+    transition: transform .35s ease, opacity .35s ease;
+    opacity: .5;
 }
 
 </style>

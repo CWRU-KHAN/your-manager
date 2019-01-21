@@ -183,13 +183,13 @@ export default {
     color: #373737;
   }
 
-  .btn-register-2:hover {
+.btn-register-2:hover {
     background-color: transparent;
     border: solid 2px #fbaf2c;
     color: #373737
   }
 
-  .form-box-register {
+.form-box-register {
   background: #ededed;
   padding: 3.75em 2.5em;
   overflow: hidden;
