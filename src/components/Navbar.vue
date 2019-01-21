@@ -19,18 +19,18 @@
                         <hr class="nav-line-break">
                     </li>
                     
-                    <li class="nav-item">
-                        <router-link class="nav-item-text" to="/login">
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/login">
                         <i class="fa fa-sign-in btn-icon" aria-hidden="true"></i>
                         Login
                         </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="" to="/signup">
+                    <!-- </li> -->
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/signup">
                         <i class="fa fa-user-plus btn-icon" aria-hidden="true"></i>
                         Register
                         </router-link>
-                    </li>
+                    <!-- </li> -->
                 </ul>
                 <ul v-if="loggedIn" class="navbar-nav flex-column">
                     <li class="nav-heading">
