@@ -8,7 +8,10 @@
                 <img class="nav-ym-icon" src="@/assets/svg/ym-icon.svg">
             </router-link>
         <nav class="navbar navbar-expand-md">
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation" v-on:click="toggleNavbar">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav" v-bind:class="{ 'show': show }">
                 <!-- menu not logged in -->
                 <ul v-if="!loggedIn" class="navbar-nav flex-column">
                     <li class="nav-heading">
@@ -119,6 +122,11 @@ export default {
       return this.$store.state.currentPageJson.data[0].bands 
     },
   },
+  data() {
+      return {
+          show: true
+      }
+  },
   methods: {
     logout() {
       this.$store.commit('setUserCredentials', {
@@ -131,6 +139,9 @@ export default {
     goToBand(id) {
       this.$store.commit("setBandCredentials", id)
       this.$router.push({name : "bandDashboard"})
+    },
+    toggleNavbar() {
+        this.show = !this.show
     }
   }
 }
@@ -256,7 +267,7 @@ export default {
     padding-left: 0px;
     width: 264px;
 } */
-/* 
+
  .navbar-toggler {
     padding: .25rem 0.5rem;
     font-size: 1.25rem;
@@ -293,6 +304,6 @@ export default {
 .nav-link[data-toggle="collapse"]:after {
     transition: transform .35s ease, opacity .35s ease;
     opacity: .5;
-} */
+}
 
 </style>
