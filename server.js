@@ -211,8 +211,8 @@ app.get('/api/event/:id', (req, res) => {
 
 // get notes for a specific band for a specific day
 app.get('/api/notedate/', (req, res) => {
-  const { eventdate, bandsid } = req.headers
-  getNotesOnDate({ eventdate, bandsid })
+  const { eventdate, bandsid, usersid } = req.headers
+  getNotesOnDate({ eventdate, bandsid, usersid })
     .then(results => {
       res.json(results)
     })

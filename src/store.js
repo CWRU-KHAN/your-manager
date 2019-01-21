@@ -195,11 +195,12 @@ export default new Vuex.Store({
       return axios.get(queryString)
         .then(data => commit('setPage', data))
     },
-    getEventPageNotes( { commit }, { eventdate, bandsid }) {
+    getEventPageNotes( { commit }, { eventdate, bandsid, usersid }) {
       const config = {
         headers: {
           bandsid,
-          eventdate
+          eventdate,
+          usersid
         }
       }
       return axios.get('/api/notedate', config)

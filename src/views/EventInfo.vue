@@ -84,7 +84,8 @@ export default {
         getNotes() {
             const payload = {
                 bandsid: this.noteBandId,
-                eventdate: this.$store.state.currentPageJson.data.date
+                eventdate: this.$store.state.currentPageJson.data.date,
+                usersid: this.$store.state.userCredentials.usersid
             }
             this.$store.dispatch('getEventPageNotes', payload)
         }
