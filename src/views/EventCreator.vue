@@ -5,15 +5,15 @@
                 <div class="form-box-register">
                     <div class="row">
                         <div class="col">
-                            <h1>Create an Event</h1>
+                            <h1 class="display-3 text-center my-2">Create an Event</h1><hr>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mx-auto">
                         <div class="col-lg-6 col-md-12">
                             <div class="row">
                                 <div>
-                                    <h1>Event Information</h1>
+                                    <br><h3 class="form-section-header">Event Information</h3><hr>
                                     <img class="eventPic" v-if="displayImage" :src="displayImage" alt="Event"><br>
                                     <input v-if="!upload1" class="form-control" type="file" name="file" id="eventImg"
                                         ref="file" accept="image/*" v-on:change="processUpload()">
@@ -46,46 +46,50 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
-                            <div class="row">
+                            <div class="row mx-auto">
                                 <div>
-                                    <h1>Venue Information</h1>
+                                    <br><h3 class="form-section-header">Venue Information</h3><hr>
                                     <div class="row">
                                         <label for="event-location">Venue Name
                                             <input class="form-control" type="text" id="event-location" v-model="eventlocation"
                                                 placeholder="" />
                                         </label>
                                     </div>
-                                </div>
                                 <div class="row">
                                     <label for="event-city">City
                                         <input class="form-control" type="text" id="event-city" v-model="eventcity"
                                             placeholder="" />
                                     </label>
                                 </div>
-                                <br>
                                 <div class="row">
                                     <label for="event-state">State
                                         <input class="form-control" type="text" id="event-state" v-model="eventstate"
                                             placeholder="" />
                                     </label>
                                 </div>
-                                <div class="row">
-                                    <div class="col mt-4">
-                                        <h1>Band Information</h1>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            
+                        </div>
                             </div>
+                        </div>
+                        <div class="col-12">
+                            <br><div class="row">
+                                <h3 class="form-section-header">Band Information</h3>
+                            </div><hr>
                             <div class="row">
-                                    <label for="event-bands">Your Band
-                                        <select class="form-control" type="text" id="event-bands" v-model="bandsid"
-                                            placeholder="">
-                                            <option v-for="band in bandsList" :key="band.id" :value="band.id">{{
-                                                band.bandname
-                                                }}</option>
-                                        </select>
-                                    </label>
+                                <label for="event-bands">Your Band
+                                    <select class="form-control" type="text" id="event-bands" v-model="bandsid"
+                                        placeholder="">
+                                        <option v-for="band in bandsList" :key="band.id" :value="band.id">{{
+                                            band.bandname
+                                            }}</option>
+                                    </select>
+                                </label>
                             </div>
-                            <div class="row">
+                        </div>
+                        <div class="col-12">
+                            <div class="row mx-auto">
                                     <button class="btn btn-event-create-2" type='button' @click='submit'>
                                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                                         Create Event
@@ -240,6 +244,13 @@ export default {
 
   .btn-event-create-2 {
       margin: 2em auto
+  }
+
+  .form-section-header {
+      font-family: 'Open Sans', 'sans serif';
+      font-size: 1.5em;
+      text-transform: uppercase;
+      color: #677794
   }
 
 </style>
