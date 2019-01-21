@@ -51,8 +51,11 @@ use hgjvhowcs9snx6dw;
 
 
 
+
+
 -- select * from users;
-select * from events;
+select * from readnotes;
+-- select * from events;
 -- select * from notes;
 -- select * from bands;
 -- select * from bandmates;

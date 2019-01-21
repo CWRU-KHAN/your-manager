@@ -1,6 +1,7 @@
 <template>
   <div class='bordered'>
     <h2> {{ noteInfo.notetitle }} </h2>
+    <button type="button" @click="markAsRead">Mark As Read</button>
     <h4>{{noteInfo.notebody}}</h4>
 <!-- This is the date on the calendar that the note is attached to.
       There must be a better way to organize this.-->
@@ -18,7 +19,10 @@
 import moment from 'moment'
 export default {
   props: [
-    'noteInfo'
+    'noteInfo',
+    'refresherId',
+    'refresherBandsId',
+    'refresherMethod'
   ],
   computed: {
     calendarDate() {
@@ -29,9 +33,23 @@ export default {
     },
     postedTime() {
       return moment(this.noteInfo.postedat).format('h:mm a')
-
+    },
+    readClass() {
+      return this.noteInfo.read ? 'readNote' : 'unreadNote'
     }
-  }
+  },
+  methods: {
+    markAsRead() {
+      const payload = {
+        token: this.$store.state.userCredentials.userToken,
+        userName: this.$store.state.userCredentials.username,
+        usersid: this.$store.state.userCredentials.usersid,
+        notesid: this.noteInfo.id
+      }
+      this.$store.dispatch('markNoteAsRead', payload)
+        .then(result => this.$store.commit(this.refresherMethod, {notesid: this.refresherId, bandsid: this.refresherBandsId}))
+    }
+  },
 }
 </script>
 

@@ -21,7 +21,13 @@
                   >
                     <option v-for="band in relevantBands" :key="band.id" :value="band.id">{{ band.bandname }}</option>                    
                   </select></h4>
-                  <note-card v-for="note in relevantNotes" :noteInfo="note" :key="note.id"></note-card>
+                  <h4 v-if="relevantNotes.length">Unread Notes</h4>
+                  <note-card v-for="note in relevantNotes" :noteInfo="note" :key="note.id"
+                  :refresherId="note.id"
+                  :refresherMethod="'toggleEventInfoNote'"
+                  ></note-card>
+                  <h4 v-if="relevantReadNotes.length">Read Notes</h4>
+                  <note-card v-for="note in relevantReadNotes" :noteInfo="note" :key="note.id"></note-card>
 
                     <router-link to="note/create">Add A New Note</router-link>
 
@@ -73,10 +79,22 @@ export default {
         },
         relevantNotes() {
             return this.$store.state.currentEventPageNotes.data ? 
-                this.$store.state.currentEventPageNotes.data.map(note => {
+                this.$store.state.currentEventPageNotes.data
+                .map(note => {
                     note.author = note.username
                     return note
-                }) : 
+                })
+                .filter(note => !note.read) : 
+                false
+        },
+        relevantReadNotes() {
+            return this.$store.state.currentEventPageNotes.data ? 
+                this.$store.state.currentEventPageNotes.data
+                .map(note => {
+                    note.author = note.username
+                    return note
+                })
+                .filter(note => note.read) : 
                 false
         }
     },
@@ -84,7 +102,8 @@ export default {
         getNotes() {
             const payload = {
                 bandsid: this.noteBandId,
-                eventdate: this.$store.state.currentPageJson.data.date
+                eventdate: this.$store.state.currentPageJson.data.date,
+                usersid: this.$store.state.userCredentials.usersid
             }
             this.$store.dispatch('getEventPageNotes', payload)
         }

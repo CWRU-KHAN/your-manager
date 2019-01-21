@@ -76,26 +76,43 @@
 
         </div>
       </div>
-      <div class="col-lg-6 col-md-12">
-        <h4>Notes</h4>
-        <div>
-          <!-- once we have a computed property that checks to see if a band has notes this should work -->
-          <!-- need to do this to the events div too -->
-          <div v-if="!hasNotes">
-            <div class="bandBox">
-              <p>please create a band to have notes</p>
-            </div>
-          </div>
 
-          <div v-if="hasNotes">
-            <div v-for="(band, i) in notesList" :key="i">
-              <div class="row boxHeader">
-                <div class="col-8 ">
-                  <h3 class="note-event-band">{{ band.name }}</h3>
-                </div>
-                <div class="col-4">
-                  <router-link class="btn btn-event-create btn-fix-center" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
-                </div>
+
+                <div class="col-lg-6 col-md-12">
+                    <h4>Notes</h4>
+                    <div>
+                    <div v-if="!hasNotes">
+                      <div class="bandBox">
+                        <p>please create a band to have notes</p>
+                     </div>
+                    </div>
+                      <div v-if="hasNotes">
+                        <div v-for="(band, i) in notesList" :key="i">
+                          <div class="row boxHeader">
+                            <div class="col-8 ">
+                            <h3 class="note-event-band">{{ band.name }}</h3>
+                            <p v-if="notesList.length"> {{ notesList[i].notes.length }} Unread </p>
+                            </div>
+                            <div class="col-4">
+                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
+                              </div>
+                          </div>
+                          <div class="bandBox">
+                            <h4 v-if="notesList[i].notes.length">Unread Notes</h4>
+                            <div v-for="note in band.notes" :key="note.id">
+                                <note-card :noteInfo="note"
+                                :refresherId="note.id"
+                                :refresherMethod="'toggleUserDashNote'"
+                                :refresherBandsId="band.bandsid"
+                                ></note-card>
+                            </div>
+                            <h4 v-if="readNotesList[i].notes.length">Read Notes</h4>
+                            <div v-for="note in readNotesList[i].notes" :key="note.id">
+                                <note-card :noteInfo="note"></note-card>
+                            </div>
+                          </div>
+                        </div>
+                    </div> 
               </div>
               <div class="bandBox">
                 <div v-for="note in band.notes" :key="note.id">
@@ -154,9 +171,27 @@ export default {
     },
     notesList() {
       return this.$store.state.currentPageJson.data[1].length ? 
-        this.$store.state.currentPageJson.data[1].filter(entry => entry.bandsid) : 
+        this.$store.state.currentPageJson.data[1]
+          .filter(entry => entry.bandsid)
+          .map(band => {
+            const { bandsid, name, notes } = band
+            const unreadNotes = notes.filter(note => !note.read)
+            return { bandsid, name, notes: unreadNotes }
+          }) : 
         false
     },
+    readNotesList() {
+      return this.$store.state.currentPageJson.data[1].length ? 
+        this.$store.state.currentPageJson.data[1]
+          .filter(entry => entry.bandsid)
+          .map(band => {
+            const { bandsid, name, notes } = band
+            const readNotes = notes.filter(note => note.read)
+            return { bandsid, name, notes: readNotes }
+          }) : 
+        false
+    },
+    
     eventsForCalendar() {
       const rawEvents = this.$store.state.currentPageJson.data[2]
       if (!rawEvents.length) return []

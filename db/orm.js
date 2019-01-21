@@ -43,6 +43,17 @@ const orm = (() => {
         })
     }
 
+    const selectSomeWhereTwoCond = (table, whereCol1, whereVal1, whereCol2, whereVal2, selectCols) => {
+        return new Promise((resolve, reject) => {            
+            let queryString = `SELECT ${dblQuestions(selectCols.length)} FROM ${table} WHERE ?? = ? AND ?? = ?`;
+            let vals = [...selectCols, whereCol1, whereVal1, whereCol2, whereVal2]
+            connection.query(queryString, vals, (err, res) => {
+                if (err) reject(err);
+                resolve(res);
+            })
+        })
+    }
+
     const selectSomeWhereOrderBy = (table, whereCol, whereVal, selectCols, orderCol) => {
         return new Promise((resolve, reject) => {            
             let queryString = `SELECT ${dblQuestions(selectCols.length)} FROM ${table} WHERE ?? = ? ORDER BY ??`;
@@ -85,7 +96,22 @@ const orm = (() => {
             })
         }
     )}
-
+// SELECT dblquestions FROM notes JOIN bands ON bands.id = notes.bandsid JOIN readnotes ON readnotes.notesid = notes.id WHERE bandsid = bandsid AND readnotes.usersid = usersid
+    const selectJoinNotes = (t1cols, t2cols, t3cols, bandsid, usersid) => {
+        return new Promise((resolve, reject) => {
+            const table1Selectors = t1cols.map(value => `notes.${value}`)
+            const table2Selectors = t2cols.map(value => `bands.${value}`)
+            const table3Selectors = t3cols.map(value => `readnotes.${value}`)
+            const selectors = [...table1Selectors, ...table2Selectors, ...table3Selectors]
+            const queryString = `SELECT ${dblQuestions(selectors.length)} FROM notes JOIN bands ON bands.id = notes.bandsid JOIN readnotes ON readnotes.notesid = notes.id WHERE bandsid = ?`
+            // AND readnotes.usersid = ?
+            const vals = [...selectors, bandsid]
+            connection.query(queryString, vals, (err, res) => {
+                if (err) reject(err)
+                resolve(res)
+            })
+        })
+    }
 
     const insertOne = (table, cols, vals) => {
         return new Promise((resolve, reject) => {
@@ -143,6 +169,7 @@ const orm = (() => {
         selectAll,
         selectSome,
         selectSomeWhere,
+        selectSomeWhereTwoCond,
         insertOne,
         insertMany,
         updateOne,
@@ -150,7 +177,8 @@ const orm = (() => {
         deleteOne,
         deleteOneTwoCond,
         selectTripleJoin,
-        selectSomeWhereOrderBy
+        selectSomeWhereOrderBy,
+        selectJoinNotes
     }
 
 })()

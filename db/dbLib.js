@@ -1,4 +1,15 @@
-const { selectSomeWhere, selectSomeWhereOrderBy, selectSomeJoin, insertOne, insertMany, updateOne, deleteOne, deleteOneTwoCond, selectTripleJoin } = require('./orm')
+const { 
+  selectSomeWhere, 
+  selectSomeWhereTwoCond,
+  selectSomeWhereOrderBy, 
+  selectSomeJoin, 
+  insertOne, 
+  insertMany, 
+  updateOne, 
+  deleteOne, 
+  deleteOneTwoCond, 
+  selectTripleJoin,
+  selectJoinNotes } = require('./orm')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -265,6 +276,29 @@ const dbLib = (() => {
       .catch(err => console.log(err))
   }
 
+
+  // marks a note as read for a user
+  const markNoteAsRead = ({ token, userName, usersid, notesid }) => {
+    verifyToken(userName, token)
+    return insertOne(
+      'readnotes',
+      ['usersid', 'notesid'],
+      [usersid, notesid]
+    )
+      .then(results => {
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: 'Error: Note not marked as unread.'
+            }
+          }
+        }
+        return results
+      })
+      .catch(err => console.log(err))
+  }
+
   // gets a band token for sharing
   const addNewBandToken = ({ token, userName, bandsid }) => {
     return new Promise((resolve, reject) => {
@@ -274,7 +308,7 @@ const dbLib = (() => {
   }
 
   // gets info on a band
-  const getBandInfo = ({ bandsid }) => {
+  const getBandInfo = ({ bandsid, usersid }) => {
     return Promise.all([
       selectTripleJoin(
         'bandmates',
@@ -305,11 +339,23 @@ const dbLib = (() => {
         'notes.bandsid',
         'bandsid',
         bandsid
+      ),
+      selectSomeWhere(
+        'readnotes',
+        'usersid',
+        usersid,
+        ['notesid']
       )]
     )
       .then(results => {        
         if (results[0].affectedRows === 0) throw new Error('500: Not a valid band.')
-        return results
+        const [bands, events, notes, notesMap] = results
+        const notesList = notesMap.map(({ notesid }) => notesid)
+        const modifiedNotes = notes.map(note => {
+          note.read = notesList.includes(note.id)
+          return note
+        })
+        return [bands, events, modifiedNotes]
       })
       .then(resultsArray => {
         const usersResults = resultsArray[0]      
@@ -426,11 +472,11 @@ const dbLib = (() => {
   }
 
   // get notes for a specific day for a specific band
-  const getNotesOnDate = ({ bandsid, eventdate }) => {
+  const getNotesOnDate = ({ bandsid, eventdate, usersid }) => {
     return selectSomeJoin(
       'notes',
       'users',
-      ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat'],
+      ['usersid', 'notetitle', 'notebody', 'calendardate', 'postedat', 'id'],
       ['username'],
       'notes.usersid',
       'users.id',
@@ -442,7 +488,31 @@ const dbLib = (() => {
       const relevantResults = results.filter(({ calendardate }) => {
         return moment(calendardate).format().slice(0,10) === trimmedDate
       })
-      return relevantResults
+      return Promise.all([
+        relevantResults,
+        selectSomeWhere(
+          'readnotes',
+          'usersid',
+          usersid,
+          ['notesid']
+        )        
+      ])
+    })
+    .then(results => {
+      if (results.length === 1) return results[0]
+      const [notes, noteArray] = results
+
+      const noteList = noteArray
+        .map(({ notesid }) => notesid)
+        
+      const modifiedNotes = notes.map(note => {
+          note.read = noteList.includes(note.id)
+          return note
+        })     
+
+      return modifiedNotes
+
+      
     })
   }
 
@@ -498,7 +568,7 @@ const dbLib = (() => {
           })
         )
       })
-     
+
     .then(results => {
       const bandsWithNotes = results.filter(bandNotes => bandNotes.length)
 
@@ -546,7 +616,36 @@ const dbLib = (() => {
 
       return modifiedNotes
     })
-    .catch(translateDbErr)
+    .then(results => {
+      return Promise.all([
+        results,
+        selectSomeWhere(
+          'readnotes',
+          'usersid',
+          usersid,
+          ['notesid']
+        )        
+      ])
+    })
+    .then(results => {
+      if (results.length === 1) return results[0]
+      const [bands, ...noteArray] = results
+
+      const noteList = noteArray
+        .reduce((acc, cur) => acc.concat(cur))
+        .map(({ notesid }) => notesid)
+        
+      const modifiedNotes = bands.map(band => {
+        if (band.length === 0) return band
+        return band.map(note => {
+          note.read = noteList.includes(note.id)
+          return note
+        })
+      })
+
+      return modifiedNotes
+    })
+    .catch(err => console.log(err))
   }
 
   // gets notes relevant to a user
@@ -827,6 +926,7 @@ const dbLib = (() => {
     addNewBE,
     addNewBM,
     addNewNote,
+    markNoteAsRead,
     addNewExternalBand,
     addNewBandToken,
     getBandInfo,

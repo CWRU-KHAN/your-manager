@@ -22,6 +22,7 @@ const { addNewUser,
   addNewBM,
   addNewExternalBand,
   addNewNote,
+  markNoteAsRead,
   addNewBandToken,
   getBandInfo,
   getUserInfo,
@@ -142,9 +143,19 @@ app.post('/api/note/', (req, res) => {
     .catch(err => res.status(200).send(err || 'Internal server error.'))
 })
 
+app.post('/api/readnote/', (req, res) => {
+  markNoteAsRead(req.body)
+    .then(results => {
+      if (results.error) throw results.error
+      res.json({success: true})
+    })
+    .catch(err => res.send(err.message))
+})
+
 // get info on a specific band
 app.get('/api/band/:id', (req, res) => {
-  getBandInfo({ bandsid: req.params.id })
+  const { usersid } = req.headers
+  getBandInfo({ bandsid: req.params.id, usersid })
     .then(results => {
       if (results.error) throw results.error
       res.json(results)
@@ -201,8 +212,8 @@ app.get('/api/event/:id', (req, res) => {
 
 // get notes for a specific band for a specific day
 app.get('/api/notedate/', (req, res) => {
-  const { eventdate, bandsid } = req.headers
-  getNotesOnDate({ eventdate, bandsid })
+  const { eventdate, bandsid, usersid } = req.headers
+  getNotesOnDate({ eventdate, bandsid, usersid })
     .then(results => {
       res.json(results)
     })
