@@ -24,7 +24,7 @@ export default {
   methods: {
     viewEvent() {
       this.$store.commit('setEvent', this.eventInfo.id)
-      this.$router.push('event/info')
+      this.$router.push('/event/info')
     }
   }
 }
