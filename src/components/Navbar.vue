@@ -9,7 +9,7 @@
             </router-link>
         <nav class="navbar navbar-expand-md">
             <!-- <p class="d-xl-none d-lg-none d-md-none text-white mx-auto">mobile menu will go here</p> -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" v-on:click="toggleNavbar">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation" v-on:click="toggleNavbar">
                 <i class="fa fa-bars" aria-hidden="true"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav" v-bind:class="{ 'show': show}">
