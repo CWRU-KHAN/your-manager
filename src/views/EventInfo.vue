@@ -56,13 +56,14 @@ export default {
             return this.$store.state.userCredentials.usersid === this.$store.state.currentPageJson.data.ownerid
         },
         bandsPlaying() {
-            return this.$store.state.currentPageJson.data.internalBands.length ?
-                this.$store.state.currentPageJson.data.internalBands :
-                []
+            return this.$store.state.currentPageJson.data.internalBands && 
+                this.$store.state.currentPageJson.data.internalBands.length ?
+                    this.$store.state.currentPageJson.data.internalBands :
+                    []
         },
         relevantBands() {
             const eventBands = this.$store.state.currentPageJson.data.internalBands
-            const userBands = this.$store.state.currentUser[0].bands
+            const userBands = this.$store.state.currentUser[0].bands            
             if (!eventBands.length || !userBands.length) return []
             const relevantBands = eventBands.filter(band => {
                 const matchMap = userBands.map(({ id }) => id)
@@ -71,10 +72,12 @@ export default {
             return relevantBands
         },
         relevantNotes() {
-            return this.$store.state.currentEventPageNotes.data.map(note => {
-                note.author = note.username
-                return note
-            })
+            return this.$store.state.currentEventPageNotes.data ? 
+                this.$store.state.currentEventPageNotes.data.map(note => {
+                    note.author = note.username
+                    return note
+                }) : 
+                false
         }
     },
     methods: {
