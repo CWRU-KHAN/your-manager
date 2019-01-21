@@ -1,17 +1,16 @@
 <template>
 
-<div class="container py-4 my-3 mx-auto">
+<div class="container-fluid">
       <form>
     <div class="row justify-content-start">
-      <div class="col">
+      <div class="col-3">
         <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
       </div>
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
+      <div class="col">
         <div class="form-box">
           <div class="row">
             <div class="col">
               <h1>Log In</h1>
-              <p class="lead">Here goes a tagline that I haven't come up with yet</p>
             </div>
           </div>
           <div class="row">
@@ -97,7 +96,8 @@ export default {
 <style>
 
 .ym-luggage {
-  height: 500px;
+  min-height: 250px;
+  height: auto;
   width: auto;
   float: right
 }
@@ -114,31 +114,31 @@ input {
 }
 
 .btn {
-    font-family: 'Open Sans';
-    font-size: .75em;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    padding: .5em 2em .5em 2em;
-    margin: 0em .5em 0em .5em
-  }
+  font-family: 'Open Sans';
+  font-size: .75em;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: .5em 2em .5em 2em;
+  margin: 0em .5em 0em .5em
+}
 
-  .btn-icon {
-    margin-right: .5em
-  }
+.btn-icon {
+  margin-right: .5em
+}
 
-  .btn-login-2 {
-    font-size: 1em;
-    padding: .5em 3em .5em 3em;
-    background-color: #373737;
-    border: solid 2px transparent;
-    color: #ededed;
-  }
+.btn-login-2 {
+  font-size: 1em;
+  padding: .5em 3em .5em 3em;
+  background-color: #373737;
+  border: solid 2px transparent;
+  color: #ededed;
+}
 
-  .btn-login-2:hover {
-    background-color: #677794;
-    border: solid 2px #677794;
-    color: #ededed
-  }
+.btn-login-2:hover {
+  background-color: #677794;
+  border: solid 2px #677794;
+  color: #ededed
+}
 
 .button-show-password {
   font-family: 'Open Sans', 'san-serif';
