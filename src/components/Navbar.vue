@@ -37,12 +37,12 @@
                         YM: <span class="nav-heading nav-heading-username">{{ this.$store.state.userCredentials.username }}</span>
                         <hr class="nav-line-break">
                     </li>
-                    <li class="nav-item">
-                        <router-link class="" to="/dashboard">
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/dashboard">
                             <i class="fa fa-home btn-icon" aria-hidden="true"></i>
                             Dashboard
                         </router-link>
-                    </li>
+                    <!-- </li> -->
                     
                     <br><br>
 
@@ -56,12 +56,12 @@
                         <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
                     </li>
 
-                    <li class="nav-item">
-                        <router-link class="" to="/band/create" alt>
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/band/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Band
                         </router-link>
-                    </li>
+                    <!-- </li> -->
 
                     <br><br>
 
@@ -71,12 +71,12 @@
                         <hr class="nav-line-break">
                     </li>
 
-                    <li class="nav-item">
-                        <router-link class="" to="/event/create" alt>
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/event/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Event
                         </router-link>
-                    </li>
+                    <!-- </li> -->
 
                     <br><br>
 
@@ -86,12 +86,12 @@
                     </li>
 
 
-                    <li class="nav-item">
-                        <router-link class="" to="/note/create" alt>
+                    <!-- <li class="nav-item"> -->
+                        <router-link tag="li" class="nav-item" to="/note/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Note
                         </router-link>
-                    </li>
+                    <!-- </li> -->
 
                     <br><br>
 
@@ -152,14 +152,22 @@ export default {
     text-transform: uppercase;
     text-decoration: none;
     padding: 1em .2em;
-    margin: .1em 0em
+    margin: .1em 0em;
+    color:#ededed
+}
+
+.router-link-active {
+    font-weight: 800;
+    color: #ededed
 }
 
 .nav-item:hover {
-    color: #fbaf2c
+    color: #373737;
+    background-color: #ededed
 }
 
-a {
+.nav-item:active {
+    font-weight: 800;
     color: #ededed
 }
 
