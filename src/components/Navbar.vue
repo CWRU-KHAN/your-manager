@@ -13,49 +13,70 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav flex-column">
-                    <li class="nav-heading" v-if="!loggedIn">
+                <ul v-if="!loggedIn" class="navbar-nav flex-column">
+                    <li class="nav-heading">
                         Your Manager
+                        <hr class="nav-line-break">
                     </li>
-                    <li class="nav-heading" v-if="loggedIn">
-                        {{ this.$store.state.userCredentials.username }}
-                    </li>
+                    
                     <li class="nav-item">
-                        <router-link class="nav-item-text" v-if="!loggedIn" to="/login">
+                        <router-link class="nav-item-text" to="/login">
                         <i class="fa fa-sign-in btn-icon" aria-hidden="true"></i>
                         Login
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="" v-if="!loggedIn" to="/signup">
+                        <router-link class="" to="/signup">
                         <i class="fa fa-user-plus btn-icon" aria-hidden="true"></i>
                         Register
                         </router-link>
                     </li>
-
+                </ul>
+                <ul v-if="loggedIn" class="navbar-nav flex-column">
+                    <li class="nav-heading">
+                        YM: <span class="nav-heading nav-heading-username">{{ this.$store.state.userCredentials.username }}</span>
+                        <hr class="nav-line-break">
+                    </li>
                     <li class="nav-item">
-                        <router-link class="" v-if="loggedIn" to="/dashboard">
+                        <router-link class="" to="/dashboard">
                             <i class="fa fa-home btn-icon" aria-hidden="true"></i>
                             Dashboard
                         </router-link>
                     </li>
+                    
+                    <br><br>
+
+                    <li class="nav-heading">
+                        Events
+                        <hr class="nav-line-break">
+                    </li>
 
                     <li class="nav-item">
-                        <router-link class="" v-if="loggedIn" to="/event/create" alt>
+                        <router-link class="" to="/event/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Event
                         </router-link>
                     </li>
 
+                    <br><br>
+
+                    <li class="nav-heading">
+                        Notes
+                        <hr class="nav-line-break">
+                    </li>
+
+
                     <li class="nav-item">
-                        <router-link class="" v-if="loggedIn" to="/note/create" alt>
+                        <router-link class="" to="/note/create" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Note
                         </router-link>
                     </li>
 
+                    <br><br>
+
                     <li class="nav-item">
-                        <button class="button button-red" v-if="loggedIn" type="button" @click="logout">
+                        <button class="button button-red btn-block" type="button" @click="logout">
                         <i class="fa fa-sign-out btn-icon" aria-hidden="true"></i>
                         Logout
                         </button>
@@ -89,6 +110,10 @@ export default {
 
 <style scoped>
 
+.force-blue {
+    color: #ededed
+}
+
 .nav-item {
     font-family: 'Open Sans', 'sans serif';
     font-size: .9em;
@@ -97,30 +122,42 @@ export default {
     text-transform: uppercase;
     text-decoration: none;
     padding: .2em;
-    margin: .5em 0em .5em 0em
+    margin: 0em
 }
 
 a {
     color: #ededed
 }
 
+.nav-line-break {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ededed;
+    margin: 1em 0em;
+    padding: 0; 
+}
+
 .nav-ym-icon {
     padding: 1em;
-    margin-top: .5em;
+    margin: 1em 0em 0em 0em;
     height: 175px;
     width: 175px
 }
 
 .nav-heading {
     font-family: 'Open Sans', 'sans serif';
-    font-size: 1.2em;
-    font-weight: 400;
-    line-height: 1em;
+    font-size: 1em;
+    font-weight: 500;
     letter-spacing: .1em;
     text-transform: uppercase;
     text-decoration: none;
-    padding: .2em;
-    color: #fbaf2c
+    color: #fbaf2c;
+    margin: 1em 0em
+}
+
+.nav-heading-username {
+    color: #ededed
 }
 
 .navContainer {
@@ -156,7 +193,6 @@ a {
     text-transform: uppercase;
     letter-spacing: .1em;
     padding: .5em 2em .5em 2em;
-    margin: 0em .5em 0em .5em
 }
 
 .button-icon {
