@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4 my-3 mx-auto">
+  <div class="container-fluid">
     <form>
     <div class="row justify-content-start">
       
@@ -99,7 +99,7 @@
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-3">
         <img class="ym-luggage-icons" src="@/assets/ymLuggageIcons.png">
       </div>
     </div>
@@ -161,9 +161,11 @@ export default {
 <style scoped>
 
 .ym-luggage-icons {
-  float: left;
-  height: 500px;
-  width: 400px
+  min-height: 100px;
+  height: auto;
+  width: auto;
+  overflow:hidden;
+  float: left
 }
 
 .button-show-password-2 {
