@@ -101,8 +101,9 @@ a {
 
 .nav-ym-icon {
     padding: 1em;
-    height: 200px;
-    width: 200px
+    margin-top: .5em;
+    height: 175px;
+    width: 175px
 }
 
 .nav-heading {
