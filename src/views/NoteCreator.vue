@@ -155,7 +155,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
   .btn-note-create-2 {
     background-color: #979797;
@@ -168,5 +168,10 @@ export default {
     border: solid 2px #979797;
     color: #ededed
   }
+
+    .ym-luggage {
+    height: 200px;
+    width: auto;
+    }
 
 </style>

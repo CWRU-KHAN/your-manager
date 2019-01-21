@@ -10,8 +10,8 @@
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="band">
-          <i class="fa fa-plus btn-icon plus" aria-hidden="true" @click="goToCreate()"></i>
+        <div class="band" @click="goToCreate()"> 
+          <i class="fa fa-plus btn-icon plus" aria-hidden="true"></i>
         </div>
       </div>
       <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 col-md-6 band">
@@ -338,7 +338,7 @@ export default {
     text-transform: uppercase;
     letter-spacing: .1em;
     color: #ededed;
-    margin-top: 3%;
+    margin-top: 1em;
   }
 
   .btn-event-create {
@@ -346,15 +346,15 @@ export default {
     font-size: 1.5em;
     border: solid 2px transparent;
     color: #ededed;
-    transition-property: background-color, color;
+    transition-property: font-size;
     transition: 400ms;
   }
 
-  .btn-event-create:hover {
-    background-color: transparent;
-    border: solid 2px #677794;
-    color: #677794;
-  }
+  /* .btn-event-create:hover {
+    font-size: 1.8em;
+    margin: -.3em 0em;
+    overflow: hidden;
+  } */
 
   .calRow {
     height:400px;

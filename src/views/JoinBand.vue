@@ -6,7 +6,7 @@
                     <div class="form-box-register">
                         <div class="row">
                             <div class="col">
-                                <h1>Join a band</h1>
+                                <h1>Join a Band</h1>
                                 <h4 class="align">Please paste the unique band-code below</h4>
                                 <hr>
                             </div>
