@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <!-- <router-link v-if="bandOwner" to="/band/changeProfile">Edit Band Details</router-link> -->
+    <router-link v-if="bandOwner" to="/band/changeProfile">Edit Band Details</router-link>
     <div class="row top">
       <div class="col-lg-8">
         <div id="CalendarView">
@@ -22,7 +22,7 @@
               <h3 class="note-event">Events</h3>
           </div>
           <div class="col-4">
-            <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-plus boxEditor" aria-hidden="true"></i></router-link>
+            <router-link class="btn btn-event-create" to="/event/create"><i class="fa fa-plus boxEditor" aria-hidden="true"></i></router-link>
             </div>
           </div>
         <div class="bandBox">
@@ -32,7 +32,7 @@
               <th>Date</th>
               <th>Info</th>
             </tr>
-          <event-card v-for="event in eventsList" :key="event.id" :event-info="event"></event-card>
+          <event-card v-for="event in eventsList" :key="event.id" :eventInfo="event"></event-card>
           </table>
         </div>
       </div>
@@ -43,7 +43,7 @@
                             <h3 class="note-event">Notes</h3>
                             </div>
                             <div class="col-4">
-                                <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-pencil boxEditor"></i></router-link>
+                                <router-link class="btn btn-event-create" to="/note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                               </div>
                           </div>
         <div class="bandBox">

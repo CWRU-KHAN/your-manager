@@ -166,9 +166,13 @@ export default {
       serverErrors: 'getCurrentErrors'
     }),
     bandsList() {
-      return this.$store.state.currentPageJson.data[0].bands ? 
-        this.$store.state.currentPageJson.data[0].bands :
-        false
+      const data = this.$store.state.currentPageJson.data
+      return data.bandname ? 
+        [{
+          bandname: data.bandname,
+          id: this.$store.state.bandCredentials.bandsid
+        }] :
+        data[0].bands
     },
     displayImage() {
       return this.eventimage ? this.eventimage : false

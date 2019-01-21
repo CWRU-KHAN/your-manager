@@ -107,16 +107,21 @@ export default {
         calendarDate: '',
         bandsid: '',
         errors: [],
-        // file: '',
     }
   },
   computed: {
     ...mapGetters({
       serverErrors: 'getCurrentErrors'
     }),
-    //need to check CPJ.data for accurate path
+
     bandsList() {
-      return this.$store.state.currentPageJson.data[0].bands
+      const data = this.$store.state.currentPageJson.data
+      return data.bandname ? 
+        [{
+          bandname: data.bandname,
+          id: this.$store.state.bandCredentials.bandsid
+        }] :
+        data[0].bands
     }
   },
   methods: {
