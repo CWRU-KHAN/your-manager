@@ -158,6 +158,15 @@ export default new Vuex.Store({
         }
       })
     },
+    markNoteAsRead({ commit }, data) {
+      return axios.post('/api/readnote', data).then(({ data }) => {
+        if (data.message) {
+          commit('addError', data.message)
+        } else {
+          // re-sort notes
+        }
+      })
+    },
     addUserToBand({ commit }, credentials) {
       return axios.post('/api/bandmate', credentials).then(({ data }) => {
         if (data.message) {

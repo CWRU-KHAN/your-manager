@@ -156,3 +156,19 @@ CREATE TABLE `bandsgenres`
   KEY `fkIdx_53` (`bandsid`),
   CONSTRAINT `FK_53` FOREIGN KEY `fkIdx_53` (`bandsid`) REFERENCES `bands` (`id`) ON DELETE CASCADE
 );
+
+
+-- ****** readnotes
+
+CREATE TABLE `readnotes`
+(
+ `id`        integer auto_increment NOT NULL ,
+ `usersid`   integer NOT NULL ,
+ `notesid`  integer NOT NULL ,
+ `createdAt` timestamp NOT NULL ,
+PRIMARY KEY (`id`),
+KEY `fkIdx_54` (`usersid`),
+CONSTRAINT `FK_54` FOREIGN KEY `fkIdx_54` (`usersid`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+KEY `fkIdx_55` (`notesid`),
+CONSTRAINT `FK_55` FOREIGN KEY `fkIdx_55` (`notesid`) REFERENCES `notes` (`id`) ON DELETE CASCADE
+);

@@ -1,6 +1,7 @@
 <template>
   <div class='bordered'>
     <h2> {{ noteInfo.notetitle }} </h2>
+    <button type="button" @click="markAsRead">Mark As Read</button>
     <h4>{{noteInfo.notebody}}</h4>
 <!-- This is the date on the calendar that the note is attached to.
       There must be a better way to organize this.-->
@@ -31,6 +32,18 @@ export default {
       return moment(this.noteInfo.postedat).format('h:mm a')
 
     }
-  }
+  },
+  methods: {
+    markAsRead() {
+      const payload = {
+        token: this.$store.state.userCredentials.userToken,
+        userName: this.$store.state.userCredentials.username,
+        usersid: this.$store.state.userCredentials.usersid,
+        notesid: this.noteInfo.id
+      }
+      this.$store.dispatch('markNoteAsRead', payload)
+        .then(result => console.log(result))
+    }
+  },
 }
 </script>

@@ -265,6 +265,29 @@ const dbLib = (() => {
       .catch(err => console.log(err))
   }
 
+
+  // marks a note as read for a user
+  const markNoteAsRead = ({ token, userName, usersid, notesid }) => {
+    verifyToken(userName, token)
+    return insertOne(
+      'readnotes',
+      ['usersid', 'notesid'],
+      [usersid, notesid]
+    )
+      .then(results => {
+        if (results.affectedRows === 0) {
+          return {
+            error: {
+              code: 403,
+              message: 'Error: Note not marked as unread.'
+            }
+          }
+        }
+        return results
+      })
+      .catch(err => console.log(err))
+  }
+
   // gets a band token for sharing
   const addNewBandToken = ({ token, userName, bandsid }) => {
     return new Promise((resolve, reject) => {
@@ -827,6 +850,7 @@ const dbLib = (() => {
     addNewBE,
     addNewBM,
     addNewNote,
+    markNoteAsRead,
     addNewExternalBand,
     addNewBandToken,
     getBandInfo,
