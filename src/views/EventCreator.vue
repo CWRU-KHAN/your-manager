@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="row">
-                                <div class="col mt-4">
+                                <div>
                                     <h1>Event Information</h1>
                                     <img class="eventPic" v-if="displayImage" :src="displayImage" alt="Event"><br>
                                     <input v-if="!upload1" class="form-control" type="file" name="file" id="eventImg"
@@ -45,67 +45,66 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="row">
-                            <div class="col mt-4">
-                                <h1>Venue Information</h1>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="row">
+                                <div>
+                                    <h1>Venue Information</h1>
+                                    <div class="row">
+                                        <label for="event-location">Venue Name
+                                            <input class="form-control" type="text" id="event-location" v-model="eventlocation"
+                                                placeholder="" />
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="row">
-                                    <label for="event-location">Venue Name
-                                        <input class="form-control" type="text" id="event-location" v-model="eventlocation"
+                                    <label for="event-city">City
+                                        <input class="form-control" type="text" id="event-city" v-model="eventcity"
                                             placeholder="" />
                                     </label>
                                 </div>
+                                <div class="row">
+                                    <label for="event-state">State
+                                        <input class="form-control" type="text" id="event-state" v-model="eventstate"
+                                            placeholder="" />
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col mt-4">
+                                        <h1>Band Information</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mt-4">
+                                    <label for="event-bands">Your Band
+                                        <select class="form-control" type="text" id="event-bands" v-model="bandsid"
+                                            placeholder="">
+                                            <option v-for="band in bandsList" :key="band.id" :value="band.id">{{
+                                                band.bandname
+                                                }}</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mt-4">
+                                    <button class="btn btn-event-create-2" type='button' @click='submit'>
+                                        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+                                        Create Event
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p v-if="errors.length">
+                                        <b>Please correct the following error(s):</b>
+                                        <ul>
+                                            <li v-for="error in errors" :key="error">{{ error }}</li>
+                                        </ul>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <label for="event-city">City
-                                <input class="form-control" type="text" id="event-city" v-model="eventcity" placeholder="" />
-                            </label>
-                        </div>
-                        <div class="row">
-                            <label for="event-state">State
-                                <input class="form-control" type="text" id="event-state" v-model="eventstate"
-                                    placeholder="" />
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col mt-4">
-                        <h1>Band Information</h1>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mt-4">
-                        <label for="event-bands">Your Band
-                            <select class="form-control" type="text" id="event-bands" v-model="bandsid" placeholder="">
-                                <option v-for="band in bandsList" :key="band.id" :value="band.id">{{
-                                    band.bandname
-                                    }}</option>
-                            </select>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mt-4">
-                        <button class="btn btn-event-create-2" type='button' @click='submit'>
-                            <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
-                            Create Event
-                        </button>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <p v-if="errors.length">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                                <li v-for="error in errors" :key="error">{{ error }}</li>
-                            </ul>
-                        </p>
                     </div>
                 </div>
             </form>
@@ -229,10 +228,17 @@ export default {
     border: solid 2px #677794;
     color: #677794
   }
+
+  h1 {
+    text-align: left;
+  }
+
+
   .eventPic {
     width: 400px;
     height: auto;
     border: 2px solid #979797;
     border-radius: 5px;
   }
+
 </style>
