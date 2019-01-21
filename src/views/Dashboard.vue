@@ -66,7 +66,7 @@
                     <th>Title</th>
                     <th>Date</th>
                     <th>Venue</th>
-                    <th>Info</th>
+                    <th></th>
                   </tr>
                   <event-card v-for="event in band.events" :key="event.id" :event-info="event"></event-card>
                 </table>

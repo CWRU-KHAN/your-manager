@@ -2,7 +2,6 @@
   <tr class="tableRow">
       <td>{{ eventInfo.eventname }}</td>
       <td>{{ formattedDate }}</td>
-      <td>{{ eventInfo.eventlocation }}</td>
       <td><button type="button" @click="viewEvent" class="editButton">View Details</button></td>
   </tr>  
 </template>

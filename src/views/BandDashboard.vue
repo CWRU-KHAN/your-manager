@@ -1,16 +1,16 @@
 <template>
   <div class="container-fluid">
-    <router-link v-if="bandOwner" to="/band/changeProfile">Edit Band Details</router-link>
     <div class="row top">
-      <div class="col-lg-8">
+      <div class="col-lg-8 col-md-12">
         <div id="CalendarView">
           <calendar-view :eventsProp="eventsForCalendar" />
         </div>
       </div>
-      <div class="col-lg-4">
-        <h1>{{ this.$store.state.currentPageJson.data.bandname }}</h1>
+      <div class="col-lg-4 col-md-12">
+        <h1 class="bandName">{{ this.$store.state.currentPageJson.data.bandname }}</h1>
         <h4>Members</h4>
           <div class="members" v-for="member in membersList" :key="member.id"> {{ member.username }} </div>
+        <router-link v-if="bandOwner" to="/band/changeProfile" class="editButton">Edit Band Details</router-link>
       </div>
     </div>
     <br>
@@ -19,7 +19,7 @@
       <div class="col-lg-6 col-md-12">
         <div class="row boxHeader">
           <div class="col-8 ">
-              <h3 class="note-event">Events</h3>
+              <h3 class="note-event">Upcoming Events</h3>
           </div>
           <div class="col-4">
             <router-link class="btn btn-event-create" to="/event/create"><i class="fa fa-plus boxEditor" aria-hidden="true"></i></router-link>
@@ -30,7 +30,7 @@
             <tr>
               <th>Title</th>
               <th>Date</th>
-              <th>Info</th>
+              <th></th>
             </tr>
           <event-card v-for="event in eventsList" :key="event.id" :eventInfo="event"></event-card>
           </table>
@@ -81,7 +81,6 @@ export default {
         .filter(({ date }) => moment().isBefore(date)) :
       false
     },
-    // when we have events rendering to band page this will work
     notesList() {
       return this.$store.state.currentPageJson.data.notes.length ? 
         this.$store.state.currentPageJson.data.notes : 
@@ -94,6 +93,7 @@ export default {
         return {
           startDate: event.date,
           title: event.eventname,
+
           id: event.id
         }
       }) : []
@@ -126,7 +126,7 @@ export default {
     overflow-x: hidden;
     margin-top: 3%;
     border: 2px solid black;
-    border-radius: 5px;
+    border-radius: .4em;
     text-align: left;
     padding: 3%;
     
@@ -144,7 +144,7 @@ export default {
   .boxHeader {
     background-color: #677794;
     border: 1px solid #677794;
-    border-radius: 5px;
+    border-radius: .4em;
     margin-left: 1%;
     margin-right: 1%;
     width: auto;
@@ -157,13 +157,13 @@ export default {
   }
 
   .note-event {
-    height: 50px;
-    line-height: 50px;
+    height: 2.5em;
+    line-height: 2.5em;
     text-align: left;
     margin-left: 5%;
+    font-size: 2em;
   }
 
-    
   .btn-event-create {
     background-color: #677794;
     border: solid 2px transparent;
@@ -171,6 +171,30 @@ export default {
     transition-property: background-color, color;
     transition: 400ms;
     font-size: 1.5em;
-
   }
+
+  .bandName {
+    font-size: 2em;
+  }
+
+  .editButton {
+    background-color: #677794;
+    border: solid 2px transparent;
+    color: #ededed;
+    font-family: 'Open Sans';
+    font-size: .75em;
+    padding: .5em;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    transition-property: background-color, color;
+    transition: 400ms;
+    border-radius: .4em;
+  }
+
+  .editButton :hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #677794;
+  }
+
 </style>
