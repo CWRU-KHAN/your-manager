@@ -161,9 +161,11 @@ export default {
 <style scoped>
 
 .ym-luggage-icons {
-  float: left;
-  height: 500px;
-  width: 400px
+  min-height: 100px;
+  height: auto;
+  width: auto;
+  overflow:hidden;
+  float: left
 }
 
 .button-show-password-2 {
