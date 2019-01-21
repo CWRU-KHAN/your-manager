@@ -1,76 +1,92 @@
-    <template>
-        <div class="container-fluid">
-            <br>
-            <br>
-            <div class="row bandRow">
+<template>
+  <div class="container-fluid">
+    <br>
+    <br>
+    <div class="row bandRow">
 
-                <div class="col-lg-3 col-md-6" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
-                  <div class="band">
-                    <div @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="band">
-                    <i class="fa fa-plus btn-icon plus" aria-hidden="true" @click="goToCreate()"></i>
-                  </div>
-                </div>
-                <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 col-md-6 band">
-                    <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
-                </div>
+      <div class="col-lg-3 col-md-6" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
+        <div class="band">
+          <div @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="band">
+          <i class="fa fa-plus btn-icon plus" aria-hidden="true" @click="goToCreate()"></i>
+        </div>
+      </div>
+      <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 col-md-6 band">
+        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <br>
+    <hr>
+    <br>
+    <div class="row calRow">
+      <div class="col-lg-9">
+        <div id="CalendarView">
+          <calendar-view :eventsProp="eventsForCalendar" />
+        </div>
+      </div>
+      <div class="col-lg-3 ipadHide">
+        <img class="profPic" :src="computedImage">
+        <br>
+        <h2 class="user"> {{ `${this.$store.state.currentPageJson.data[0].username}` }} </h2>
+        <router-link class="btn page-btn" to="/user/changeProfile">Edit User Profile</router-link>
+      </div>
+    </div>
+
+    <br>
+    <hr>
+    <br>
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <h4>Events</h4>
+        <div>
+          <div v-if="!hasEvents">
+            <div class="bandBox">
+              <p>please create a band to have events</p>
             </div>
+          </div>
 
-            <br>
-            <hr>
-            <br>
-            <div class="row calRow">
-                <div class="col-lg-9">
-                    <div id="CalendarView">
-                        <calendar-view :eventsProp="eventsForCalendar"/>
-                    </div>
+          <div v-if="hasEvents">
+            <div v-for="(band, i) in eventsList" :key="i">
+              <div class="row boxHeader">
+                <div class="col-8 ">
+                  <h3 class="note-event-band">{{ band.name }}</h3>
                 </div>
-                <div class="col-lg-3 ipadHide">
-                    <img class="profPic" :src="computedImage">
-                    <br>
-                    <h2 class="user"> {{ `${this.$store.state.currentPageJson.data[0].username}` }} </h2>
-                    <router-link class="btn page-btn" to="/user/changeProfile">Edit User Profile</router-link>
+                <div class="col-4">
+                  <router-link class="btn btn-event-create btn-fix-center" to="event/create"><i class="fa fa-plus boxEditor"
+                      aria-hidden="true"></i></router-link>
                 </div>
+              </div>
+              <div class="bandBox">
+                <table class="col-12">
+                  <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th></th>
+                  </tr>
+                  <event-card v-for="event in band.events" :key="event.id" :event-info="event"></event-card>
+                </table>
+              </div>
             </div>
+          </div>
 
-            <br>
-            <hr>
-            <br>
-            <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <h4>Events</h4>
-                    <div>
-                        <p v-if="!hasBands">Please Create or Join a Band to see Events</p>
-                        <div v-for="(band, i) in eventsList" :key="i">
-                            <div class="row boxHeader">
-                              <div class="col-8 ">
-                                <h3 class="note-event-band">{{ band.name }}</h3>
-                              </div>
-                              <div class="col-4">
-                                <router-link class="btn btn-event-create" to="event/create"><i class="fa fa-plus boxEditor" aria-hidden="true"></i></router-link>
-                              </div>
-                            </div>
-                            <div class="bandBox">
-                            <table class="col-12">
-                                  <tr>
-                                    <th>Title</th>
-                                    <th>Date</th>
-                                    <th>Venue</th>
-                                    <th>Info</th>
-                                  </tr>
-                                  <event-card v-for="event in band.events" :key="event.id" :event-info="event"></event-card>
-                            </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        </div>
+      </div>
+
+
                 <div class="col-lg-6 col-md-12">
                     <h4>Notes</h4>
                     <div>
-                        <p v-if="!hasBands">Please Create or Join a Band to see Notes</p>
+                    <div v-if="!hasNotes">
+                      <div class="bandBox">
+                        <p>please create a band to have notes</p>
+                     </div>
+                    </div>
+                      <div v-if="hasNotes">
                         <div v-for="(band, i) in notesList" :key="i">
                           <div class="row boxHeader">
                             <div class="col-8 ">
@@ -96,13 +112,22 @@
                             </div>
                           </div>
                         </div>
-                    </div>
+                    </div> 
+              </div>
+              <div class="bandBox">
+                <div v-for="note in band.notes" :key="note.id">
+                  <note-card :noteInfo="note"></note-card>
                 </div>
+              </div>
             </div>
-            <br>
-            <hr>
+          </div>
         </div>
-    </template>
+      </div>
+    </div>
+    <br>
+    <hr>
+  </div>
+</template>
 
 
 <script>
@@ -191,7 +216,14 @@ export default {
       return this.$store.state.currentPageJson.data[0].userimage ?
        this.$store.state.currentPageJson.data[0].userimage :
        false
+    },
+    hasEvents() {
+      return "placeholder for a function"
+    },
+    hasNotes() {
+      return "placeholder for a function"
     }
+
   },
   
   methods: {
@@ -214,7 +246,11 @@ export default {
     text-transform: uppercase;
     letter-spacing: .1em;
     padding: .5em 2em .5em 2em;
-    margin: 0em .5em 0em .5em
+    margin: 0em .5em;
+  }
+
+  .btn-fix-center {
+    margin: 1em;
   }
 /* 
   .btn-icon {
@@ -329,11 +365,11 @@ export default {
     background-color: #677794;
     border: 1px solid #677794;
     border-radius: 5px;
-    margin-left: 1%;
-    margin-right: 1%;
+    margin-left: .1em;
+    margin-right: .1em;
     width: auto;
     font-family: 'Open Sans';
-    font-size: .75em;
+    font-size: .5em;
     text-transform: uppercase;
     letter-spacing: .1em;
     color: #ededed;
@@ -347,14 +383,12 @@ export default {
     color: #ededed;
     transition-property: background-color, color;
     transition: 400ms;
-    
   }
 
   .btn-event-create:hover {
     background-color: transparent;
     border: solid 2px #677794;
     color: #677794;
-
   }
 
   .calRow {

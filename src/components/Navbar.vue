@@ -45,11 +45,11 @@
                         <hr class="nav-line-break">
                     </li>
 
-                    <!-- <li class="nav-item force-white" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
+                    <!-- <li class="nav-item" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
                         <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
                     </li> -->
 
-                    <router-link tag="li" class="nav-item" to="/band/create" alt>
+                    <router-link tag="li" class="nav-item" to="/band/join" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                             Band
                     </router-link>
@@ -97,7 +97,7 @@
 export default {
   computed: {
     loggedIn() {
-      return this.$store.state.userCredentials.userToken
+      return !!this.$store.state.userCredentials.userToken
     },
     hasBands() {
       return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
