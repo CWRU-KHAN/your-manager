@@ -99,6 +99,19 @@ export default new Vuex.Store({
     clearDashboard(state) {
       state.dashboardEvents = []
       state.dashboardNotes = [] 
+    },
+    toggleBandDashNote(state, data) {
+      state.currentPageJson.data.notes
+        .find(({ id }) => id === data.notesid).read = true
+    },
+    toggleUserDashNote(state, data) {
+      state.currentPageJson.data[1]
+        .find(({ bandsid }) => bandsid === data.bandsid).notes
+        .find(({ id }) => id === data.notesid).read = true
+    },
+    toggleEventInfoNote(state, data) {
+      state.currentEventPageNotes.data
+        .find(({ id }) => id === data.notesid).read = true
     }
   },
   getters: {
@@ -158,12 +171,12 @@ export default new Vuex.Store({
         }
       })
     },
-    markNoteAsRead({ commit }, data) {
-      return axios.post('/api/readnote', data).then(({ data }) => {
+    markNoteAsRead({ commit }, payload) {
+      return axios.post('/api/readnote', payload).then(({ data }) => {
         if (data.message) {
           commit('addError', data.message)
         } else {
-          // re-sort notes
+          // maybe do nothing
         }
       })
     },
@@ -180,9 +193,14 @@ export default new Vuex.Store({
       return axios.post('/api/bandtoken', credentials)
         .then(results => commit('setBandToken', results))
     },
-    getBandPage( { commit }, { bandsid }){
+    getBandPage( { commit }, { bandsid, usersid }){
+      const config = {
+        headers: {
+          usersid
+        }
+      }
       const queryString = `/api/band/${bandsid}`
-      return axios.get(queryString)
+      return axios.get(queryString, config)
         .then(data => commit('setPage', data))
     },
     getUserPage( { commit }, { usersid }){

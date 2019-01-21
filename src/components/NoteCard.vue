@@ -19,7 +19,10 @@
 import moment from 'moment'
 export default {
   props: [
-    'noteInfo'
+    'noteInfo',
+    'refresherId',
+    'refresherBandsId',
+    'refresherMethod'
   ],
   computed: {
     calendarDate() {
@@ -30,7 +33,9 @@ export default {
     },
     postedTime() {
       return moment(this.noteInfo.postedat).format('h:mm a')
-
+    },
+    readClass() {
+      return this.noteInfo.read ? 'readNote' : 'unreadNote'
     }
   },
   methods: {
@@ -42,7 +47,7 @@ export default {
         notesid: this.noteInfo.id
       }
       this.$store.dispatch('markNoteAsRead', payload)
-        .then(result => console.log(result))
+        .then(result => this.$store.commit(this.refresherMethod, {notesid: this.refresherId, bandsid: this.refresherBandsId}))
     }
   },
 }

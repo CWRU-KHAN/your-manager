@@ -75,7 +75,10 @@ export default new Router({
       name: 'bandDashboard',
       component: BandDashboard,
       beforeEnter: (to, from, next) => {
-        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', store.state.bandCredentials)
+        if (store.state.userCredentials.userToken) store.dispatch('getBandPage', {
+          bandsid: store.state.bandCredentials.bandsid,
+          usersid: store.state.userCredentials.usersid
+        })
         .then(() => {
           store.commit('fillBandData', store.state.currentPageJson)
           next()

@@ -308,7 +308,7 @@ const dbLib = (() => {
   }
 
   // gets info on a band
-  const getBandInfo = ({ bandsid }) => {
+  const getBandInfo = ({ bandsid, usersid }) => {
     return Promise.all([
       selectTripleJoin(
         'bandmates',
@@ -339,11 +339,23 @@ const dbLib = (() => {
         'notes.bandsid',
         'bandsid',
         bandsid
+      ),
+      selectSomeWhere(
+        'readnotes',
+        'usersid',
+        usersid,
+        ['notesid']
       )]
     )
       .then(results => {        
         if (results[0].affectedRows === 0) throw new Error('500: Not a valid band.')
-        return results
+        const [bands, events, notes, notesMap] = results
+        const notesList = notesMap.map(({ notesid }) => notesid)
+        const modifiedNotes = notes.map(note => {
+          note.read = notesList.includes(note.id)
+          return note
+        })
+        return [bands, events, modifiedNotes]
       })
       .then(resultsArray => {
         const usersResults = resultsArray[0]      

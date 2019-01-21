@@ -75,13 +75,23 @@
                           <div class="row boxHeader">
                             <div class="col-8 ">
                             <h3 class="note-event-band">{{ band.name }}</h3>
+                            <p v-if="notesList.length"> {{ notesList[i].notes.length }} Unread </p>
                             </div>
                             <div class="col-4">
                                 <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                               </div>
                           </div>
                           <div class="bandBox">
+                            <h4 v-if="notesList[i].notes.length">Unread Notes</h4>
                             <div v-for="note in band.notes" :key="note.id">
+                                <note-card :noteInfo="note"
+                                :refresherId="note.id"
+                                :refresherMethod="'toggleUserDashNote'"
+                                :refresherBandsId="band.bandsid"
+                                ></note-card>
+                            </div>
+                            <h4 v-if="readNotesList[i].notes.length">Read Notes</h4>
+                            <div v-for="note in readNotesList[i].notes" :key="note.id">
                                 <note-card :noteInfo="note"></note-card>
                             </div>
                           </div>
@@ -136,9 +146,27 @@ export default {
     },
     notesList() {
       return this.$store.state.currentPageJson.data[1].length ? 
-        this.$store.state.currentPageJson.data[1].filter(entry => entry.bandsid) : 
+        this.$store.state.currentPageJson.data[1]
+          .filter(entry => entry.bandsid)
+          .map(band => {
+            const { bandsid, name, notes } = band
+            const unreadNotes = notes.filter(note => !note.read)
+            return { bandsid, name, notes: unreadNotes }
+          }) : 
         false
     },
+    readNotesList() {
+      return this.$store.state.currentPageJson.data[1].length ? 
+        this.$store.state.currentPageJson.data[1]
+          .filter(entry => entry.bandsid)
+          .map(band => {
+            const { bandsid, name, notes } = band
+            const readNotes = notes.filter(note => note.read)
+            return { bandsid, name, notes: readNotes }
+          }) : 
+        false
+    },
+    
     eventsForCalendar() {
       const rawEvents = this.$store.state.currentPageJson.data[2]
       if (!rawEvents.length) return []

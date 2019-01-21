@@ -40,15 +40,25 @@
       <div class="col-lg-6 col-md-12">
 <div class="row boxHeader">
                             <div class="col-8 ">
-                            <h3 class="note-event">Notes</h3>
+                            <h3 class="note-event">Notes </h3>
+                            <p v-if="notesList.length">{{ notesList.length }} Unread</p>
                             </div>
                             <div class="col-4">
                                 <router-link class="btn btn-event-create" to="/note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                               </div>
                           </div>
         <div class="bandBox">
+
+          <h4 v-if="notesList.length">Unread Notes</h4>
           <div v-for="note in notesList" :key="'note'+note.id"> 
-            <note-card :noteInfo="note"></note-card> 
+            <note-card :noteInfo="note" 
+            :refresherId="note.id"
+            :refresherMethod="'toggleBandDashNote'"
+            ></note-card> 
+          </div>
+          <h4 v-if="readNotesList.length">Read Notes</h4>
+          <div v-for="note in readNotesList" :key="'note'+note.id">
+            <note-card :noteInfo="note"></note-card>
           </div>
         </div>
       </div>
@@ -70,7 +80,6 @@ export default {
     EventCard,
     NoteCard
   },
-
   computed: {
     membersList() {
         return this.$store.state.currentPageJson.data.users 
@@ -84,7 +93,12 @@ export default {
     // when we have events rendering to band page this will work
     notesList() {
       return this.$store.state.currentPageJson.data.notes.length ? 
-        this.$store.state.currentPageJson.data.notes : 
+        this.$store.state.currentPageJson.data.notes.filter(note => !note.read) : 
+        false
+    },
+    readNotesList() {
+      return this.$store.state.currentPageJson.data.notes.length ?
+        this.$store.state.currentPageJson.data.notes.filter(note => note.read) :
         false
     },
     eventsForCalendar() {

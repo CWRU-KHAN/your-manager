@@ -154,7 +154,8 @@ app.post('/api/readnote/', (req, res) => {
 
 // get info on a specific band
 app.get('/api/band/:id', (req, res) => {
-  getBandInfo({ bandsid: req.params.id })
+  const { usersid } = req.headers
+  getBandInfo({ bandsid: req.params.id, usersid })
     .then(results => {
       if (results.error) throw results.error
       res.json(results)
