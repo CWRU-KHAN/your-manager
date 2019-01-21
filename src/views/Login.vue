@@ -1,65 +1,48 @@
 <template>
-
-<div class="container-fluid">
-      <form>
-    <div class="row justify-content-start">
-      <div class="col-3">
-        <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
-      </div>
-      <div class="col">
-        <div class="form-box">
-          <div class="row">
-            <div class="col">
-              <h1>Log In</h1>
+    <div class="container-fluid">
+        <form>
+            <div class="row justify-content-start">
+                <div class="col-3">
+                    <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
+                </div>
+                <div class="col contentDiv">
+                    <div class="form-box">
+                        <div class="row">
+                            <div class="col">
+                                <h1>Log In</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mt-4">
+                                <input class="form-control" placeholder="Username" id='username' type="text" v-model="username"
+                                    autocomplete="username" />
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <input class="form-control" placeholder="Password" id="password" name="password"
+                                    v-model="password" autocomplete="current-password" :type="show1 ? 'text' : 'password'" />
+                                <button class="btn btn-show-password" @click="show1 = !show1" type="button">
+                                    {{ !show1 ? "Show Password" : "Hide Password" }}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <button class="btn btn-login-2" @click='submit' type="button">
+                                    Login
+                                </button>
+                                <router-link class="btn btn-register" to="/signup">
+                                    <i class="fa fa-user-plus btn-icon" aria-hidden="true"></i>
+                                    register
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-              <input 
-              class="form-control"
-              placeholder="Username"
-          id='username'
-          type="text" 
-          v-model="username"
-          autocomplete="username" />
-            </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col">
-              <input 
-              class="form-control"
-              placeholder= "Password"
-          id="password"
-          name="password"
-          v-model="password"
-          autocomplete="current-password"
-          :type="show1 ? 'text' : 'password'" />
-          <button class="btn btn-show-password"
-        @click="show1 = !show1"
-        type="button"> 
-          {{ !show1 ? "Show Password" : "Hide Password" }} 
-      </button> 
-            </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col">
-              <button class="btn btn-login-2"
-        @click='submit' 
-        type="button">
-          Login
-      </button>
-      <router-link class="btn btn-register" to="/signup">
-          <i class="fa fa-user-plus btn-icon" aria-hidden="true"></i>
-          register
-        </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
+        </form>
     </div>
-      </form>
-  </div>
-
 </template>
 
 <script>
@@ -148,11 +131,19 @@ input {
 
 .form-box {
   background: #ededed;
-  padding: 3.75em 2.5em;
+  padding: 2em 2.5em;
   overflow: hidden;
   color: #373737;
   border-radius: .25em;
   box-shadow: 0 .3125rem .875rem 0 rgba(129,129,129,.2) !important;
+}
+
+form {
+  margin-top: 2em;
+}
+
+.contentDiv {
+  margin-top: 1em;
 }
 
 </style>
