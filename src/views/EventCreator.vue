@@ -62,6 +62,7 @@
                                             placeholder="" />
                                     </label>
                                 </div>
+                                <br>
                                 <div class="row">
                                     <label for="event-state">State
                                         <input class="form-control" type="text" id="event-state" v-model="eventstate"
@@ -75,7 +76,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col mt-4">
                                     <label for="event-bands">Your Band
                                         <select class="form-control" type="text" id="event-bands" v-model="bandsid"
                                             placeholder="">
@@ -84,15 +84,12 @@
                                                 }}</option>
                                         </select>
                                     </label>
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="col mt-4">
                                     <button class="btn btn-event-create-2" type='button' @click='submit'>
                                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                                         Create Event
                                     </button>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -239,6 +236,10 @@ export default {
     height: auto;
     border: 2px solid #979797;
     border-radius: 5px;
+  }
+
+  .btn-event-create-2 {
+      margin: 2em auto
   }
 
 </style>
