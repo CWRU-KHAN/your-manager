@@ -153,7 +153,7 @@ export default {
       serverErrors: 'getCurrentErrors'
     }),
     bandsList() {
-      const data = this.$store.state.currentPageJson.data
+      const data = this.$store.state.currentUser
       return data.bandname ? 
         [{
           bandname: data.bandname,

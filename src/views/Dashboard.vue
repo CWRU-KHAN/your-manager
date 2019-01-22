@@ -14,7 +14,7 @@
           <i class="fa fa-plus btn-icon plus" aria-hidden="true" @click="goToCreate()"></i>
         </div>
       </div>
-      <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 col-md-6 band">
+      <div v-if="this.$store.state.currentUser[0].length < 3" class="col-lg-3 col-md-6 band">
         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
       </div>
     </div>
@@ -31,7 +31,7 @@
       <div class="col-lg-3 ipadHide">
         <img class="profPic" :src="computedImage">
         <br>
-        <h2 class="user"> {{ `${this.$store.state.currentPageJson.data[0].username}` }} </h2>
+        <h2 class="user"> {{ `${this.$store.state.currentUser[0].username}` }} </h2>
         <router-link class="btn page-btn" to="/user/changeProfile">Edit User Profile</router-link>
       </div>
     </div>
@@ -147,14 +147,14 @@ export default {
 
   computed: {
     hasBands() {
-      return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
+      return !!this.$store.state.currentUser[0].bands && !!this.$store.state.currentUser[0].bands.length
     },
     bandsList() {
-      return this.$store.state.currentPageJson.data[0].bands 
+      return this.$store.state.currentUser[0].bands 
     },
     eventsList() {
-      return this.$store.state.currentPageJson.data[2].length ? 
-        this.$store.state.currentPageJson.data[2]
+      return this.$store.state.currentUser[2].length ? 
+        this.$store.state.currentUser[2]
           .filter(entry => entry.name)
           .map(({ name, events }) => {
             const futureEvents = events.filter(({ date }) => moment().isBefore(date))
@@ -166,8 +166,8 @@ export default {
         false
     },
     notesList() {
-      return this.$store.state.currentPageJson.data[1].length ? 
-        this.$store.state.currentPageJson.data[1]
+      return this.$store.state.currentUser[1].length ? 
+        this.$store.state.currentUser[1]
           .filter(entry => entry.bandsid)
           .map(band => {
             const { bandsid, name, notes } = band
@@ -177,8 +177,8 @@ export default {
         false
     },
     readNotesList() {
-      return this.$store.state.currentPageJson.data[1].length ? 
-        this.$store.state.currentPageJson.data[1]
+      return this.$store.state.currentUser[1].length ? 
+        this.$store.state.currentUser[1]
           .filter(entry => entry.bandsid)
           .map(band => {
             const { bandsid, name, notes } = band
@@ -189,7 +189,7 @@ export default {
     },
     
     eventsForCalendar() {
-      const rawEvents = this.$store.state.currentPageJson.data[2]
+      const rawEvents = this.$store.state.currentUser[2]
       if (!rawEvents.length) return []
       const formattedEvents = rawEvents
       .map(band => {
@@ -209,17 +209,17 @@ export default {
       return formattedEvents
     },
     computedImage() {
-      return this.$store.state.currentPageJson.data[0].userimage ?
-       this.$store.state.currentPageJson.data[0].userimage :
+      return this.$store.state.currentUser[0].userimage ?
+       this.$store.state.currentUser[0].userimage :
        false
     },
     hasEvents() {
-      const eventsList = this.$store.state.currentPageJson.data[2]
+      const eventsList = this.$store.state.currentUser[2]
       return eventsList.length &&
          !!eventsList.find(({ events }) => events.length)
     },
     hasNotes() {
-      const notesList = this.$store.state.currentPageJson.data[1]
+      const notesList = this.$store.state.currentUser[1]
       return notesList.length &&
          !!notesList.find(({ notes }) => notes.length)
     }
