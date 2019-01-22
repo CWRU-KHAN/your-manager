@@ -1,44 +1,69 @@
 <template>
-  <div>
-    <h3>Event Information</h3>
-
-    <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="error in errors" :key="error">{{ error }}</li>
-      </ul>
-    </p>
-
+  <div class="container-fluid">
+    <h1 class="pge-title">Edit Event Information</h1>
+    <div class="err-handler">
+        <p class="err-handler-text" v-if="errors.length">
+            <b>Please correct the following error(s):</b>
+            <ul>
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+                <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+            </ul>
+        </p>
+    </div>
     <form>
-
-
-      <label for="eventname"> Eventname
-        <input type="text" id="eventname" v-model="eventname">
-      </label>
-
-      <label for="date"> Date
-        <input type="datetime-local" v-model="date">
-      </label>
-      
-      <label for="eventlocation"> Event Location
-        <input type="text" id="eventlocation" v-model="eventlocation">
-      </label>
-
-      <label for="eventdescription"> Event Description
-        <textarea type="text" id="eventdescription" v-model="eventdescription" />
-      </label>
-
-
-
-
-      <label for="eventimage"> Profile Image
-        <h3 v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</h3>
-        <img :src="displayImage" alt="Event Profile">
-        <input v-if="!upload1" type="file" name="file" id="eventImg" ref="file" accept="image/*" v-on:change="processUpload()">
-        <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
-      </label>
-
-      <button type="button" @click="submit">Save Changes</button>
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventname"> Eventname
+                <input
+                    class="frm-input"
+                    type="text"
+                    id="eventname"
+                    v-model="eventname">
+            </label>
+        </div>
+        <!-- date is not populating -->
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventDate"> Date
+                <input
+                    class="frm-input"
+                    type="date"
+                    id="eventDate"
+                    v-model="date">
+            </label>
+        </div>
+        <!-- This needs to be updated to be Venue Name, City, State -->
+        <!-- <div class="frm-group">
+            <label class="frm-input-label" for="eventlocation"> Event Location
+                <input class="frm-label" type="text" id="eventlocation" v-model="eventlocation">
+            </label>
+        </div> -->
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventdescription"> Event Description
+                <textarea
+                    class="frm-input frm-input-textarea"
+                    type="text"
+                    id="eventdescription"
+                    v-model="eventdescription" />
+            </label>
+        </div>
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventimage"> Profile Image
+                <p class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</p>
+                <img class="img-event-edit" :src="displayImage" alt="Event Profile">
+                <input
+                    v-if="!upload1"
+                    class="frm-input"
+                    type="file"
+                    name="file"
+                    id="eventImg"
+                    ref="file"
+                    accept="image/*"
+                    v-on:change="processUpload()">
+                <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
+            </label>
+        </div>
+        <div>
+          <button class="but but-block but-blue" type="button" @click="submit">Save Changes</button>
+        </div>
     </form>
   </div>
 </template>
@@ -106,7 +131,15 @@ export default {
 
 
 <style scoped>
-  label {
+  /* label {
     display: block;
-  }
+  } */
+
+    .img-event-edit {
+    width: 100%;
+    height: auto;
+    border: 2px solid #979797;
+    border-radius: 5px;
+    }
+
 </style>

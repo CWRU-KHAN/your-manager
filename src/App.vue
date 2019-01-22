@@ -18,6 +18,13 @@ export default {
 
 <style>
 
+/* containers */
+
+.container-fluid {
+    margin-left: 264px;
+    width: auto;
+}
+
 /* probably going to change these to txt */
 
     .pge-title {

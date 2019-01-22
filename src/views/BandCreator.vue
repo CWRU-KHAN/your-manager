@@ -144,19 +144,13 @@ export default {
 
 <style scoped>
 
-.force-label {
+/* .force-label {
   font-family: 'Open Sans', 'sans-serif';
   font-size: 1em;
   letter-spacing: .2em;
   text-transform: uppercase;
   display: inline-block;
   margin-bottom: .5rem;
-}
-
-  .container-fluid {
-    margin-left: 264px;
-    width: auto;
-
-}
+} */
 
 </style>
