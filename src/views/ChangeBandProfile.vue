@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <h1 class="pge-title">Edit Profile</h1>
+    <h1 class="pge-title">Edit Band Profile</h1>
     <div class="err-handler">
         <p class="err-handler-text" v-if="errors.length">
             <b>Please correct the following error(s):</b>
