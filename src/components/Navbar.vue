@@ -44,10 +44,13 @@
                         Bands
                         <hr class="nav-line-break">
                     </li>
+                    
+                    <template v-if="bandsList.length">
 
-                    <!-- <li class="nav-item" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
-                        <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
-                    </li> -->
+                        <li class="nav-item" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
+                            <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
+                        </li>
+                    </template>
 
                     <router-link tag="li" class="nav-item" to="/band/join" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
@@ -103,8 +106,10 @@ export default {
       return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
     },
     bandsList() {
-      return this.$store.state.currentPageJson.data[0].bands 
-    },
+      return this.$store.state.currentPageJson.data ? 
+        this.$store.state.currentPageJson.data[0].bands :
+        false 
+    }
   },
   methods: {
     logout() {

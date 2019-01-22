@@ -1,7 +1,7 @@
 <template>
   <div class='bordered'>
     <h2> {{ noteInfo.notetitle }} </h2>
-    <button type="button" @click="markAsRead">Mark As Read</button>
+    <button type="button" @click="markAsRead" v-if="!noteInfo.read">Mark As Read</button>
     <h4>{{noteInfo.notebody}}</h4>
 <!-- This is the date on the calendar that the note is attached to.
       There must be a better way to organize this.-->
@@ -47,7 +47,7 @@ export default {
         notesid: this.noteInfo.id
       }
       this.$store.dispatch('markNoteAsRead', payload)
-        .then(result => this.$store.commit(this.refresherMethod, {notesid: this.refresherId, bandsid: this.refresherBandsId}))
+        .then(() => this.$store.commit(this.refresherMethod, {notesid: this.refresherId, bandsid: this.refresherBandsId}))
     }
   },
 }
