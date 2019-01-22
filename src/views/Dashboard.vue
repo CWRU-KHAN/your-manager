@@ -73,59 +73,48 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
 
-                <div class="col-lg-6 col-md-12">
-                    <h4>Notes</h4>
-                    <div>
-                    <div v-if="!hasNotes">
-                      <div class="bandBox">
-                        <p>please create a band to have notes</p>
-                     </div>
-                    </div>
-                      <div v-if="hasNotes">
-                        <div v-for="(band, i) in notesList" :key="i">
-                          <div class="row boxHeader">
-                            <div class="col-8 ">
-                            <h3 class="note-event-band">{{ band.name }}</h3>
-                            <p v-if="notesList.length"> {{ notesList[i].notes.length }} Unread </p>
-                            </div>
-                            <div class="col-4">
-                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
-                              </div>
-                          </div>
-                          <div class="bandBox">
-                            <h4 v-if="notesList[i].notes.length">Unread Notes</h4>
-                            <div v-for="note in band.notes" :key="note.id">
-                                <note-card :noteInfo="note"
-                                :refresherId="note.id"
-                                :refresherMethod="'toggleUserDashNote'"
-                                :refresherBandsId="band.bandsid"
-                                ></note-card>
-                            </div>
-                            <h4 v-if="readNotesList[i].notes.length">Read Notes</h4>
-                            <div v-for="note in readNotesList[i].notes" :key="note.id">
-                                <note-card :noteInfo="note"></note-card>
-                            </div>
-                          </div>
-                        </div>
-                    </div> 
+      <div class="col-lg-6 col-md-12">
+        <h4>Notes</h4>
+        <div>
+          <div v-if="!hasNotes">
+            <div class="bandBox">
+              <p>please create a band to have notes</p>
+            </div>
+          </div>
+          <div v-if="hasNotes">
+            <div v-for="(band, i) in notesList" :key="i">
+              <div class="row boxHeader">
+                <div class="col-8 ">
+                  <h3 class="note-event-band">{{ band.name }}</h3>
+                  <p v-if="notesList.length"> {{ notesList[i].notes.length }} Unread </p>
+                </div>
+                <div class="col-4">
+                    <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
+                </div>
               </div>
               <div class="bandBox">
+                <h4 v-if="notesList[i].notes.length">Unread Notes</h4>
                 <div v-for="note in band.notes" :key="note.id">
-                  <note-card :noteInfo="note"></note-card>
+                    <note-card :noteInfo="note"
+                    :refresherId="note.id"
+                    :refresherMethod="'toggleUserDashNote'"
+                    :refresherBandsId="band.bandsid"
+                    ></note-card>
+                </div>
+                <h4 v-if="readNotesList[i].notes.length">Read Notes</h4>
+                <div v-for="note in readNotesList[i].notes" :key="note.id">
+                    <note-card :noteInfo="note"></note-card>
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
         </div>
       </div>
     </div>
-    <br>
-    <hr>
   </div>
 </template>
 
