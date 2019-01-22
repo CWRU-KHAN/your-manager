@@ -1,21 +1,30 @@
 <template>
     <div class="container-fluid">
         <h1 class="pge-title">Create an Event</h1>
+        <div class="err-handler">
+            <p class="err-handler-text" v-if="errors.length">
+                <b>Please correct the following error(s):</b>
+                <ul>
+                    <li v-for="error in errors" :key="error">{{ error }}</li>
+                    <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+                </ul>
+            </p>
+        </div>
         <form>
             <!-- event photo upload -->
             <div class="frm-group">
                 <label class="frm-input-label">Event Photo
                     <img
-                        class="img-event-create"
                         v-if="displayImage"
+                        class="img-event-create"
                         :src="displayImage"
                         alt="Event">
                     <input 
                         v-if="!upload1"
+                        id="eventImg"
                         class="form-control"
                         type="file"
                         name="file"
-                        id="eventImg"
                         ref="file"
                         accept="image/*"
                         v-on:change="processUpload()">
@@ -29,9 +38,9 @@
             <div class="frm-group">
                 <label class="frm-input-label" for="event-name">Name of Event
                     <input
+                        id="event-name"
                         class="frm-input"
                         type="text"
-                        id="event-name"
                         v-model="eventName"
                         placeholder="" />
                 </label>
@@ -39,9 +48,9 @@
             <div class="frm-group">
                 <label class="frm-input-label" for="event-date">Date
                     <input
+                        id="event-date"
                         class="frm-input"
                         type="date"
-                        id="event-date"
                         v-model="date"
                         placeholder="" />
                 </label>
@@ -49,8 +58,8 @@
             <div class="frm-group">
                 <label class="frm-input-label" for="event-description">Description
                     <textarea
-                        class="frm-input frm-input-textarea"
                         id="event-description"
+                        class="frm-input frm-input-textarea"
                         v-model="description"
                         placeholder="" />
                 </label>
@@ -58,9 +67,9 @@
             <div class="frm-group">
                 <label class="frm-input-label" for="event-location">Venue Name
                     <input
+                        id="event-location"
                         class="frm-input"
                         type="text"
-                        id="event-location"
                         v-model="eventlocation"
                         placeholder="" />
                 </label>
@@ -68,9 +77,9 @@
             <div class="frm-group">
                 <label class="frm-input-label" for="event-city">City
                     <input
+                    id="event-city"
                     class="frm-input"
                     type="text"
-                    id="event-city"
                     v-model="eventcity"
                     placeholder="" />
                 </label>
@@ -78,9 +87,9 @@
             <div class="frm-group">
                 <label class="frm-input-label" for="event-state">State
                     <input
+                    id="event-state"
                     class="frm-input"
                     type="text"
-                    id="event-state"
                     v-model="eventstate"
                     placeholder="" />
                 </label>
@@ -88,9 +97,9 @@
             <div class="frm-group">
                 <label class="frm-input-label" for="event-bands">Your Band
                     <select
+                        id="event-bands"
                         class="frm-input"
                         type="text"
-                        id="event-bands"
                         v-model="bandsid"
                         placeholder="">
                             <option

@@ -66,4 +66,12 @@ export default {
         width: 100%
     }
 
+    .err-handler {
+      display: block
+    }
+
+    .err-handler-text {
+      color: red
+    }
+
 </style>
