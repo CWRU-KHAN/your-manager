@@ -1,34 +1,51 @@
 <template>
-  <div>
-    <h3>Band Information</h3>
-
-    <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="error in errors" :key="error">{{ error }}</li>
-      </ul>
-    </p>
-
+  <div class="container-fluid">
+    <h1 class="pge-title">Edit Profile</h1>
+    <div class="err-handler">
+        <p class="err-handler-text" v-if="errors.length">
+            <b>Please correct the following error(s):</b>
+            <ul>
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+                <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+            </ul>
+        </p>
+    </div>
     <form>
-
-
-      <label for="bandname"> Bandname
-        <input type="text" id="bandname" v-model="bandname">
-      </label>
-
-      <label for="description"> Description
-        <textarea type="text" id="description" v-model="description" />
-      </label>
-
-
-      <label for="bandimage"> Profile Image
-        <h3 v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</h3>
-        <img :src="displayImage" alt="Band Profile">
-        <input v-if="!upload1" type="file" name="file" id="bandImg" ref="file" accept="image/*" v-on:change="processUpload()">
-        <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
-      </label>
-
-      <button type="button" @click="submit">Save Changes</button>
+      <div class="frm-group">
+        <label class="frm-input-label" for="bandname"> Bandname
+          <input
+            class="frm-input"
+            type="text"
+            id="bandname"
+            v-model="bandname">
+        </label>
+      </div>
+      <div class="frm-group">
+        <label class="frm-input-label" for="description"> Description
+          <textarea
+            class="frm-input frm-input-textarea"
+            id="description"
+            v-model="description" />
+        </label>
+      </div>
+      <div class="frm-group">
+        <label class="frm-input-label" for="bandimage"> Profile Image
+          <p class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</p>
+          <img class="img-band-edit" :src="displayImage" alt="Band Profile">
+          <input
+            v-if="!upload1"
+            type="file"
+            name="file"
+            id="bandImg"
+            ref="file"
+            accept="image/*"
+            v-on:change="processUpload()">
+                <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
+        </label>
+      </div>
+      <div>
+          <button class="but but-block but-blue" type="button" @click="submit">Save Changes</button>
+      </div>
     </form>
   </div>
 </template>
@@ -90,3 +107,16 @@ export default {
   }
 }
 </script>
+
+<style>
+
+  /* making this scoped breaks it */
+
+  .img-band-edit {
+    width: 100%;
+    height: auto;
+    border: 2px solid #979797;
+    border-radius: 5px;
+  }
+
+</style>
