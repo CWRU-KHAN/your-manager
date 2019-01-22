@@ -30,6 +30,16 @@
 
       <button type="button" @click="submit">Save Changes</button>
     </form>
+
+    <h4>Members</h4>
+        <ul>
+            <li v-for="member in members" :key="member.id"> {{ member.username }} 
+            <button v-if="member.id != ownerid" type="button" @click='deleteUser(member.id)'>Delete Member</button> 
+            </li>
+            
+        </ul>
+    <br>
+
   </div>
 </template>
 
@@ -41,6 +51,8 @@ export default {
       bandname: this.$store.state.currentBand.bandname,
       description: this.$store.state.currentBand.description,
       bandimage: this.$store.state.currentBand.bandimage,
+      members: this.$store.state.currentBand.users,
+      ownerid: this.$store.state.currentBand.ownerid,
       errors: [],
       upload1: false,
       upload2: false
@@ -72,6 +84,9 @@ export default {
         this.$store.commit('clearErrors')
         this.$store.dispatch('updateBandInfo', payload)
       }
+    },
+    deleteUser (id) {
+      console.log(id)
     },
     processUpload () {
       this.file = this.$refs.file.files[0]
