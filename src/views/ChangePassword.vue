@@ -1,47 +1,32 @@
 <template>
-  <div class="container py-4 my-3 mx-auto">
-      <form>
-    <div class="row justify-content-start">
-      <div class="col">
-        <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
+  <div class="container-fluid">
+      <h1 class="pge-title">Change User Password</h1>
+      <div class="err-handler">
+          <p class="err-handler-text" v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+                  <li v-for="error in errors" :key="error">{{ error }}</li>
+                  <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+              </ul>
+          </p>
       </div>
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
-        <div class="form-box">
-          <div class="row">
-            <div class="col">
-    <h1>Change Password</h1>
-    </div>
-          </div>
-    <div class="row">
-            <div class="col">
-    <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="error in errors" :key="error">{{ error }}</li>
-      </ul>
-    </p>
-</div>
-          </div>
-
-        <div class="row">
-          <div class="col mt-4">
-            <label for="currentPassword"> Current Password
+      <form>
+        <div class="frm-group">
+            <label class="frm-input-label" for="currentPassword"> Current Password
               <input
-                class="form-control"
+                class="frm-input"
                 :type="show1 ? 'text' : 'password'"
                 id="currentPassword"
                 v-model="currentPassword"          
                 autocomplete="current-password"
               />
             </label>
-          </div>
         </div>
 
-        <div class="row">
-          <div class="col mt-4">
-            <label for="newPassword"> New Password
+        <div class="frm-group">
+            <label class="frm-input-label" for="newPassword"> New Password
               <input
-                class="form-control"
+                class="frm-input"
                 :type="show1 ? 'text' : 'password'" 
                 id="newPassword"
                 v-model="newPassword"
@@ -49,14 +34,12 @@
                 autocomplete="new-password"
               />
             </label>
-          </div>
         </div>
         
-        <div class="row">
-          <div class="col mt-4">
-            <label for="confirmPassword"> Confirm Password
+        <div class="frm-group">
+            <label class="frm-input-label" for="confirmPassword"> Confirm Password
               <input
-                class="form-control"
+                class="frm-input"
                 :type="show1 ? 'text' : 'password'" 
                 id="confirmPassword"
                 v-model="confirmPassword"
@@ -71,21 +54,15 @@
                   {{ !show1 ? "Show Password" : "Hide Password" }} 
               </button>
           </div>
-        </div>
 
-       <div class="row">
-          <div class="col mt-4">
-            <button 
-              class="btn btn-register-2"
-              type="button" 
-              @click="submit">
-              Change Password
-            </button>
-            </div>
+       <div>
+          <button 
+            class="but but-block but-blue"
+            type="button" 
+            @click="submit">
+            Change Password
+          </button>
       </div>
-        </div>
-      </div>
-    </div>
     </form>
   </div>
 </template>
@@ -132,3 +109,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>

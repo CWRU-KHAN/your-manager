@@ -1,68 +1,56 @@
 <template>
   <div class="container-fluid">
-    <div class="form-box-register">
-      <div class="row">
-        <h1>Edit User Profile</h1>
-      </div>
+    <h1 class="pge-title">Edit User Profile</h1>
       <form>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-lg-6 col-md-12">
-              <div class="row">
-                <label for="email"> Email
-                  <input class="form-control" type="text" id="email" v-model="email">
+        <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="frm-group">
+            <label class="frm-input-label" for="email"> Email
+              <input class="frm-input" type="text" id="email" v-model="email">
+            </label>
+          </div>
+              <div class="frm-group">
+                <label class="frm-input-label" for="username"> Username
+                  <input class="frm-input" type="text" id="username" v-model="username">
                 </label>
               </div>
-              <div class="row">
-                <label for="username"> Username
-                  <input class="form-control" type="text" id="username" v-model="username">
+              <div class="frm-group">
+                <label class="frm-input-label" for="firstname"> First Name
+                  <input class="frm-input" type="text" id="firstname" v-model="firstname">
                 </label>
               </div>
-              <div class="row">
-                <label for="firstname"> First Name
-                  <input class="form-control" type="text" id="firstname" v-model="firstname">
+              <div class="frm-group">
+                <label class="frm-input-label" for="lastname"> Last Name
+                  <input class="frm-input" type="text" id="lastname" v-model="lastname">
                 </label>
               </div>
-              <div class="row">
-                <label for="lastname"> Last Name
-                  <input class="form-control" type="text" id="lastname" v-model="lastname">
-                </label>
-              </div>
-              <br>
-              <div class="row">
-                <router-link class="btn btn-register" to="/user/changePassword">Change Password</router-link>
+              <div>
+                <router-link tag="button" class="but but-block but-blue" to="/user/changePassword">Change Password</router-link>
               </div>
             </div>
             <div class="col-lg-6 col-md-12">
-              <div class="row">
-                <label for="userimage"> Profile Image </label>
+              <div class="frm-group">
+                <label class="frm-input-label" for="userimage"> Profile Image 
+                  <hp class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</hp>
+                <img class="img-user-edit" :src="displayImage" alt="User Profile">
+                  <input
+                    class="frm-input"
+                    v-if="!upload1"
+                    type="file"
+                    name="file"
+                    id="userImg"
+                    ref="file"
+                    accept="image/*"
+                    v-on:change="processUpload()">
+                        <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
+                </label>
+              <div>
+                  <button class="but but-block but-yellow" type="button" @click="submit">Save Changes</button>
               </div>
-              <div class="row">
-                  <img class="profPic" :src="displayImage" alt="User Profile">
-                  <input v-if="!upload1" type="file" name="file" id="userImg" ref="file" accept="image/*" v-on:change="processUpload()"  class="btn-register">
-                  <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-              <button type="button" class="btn-register-save" @click="submit">Save Changes</button>
-            </div>
-            <h3 class="form-header" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</h3>
           </div>
         </div>
-      </form>
-      <div class="row">
-        <div class="col mt-4">
-          <p v-if="errors.length">
-            <b>Please correct the following error(s):</b>
-            <ul>
-              <li v-for="error in errors" :key="error">{{ error }}</li>
-            </ul>
-          </p>
-        </div>
-      </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -135,50 +123,15 @@ export default {
 
 
 <style scoped>
-  label {
+  /* label {
     display: block;
     text-align: left;
     margin-top: 3%;
-  }
+  } */
 
-  .form-header {
-    font-family: 'Open Sans', 'sans-serif'
-  }
-
-  .form-box-register {
-    margin-top: 3%;
-  }
-
-  .btn-register {
-    background-color: #677794;
-    border: solid 2px transparent;
-    color: #ededed;
-  }
-
-  .btn-register:hover {
-    background-color: transparent;
-    border: solid 2px #677794;
-    color: #677794
-  }
-
-  .btn-register-save {
-    background-color: #fbaf2c;
-    border: solid 2px transparent;
-    color: #ededed;
-    letter-spacing: .1em;
-    text-transform: uppercase; 
-    font-size: .75em; 
-  }
-
-    .btn-register-save:hover {
-    background-color: transparent;
-    border: solid 2px #fbaf2c;
-    color: #fbaf2c
-  }
-
-  .profPic {
-    height: 20em;
-    width: auto;
+  .img-user-edit {
+    width: 100%;
+    height: auto;
     border: 2px solid #979797;
     border-radius: 5px;
   }
