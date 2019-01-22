@@ -76,7 +76,6 @@
         </div>
       </div>
 
-
       <div class="col-lg-6 col-md-12">
         <h4>Notes</h4>
         <div>
@@ -207,10 +206,14 @@ export default {
        false
     },
     hasEvents() {
-      return "placeholder for a function"
+      const eventsList = this.$store.state.currentPageJson.data[2]
+      return eventsList.length &&
+         !!eventsList.find(({ events }) => events.length)
     },
     hasNotes() {
-      return "placeholder for a function"
+      const notesList = this.$store.state.currentPageJson.data[1]
+      return notesList.length &&
+         !!notesList.find(({ notes }) => notes.length)
     }
 
   },
