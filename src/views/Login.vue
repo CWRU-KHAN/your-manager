@@ -85,10 +85,10 @@ export default {
   float: right
 }
 
-input {
+/* input {
   font-family: 'Open Sans', 'san-serif';
   margin: .1em
-}
+} */
 
 .lead {
   font-family: 'Open Sans', 'san-serif';
@@ -138,9 +138,9 @@ input {
   box-shadow: 0 .3125rem .875rem 0 rgba(129,129,129,.2) !important;
 }
 
-form {
+/* form {
   margin-top: 2em;
-}
+} */
 
 .contentDiv {
   margin-top: 1em;

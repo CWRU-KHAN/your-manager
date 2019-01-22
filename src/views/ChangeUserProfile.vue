@@ -135,11 +135,11 @@ export default {
 
 
 <style scoped>
-  label {
+  /* label {
     display: block;
     text-align: left;
     margin-top: 3%;
-  }
+  } */
 
   .form-header {
     font-family: 'Open Sans', 'sans-serif'
