@@ -1,96 +1,69 @@
 <template>
-<div class="container-fluid">
-  <div class="container py-4 my-3 mx-auto">
-        <form>
-    <div class="row justify-content-start">
-      <div class="col">
-        <img class="ym-luggage" src="@/assets/svg/ym-icon-luggage.svg">
+  <div class="container-fluid">
+    <h1 class="pge-title">Create a Note</h1>
+    <div class="err-handler">
+      <p class="err-handler-text" v-if="errors.length">
+          <b>Please correct the following error(s):</b>
+          <ul>
+              <li v-for="error in errors" :key="error">{{ error }}</li>
+              <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+          </ul>
+      </p>
+    </div>
+    <form>
+      <div class="frm-group">
+        <label class="frm-input-label" for="subject"> Subject
+          <input
+              id="subject"
+              class="frm-input"
+              type="text"
+              placeholder=""
+              v-model="noteTitle" />
+        </label>
       </div>
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5 text-left">
-        <div class="form-box">
-          <div class="row">
-            <div class="col">
-              <h1>Create A Note</h1>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-                <label for="subject"> Subject
-                  <input
-                      id="subject"
-                      class="form-control"
-                      type="text"
-                      placeholder=""
-                      v-model="noteTitle">
-                </label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-                <label for="message"> Message
-                  <input
-                      id="message"
-                      class="form-control"
-                      type="textarea"
-                      placeholder=""
-                      v-model="noteBody">
-                </label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-                <label for="note-date"> Regarding Date:
-                  <input
-                      id="note-date"
-                      class="form-control"
-                      type="date"
-                      placeholder=""
-                      v-model="calendarDate">
-                </label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-                <label for="band-note-link"> Band:
-                  <select
-                      id="band-note-link"
-                      name="bands"
-                      class="form-control"
-                      v-model="bandsid">
-                  <option v-for="band in bandsList" :key="band.id" :value="band.id">{{ band.bandname }}</option>
-                  </select>
-                </label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-                <button class="btn btn-note-create-2"
-                        @click='submit' 
-                        type="button">
-                    Write Note
-                </button>
-      <router-link class="btn btn-register" to="/dashboard">
-          <i class="fa fa-home btn-icon" aria-hidden="true"></i>
-          Back to Dashboard
-        </router-link>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mt-4">
-                <p v-if="errors.length">
-                <b>Please correct the following error(s):</b>
-                <ul>
-                  <li v-for="error in errors" :key="error">{{ error }}</li>
-                </ul>
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="frm-group">
+        <label class="frm-input-label" for="message"> Message
+          <textarea
+              id="message"
+              class="frm-input frm-input-textarea"
+              placeholder=""
+              v-model="noteBody" />
+        </label>
       </div>
+      <div class="frm-group">
+        <label class="frm-input-label" for="note-date"> Regarding Date:
+          <input
+              id="note-date"
+              class="frm-input"
+              type="date"
+              placeholder=""
+              v-model="calendarDate">
+        </label>
+      </div>
+      <div class="frm-group">
+        <label class="frm-input-label" for="band-note-link"> Band:
+          <select
+              id="band-note-link"
+              name="bands"
+              class="frm-input"
+              v-model="bandsid">
+                  <option
+                    v-for="band in bandsList"
+                    :key="band.id"
+                    :value="band.id">{{ band.bandname }}
+                  </option>
+          </select>
+        </label>
+      </div>
+    <div>
+      <button
+        class="but but-block but-blue"
+        @click='submit'
+        type="button">Create Note
+      </button>
     </div>
     </form>
   </div>
-</div>
 </template>
 
 
@@ -155,18 +128,6 @@ export default {
 }
 </script>
 
-<style>
-
-  .btn-note-create-2 {
-    background-color: #979797;
-    border: solid 1px #979797;
-    color: #ededed;
-  }
-
-  .btn-note-create-2:hover {
-    background-color: transparent;
-    border: solid 2px #979797;
-    color: #ededed
-  }
+<style scoped>
 
 </style>
