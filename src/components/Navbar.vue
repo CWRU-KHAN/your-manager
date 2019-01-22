@@ -103,11 +103,11 @@ export default {
       return !!this.$store.state.userCredentials.userToken
     },
     hasBands() {
-      return !!this.$store.state.currentPageJson.data[0].bands && !!this.$store.state.currentPageJson.data[0].bands.length
+      return !!this.$store.state.currentUser[0].bands && !!this.$store.state.currentUser[0].bands.length
     },
     bandsList() {
-      return this.$store.state.currentPageJson.data ? 
-        this.$store.state.currentPageJson.data[0].bands :
+      return this.$store.state.currentUser && this.$store.state.currentUser[0] ? 
+        this.$store.state.currentUser[0].bands :
         false 
     }
   },
@@ -122,7 +122,13 @@ export default {
     },
     goToBand(id) {
       this.$store.commit("setBandCredentials", id)
-      this.$router.push({name : "bandDashboard"})
+      this.$store.dispatch('getBandPage', {
+          bandsid: this.$store.state.bandCredentials.bandsid,
+          usersid: this.$store.state.userCredentials.usersid
+        }).then(() => {
+
+            this.$router.push({name : "bandDashboard"})
+        })
     }
   }
 }
