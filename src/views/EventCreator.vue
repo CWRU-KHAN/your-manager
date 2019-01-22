@@ -1,115 +1,126 @@
 <template>
     <div class="container-fluid">
-        <div class="container mx-auto">
-            <form>
-                <div class="form-box-register">
-                    <div class="row">
-                        <div class="col">
-                            <h1 class="display-3 text-center my-2">Create an Event</h1><hr>
-                        </div>
-                    </div>
-
-                    <div class="row mx-auto">
-                        <div class="col-lg-6 col-md-12">
-                            <div class="row">
-                                <div>
-                                    <br><h3 class="form-section-header">Event Information</h3><hr>
-                                    <img class="eventPic" v-if="displayImage" :src="displayImage" alt="Event"><br>
-                                    <input v-if="!upload1" class="form-control" type="file" name="file" id="eventImg"
-                                        ref="file" accept="image/*" v-on:change="processUpload()">
-                                    <button v-if="upload1 && !upload2" type="button" @click='submitImage()'>Submit
-                                        Image</button>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col mt-4">
-                                    <div class="row">
-                                        <label for="event-name">Name of Event
-                                            <input class="form-control" type="text" id="event-name" v-model="eventName"
-                                                placeholder="" />
-                                        </label>
-                                    </div>
-                                    <div class="row">
-                                        <label for="event-date">Date
-                                            <input class="form-control" type="datetime-local" id="event-date" v-model="date"
-                                                placeholder="" />
-                                        </label>
-                                    </div>
-                                    <div class="row">
-                                        <label for="event-description">Description
-                                            <input class="form-control" type="textarea" id="event-description" v-model="description"
-                                                placeholder="" />
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="row mx-auto">
-                                <div>
-                                    <br><h3 class="form-section-header">Venue Information</h3><hr>
-                                    <div class="row">
-                                        <label for="event-location">Venue Name
-                                            <input class="form-control" type="text" id="event-location" v-model="eventlocation"
-                                                placeholder="" />
-                                        </label>
-                                    </div>
-                                <div class="row">
-                                    <label for="event-city">City
-                                        <input class="form-control" type="text" id="event-city" v-model="eventcity"
-                                            placeholder="" />
-                                    </label>
-                                </div>
-                                <div class="row">
-                                    <label for="event-state">State
-                                        <input class="form-control" type="text" id="event-state" v-model="eventstate"
-                                            placeholder="" />
-                                    </label>
-                                </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            
-                        </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <br><div class="row">
-                                <h3 class="form-section-header">Band Information</h3>
-                            </div><hr>
-                            <div class="row">
-                                <label for="event-bands">Your Band
-                                    <select class="form-control" type="text" id="event-bands" v-model="bandsid"
-                                        placeholder="">
-                                        <option v-for="band in bandsList" :key="band.id" :value="band.id">{{
-                                            band.bandname
-                                            }}</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row mx-auto">
-                                    <button class="btn btn-event-create-2" type='button' @click='submit'>
-                                        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
-                                        Create Event
-                                    </button>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p v-if="errors.length">
-                                        <b>Please correct the following error(s):</b>
-                                        <ul>
-                                            <li v-for="error in errors" :key="error">{{ error }}</li>
-                                        </ul>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+        <h1 class="pge-title">Create an Event</h1>
+        <div class="err-handler">
+            <p class="err-handler-text" v-if="errors.length">
+                <b>Please correct the following error(s):</b>
+                <ul>
+                    <li v-for="error in errors" :key="error">{{ error }}</li>
+                    <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+                </ul>
+            </p>
         </div>
+        <form>
+            <!-- event photo upload -->
+            <div class="frm-group">
+                <label class="frm-input-label">Event Photo
+                    <img
+                        v-if="displayImage"
+                        class="img-event-create"
+                        :src="displayImage"
+                        alt="Event">
+                    <input 
+                        v-if="!upload1"
+                        id="eventImg"
+                        class="frm-input"
+                        type="file"
+                        name="file"
+                        ref="file"
+                        accept="image/*"
+                        v-on:change="processUpload()">
+                    <button
+                        v-if="upload1 && !upload2"
+                        type="button"
+                        @click='submitImage()'>Submit Image
+                    </button>
+                </label>
+            </div>
+            <div class="frm-group">
+                <label class="frm-input-label" for="event-name">Name of Event
+                    <input
+                        id="event-name"
+                        class="frm-input"
+                        type="text"
+                        v-model="eventName"
+                        placeholder="" />
+                </label>
+            </div>
+            <div class="frm-group">
+                <label class="frm-input-label" for="event-date">Date
+                    <input
+                        id="event-date"
+                        class="frm-input"
+                        type="date"
+                        v-model="date"
+                        placeholder="" />
+                </label>
+            </div>
+            <div class="frm-group">
+                <label class="frm-input-label" for="event-description">Description
+                    <textarea
+                        id="event-description"
+                        class="frm-input frm-input-textarea"
+                        v-model="description"
+                        placeholder="" />
+                </label>
+            </div>
+            <div class="frm-group">
+                <label class="frm-input-label" for="event-location">Venue Name
+                    <input
+                        id="event-location"
+                        class="frm-input"
+                        type="text"
+                        v-model="eventlocation"
+                        placeholder="" />
+                </label>
+            </div>
+            <div class="frm-group">
+                <label class="frm-input-label" for="event-city">City
+                    <input
+                    id="event-city"
+                    class="frm-input"
+                    type="text"
+                    v-model="eventcity"
+                    placeholder="" />
+                </label>
+            </div>
+            <div class="frm-group">
+                <label class="frm-input-label" for="event-state">State
+                    <input
+                    id="event-state"
+                    class="frm-input"
+                    type="text"
+                    v-model="eventstate"
+                    placeholder="" />
+                </label>
+            </div>
+            <div class="frm-group">
+                <label class="frm-input-label" for="event-bands">Your Band
+                    <select
+                        id="event-bands"
+                        class="frm-input"
+                        type="text"
+                        v-model="bandsid"
+                        placeholder="">
+                            <option
+                                v-for="band in bandsList" 
+                                :key="band.id"
+                                :value="band.id">
+                                    {{ band.bandname }}
+                            </option>
+                    </select>
+                </label>
+            </div>
+        <div>
+            <button
+                class="but but-block but-yellow" 
+                type='button'
+                @click='submit'>
+                    <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+                        Create Event
+            </button>
+        </div>
+        </form>
     </div>
 </template>
 
@@ -204,53 +215,13 @@ export default {
 
 <style>
 
-  .form-box-register {
-    margin-top: 3%;
-  }
-
-  label {
-    font-family: 'Open Sans', 'sans-serif';
-    font-size: 1em;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    text-align: left;
-  }
-
-  .btn-event-create-2 {
-    font-size: 1em;
-    padding: .5em 3em .5em 3em;
-    background-color: #677794;
-    border: solid 2px transparent;
-    color: #ededed
-  }
-
-  .btn-event-create-2:hover {
-    background-color: transparent;
-    border: solid 2px #677794;
-    color: #677794
-  }
-
-  h1 {
-    text-align: left;
-  }
-
-
-  .eventPic {
-    width: 400px;
-    height: auto;
-    border: 2px solid #979797;
-    border-radius: 5px;
-  }
-
-  .btn-event-create-2 {
-      margin: 2em auto
-  }
-
-  .form-section-header {
-      font-family: 'Open Sans', 'sans serif';
-      font-size: 1.5em;
-      text-transform: uppercase;
-      color: #677794
-  }
+    /* can't change to scoped because it breaks on chrome when you do  */
+    
+    .img-event-create {
+        width: 100%;
+        height: auto;
+        border: 2px solid #979797;
+        border-radius: 5px;
+    }
 
 </style>
