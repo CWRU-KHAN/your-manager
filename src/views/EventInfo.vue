@@ -1,38 +1,81 @@
 <template>
     <div class="container-fluid">
-        <h2>{{ this.$store.state.currentPageJson.data.eventname }}</h2>
-        <router-link v-if="eventOwner" to="/event/changeProfile">Change Event Details</router-link>
-        <h4> {{ formattedDate}} </h4>
-        <h4>{{ this.$store.state.currentPageJson.data.eventlocation }}</h4>
-        <h4>{{ this.$store.state.currentPageJson.data.eventcity }}</h4>
-        <h4>{{ this.$store.state.currentPageJson.data.eventstate }}</h4>
-        <h4>Bands:</h4>
-        <ul>
-            <li v-for="band in bandsPlaying" :key="band.bandname"> {{ band.bandname }} </li>
-        </ul>
-        <h4 v-if="eventDescription"> {{ eventDescription }} </h4>
+        <div class="row">
+            <div class="col-9">
+                <h1 class="pge-title">
+                    {{ this.$store.state.currentPageJson.data.eventname }}
+                </h1>
+            </div>
+            <div class="col-3">
+                <router-link tag="button" class="but but-top-right but-blue" v-if="eventOwner" to="/event/changeProfile">Change Event Details</router-link>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-md-12">
+                <img class="img-event-display" :src="displayImage">
+            </div>
+            <div class="col-lg-7 col-md-12">
+                <h4 class="txt-event-info">
+                    <span class="txt-event-info-label">Date:</span>
+                    {{ formattedDate}}
+                </h4>
+                <h4 v-if="eventDescription" class="txt-event-info">
+                    <span class="txt-event-info-label">Description:</span>
+                    {{ this.$store.state.currentPageJson.data.eventdescription }}
+                </h4>
+                <h4 class="txt-event-info">
+                    <span class="txt-event-info-label">Venue:</span>
+                    {{ this.$store.state.currentPageJson.data.eventlocation }}
+                </h4>
+                <h4 class="txt-event-info">
+                    <span class="txt-event-info-label">City:</span>
+                    {{ this.$store.state.currentPageJson.data.eventcity }}
+                </h4>
+                <h4 class="txt-event-info">
+                    <span class="txt-event-info-label">State:</span>
+                    {{ this.$store.state.currentPageJson.data.eventstate }}
+                </h4>
+            </div>
+        </div>
+        <hr><br>
 
-        <h4>See Notes For:                 <select                     
-                    type="text"
-                    id="event-bands"
-                    v-model="noteBandId"
-                    placeholder=""
-                    @change="getNotes"
-                  >
-                    <option v-for="band in relevantBands" :key="band.id" :value="band.id">{{ band.bandname }}</option>                    
-                  </select></h4>
-                  <h4 v-if="relevantNotes.length">Unread Notes</h4>
-                  <note-card v-for="note in relevantNotes" :noteInfo="note" :key="note.id"
-                  :refresherId="note.id"
-                  :refresherMethod="'toggleEventInfoNote'"
-                  ></note-card>
-                  <h4 v-if="relevantReadNotes.length">Read Notes</h4>
-                  <note-card v-for="note in relevantReadNotes" :noteInfo="note" :key="note.id"></note-card>
+        <!-- maybe band cards? -->
+        <h4 class="txt-event-info-label">Bands:</h4>
+            <div
+                class="event-band-internal"
+                v-for="band in bandsPlaying"
+                :key="band.bandname"> {{ band.bandname }}
+            </div>
+        
+        <hr><br>
 
-                    <router-link to="note/create">Add A New Note</router-link>
+        <h4 class="txt-event-info-label">See Notes For:
+            <select                     
+                type="text"
+                class="frm-input"
+                id="event-bands"
+                v-model="noteBandId"
+                placeholder=""
+                @change="getNotes">
+                    <option class="frm-input" v-for="band in relevantBands" :key="band.id" :value="band.id">{{ band.bandname }}</option>               
+            </select></h4>
+                <h4 v-if="relevantNotes.length">Unread Notes</h4>
+                <note-card v-for="note in relevantNotes" :noteInfo="note" :key="note.id"
+                :refresherId="note.id"
+                :refresherMethod="'toggleEventInfoNote'"
+                ></note-card>
+                <h4 v-if="relevantReadNotes.length">Read Notes</h4>
+                <note-card v-for="note in relevantReadNotes" :noteInfo="note" :key="note.id"></note-card>
+        <div class="row">
+            <!-- <router-link tag="button" to='/calendar'>Go to calendar</router-link> -->
+            <div class="col-lg-6 col-md-12">
+                <router-link tag="button" class="but but-block but-blue" to="note/create">Add A New Note</router-link>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <router-link tag="button" class="but but-block but-yellow" to='event/create'>Create new event</router-link>
+            </div>
+        </div>
 
-        <router-link to='/calendar'>Go to calendar</router-link>
-        <router-link to='event/create'>Create new event</router-link>
     </div>
 </template>
 
@@ -47,10 +90,14 @@ export default {
     },
     data() {
         return {
-            noteBandId: ''
+            noteBandId: '',
+            eventimage: this.$store.state.currentEvent.eventimage,
         }
     },
     computed: {
+        displayImage() {
+            return this.eventimage ? this.eventimage : require('../assets/no-profile-pic.png')
+        },
         eventDescription () {
             return this.$store.state.currentPageJson.data.eventdescription
         },
@@ -112,3 +159,52 @@ export default {
     //need to add delete and edit buttons
 }
 </script>
+
+<style>
+
+    .but-top-right {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 4em 0em;
+    }
+
+    .img-event-display {
+        width: 100%;
+        height: auto;
+        border: 2px solid #979797;
+        border-radius: 5px;
+        margin-bottom: 1em
+    }
+
+    .txt-event-info {
+        font-family: 'Open Sans', 'sans serif';
+        font-size: 1.25em;
+        line-height: 2em;
+        padding: .5em 0em
+    }
+
+    .txt-event-info-label {
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-right: 1em;
+        color: #677794
+    }
+
+    .event-band-internal {
+        font-size: 1.5em;
+        text-transform: uppercase;
+        font-family: 'Montserrat', 'sans serif';
+        font-weight: 600;
+        padding: 1.5em 0em;
+        border: solid .1px #677794;
+        text-align: center;
+        width: 100%
+    }
+
+    /* .event-band-internal:hover {
+        color: #ededed;
+        background: #373737
+    } */
+
+</style>
