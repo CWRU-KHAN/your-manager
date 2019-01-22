@@ -39,24 +39,32 @@
       <br>
       <div class="col-lg-6 col-md-12">
 <div class="row boxHeader">
-                            <div class="col-8 ">
-                            <h3 class="note-event">Notes </h3>
-                            <p v-if="notesList.length">{{ notesList.length }} Unread</p>
+                            <div class="col-6 ">
+                              <h3 class="note-event">Notes </h3>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
+                                <p class="note-event-band unread" v-if="notesList.length">{{ notesList.length }} Unread</p>
+                                <p class="note-event-band unread" v-else-if="!notesList.length"> 0 Unread </p>
+                            </div>
+                            <div class="col-3">
                                 <router-link class="btn btn-event-create" to="/note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                               </div>
                           </div>
         <div class="bandBox">
-
-          <h4 v-if="notesList.length">Unread Notes</h4>
+          <div class="notesHead"  v-if="notesList.length">
+          <h4>Unread Notes</h4>
+          </div>
+          <hr>
           <div v-for="note in notesList" :key="'note'+note.id"> 
             <note-card :noteInfo="note" 
             :refresherId="note.id"
             :refresherMethod="'toggleBandDashNote'"
             ></note-card> 
           </div>
-          <h4 v-if="readNotesList.length">Read Notes</h4>
+          <div class="notesHead" v-if="readNotesList.length">
+          <h4 >Read Notes</h4>
+          </div>
+          <hr>
           <div v-for="note in readNotesList" :key="'note'+note.id">
             <note-card :noteInfo="note"></note-card>
           </div>
@@ -170,6 +178,13 @@ export default {
     margin-top: 3%;
   }
 
+    .unread {
+  font-size: 1em;
+  height: 100%;
+  margin-bottom: 0px;
+  margin-top: 25%;
+}
+
   .note-event {
     height: 2.5em;
     line-height: 2.5em;
@@ -210,5 +225,20 @@ export default {
     border: solid 2px #677794;
     color: #677794;
   }
+
+
+
+.notesHead {
+  text-align: right;
+  background-color: #fbaf2c;
+  padding: 3%;
+  border-radius: .4em;
+}
+
+.unreadNotes {
+  margin-top: 3%;
+}
+
+
 
 </style>

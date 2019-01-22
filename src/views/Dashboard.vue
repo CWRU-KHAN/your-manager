@@ -87,16 +87,21 @@
           <div v-if="hasNotes">
             <div v-for="(band, i) in notesList" :key="i">
               <div class="row boxHeader">
-                <div class="col-8 ">
+                <div class="col-lg-6 ">
                   <h3 class="note-event-band">{{ band.name }}</h3>
-                  <p v-if="notesList.length"> {{ notesList[i].notes.length }} Unread </p>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-3">
+                  <p class="note-event-band unread" v-if="notesList.length"> {{ notesList[i].notes.length }} Unread </p>
+                </div>
+                <div class="col-lg-3">
                     <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
                 </div>
               </div>
               <div class="bandBox">
-                <h4 v-if="notesList[i].notes.length">Unread Notes</h4>
+                <div class="notesHead unreadNotes" v-if="notesList[i].notes.length">
+                <h4>Unread</h4>
+                </div>
+                <hr>
                 <div v-for="note in band.notes" :key="note.id">
                     <note-card :noteInfo="note"
                     :refresherId="note.id"
@@ -104,7 +109,10 @@
                     :refresherBandsId="band.bandsid"
                     ></note-card>
                 </div>
-                <h4 v-if="readNotesList[i].notes.length">Read Notes</h4>
+                <div class="notesHead"  v-if="readNotesList[i].notes.length">
+                <h4>Read</h4>
+                </div>
+                <hr>
                 <div v-for="note in readNotesList[i].notes" :key="note.id">
                     <note-card :noteInfo="note"></note-card>
                 </div>
@@ -317,7 +325,7 @@ export default {
   .profPic {
     width: 100%;
     border: 2px solid #979797;
-    border-radius: 5px;
+    border-radius: .4em;
   }
 
   .band {
@@ -346,11 +354,11 @@ export default {
     overflow-y: scroll;
     overflow-x: hidden;
     margin-top: 3%;
-    border: 2px solid black;
-    border-radius: 5px;
+    border: 2px solid #979797;
+    border-radius: .4em;
     text-align: left;
-    padding: 3%;
-    
+    padding-right: 3%;
+    padding-left: 3%;    
   }
 
   .boxHeader {
@@ -359,6 +367,7 @@ export default {
     border-radius: 5px;
     margin-left: .1em;
     margin-right: .1em;
+    height: 6em;
     width: auto;
     font-family: 'Open Sans';
     font-size: .5em;
@@ -411,6 +420,21 @@ export default {
     margin-left: 264px;
     width: auto;
 
+}
+
+.unread {
+  font-size: 1.5em;
+}
+
+.notesHead {
+  text-align: right;
+  background-color: #fbaf2c;
+  padding: 3%;
+  border-radius: .4em;
+}
+
+.unreadNotes {
+  margin-top: 3%;
 }
 
 
