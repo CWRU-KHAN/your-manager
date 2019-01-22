@@ -22,7 +22,7 @@
                     <input 
                         v-if="!upload1"
                         id="eventImg"
-                        class="form-control"
+                        class="frm-input"
                         type="file"
                         name="file"
                         ref="file"
@@ -111,16 +111,16 @@
                     </select>
                 </label>
             </div>
-        </form>
         <div>
             <button
-                class="but but-block" 
+                class="but but-block but-yellow" 
                 type='button'
                 @click='submit'>
                     <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
                         Create Event
             </button>
         </div>
+        </form>
     </div>
 </template>
 

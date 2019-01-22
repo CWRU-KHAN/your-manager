@@ -18,7 +18,9 @@ export default {
 
 <style>
 
-.pge-title {
+/* probably going to change these to txt */
+
+    .pge-title {
         font-family: 'Montserrat', 'sans serif';
         text-transform: uppercase;
         font-size: 2em;
@@ -26,6 +28,13 @@ export default {
         letter-spacing: .1em;
         margin: 2em 0em 1.5em 0em;
     }
+
+    .pge-subtitle {
+      font-family: 'Open Sans', 'sans serif';
+      font-size: 1em
+    }
+
+/* forms */
 
     .frm-group {
         margin: 1.5em 0em;
@@ -53,6 +62,18 @@ export default {
         font-weight: 500;
     }
 
+/* error handlers */
+
+    .err-handler {
+      display: block
+    }
+
+    .err-handler-text {
+      color: red
+    }
+
+/* buttons */
+
     .but {
         font-family: 'Open Sans';
         text-transform: uppercase;
@@ -66,12 +87,28 @@ export default {
         width: 100%
     }
 
-    .err-handler {
-      display: block
+    .but-yellow {
+    background-color: #fbaf2c;
+    border: solid 2px transparent;
+    color: #373737;
     }
 
-    .err-handler-text {
-      color: red
+    .but-yellow:hover {
+    background-color: transparent;
+    border: solid 2px #fbaf2c;
+    color: #373737
+    }
+
+    .but-blue {
+    background-color: #677794;
+    border: solid 2px transparent;
+    color: #ededed;
+    }
+
+    .but-blue:hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #373737
     }
 
 </style>

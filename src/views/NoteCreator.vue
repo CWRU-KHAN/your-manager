@@ -55,14 +55,14 @@
           </select>
         </label>
       </div>
-    </form>
     <div>
       <button
-        class="but but-block"
+        class="but but-block but-blue"
         @click='submit'
-        type="button">Write Note
+        type="button">Create Note
       </button>
     </div>
+    </form>
   </div>
 </template>
 
@@ -128,18 +128,6 @@ export default {
 }
 </script>
 
-<style>
-
-  .btn-note-create-2 {
-    background-color: #979797;
-    border: solid 1px #979797;
-    color: #ededed;
-  }
-
-  .btn-note-create-2:hover {
-    background-color: transparent;
-    border: solid 2px #979797;
-    color: #ededed
-  }
+<style scoped>
 
 </style>
