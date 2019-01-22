@@ -666,7 +666,7 @@ const dbLib = (() => {
             'bands', 
             'events', 
             ['bandname'], 
-            ['eventname', 'date', 'eventlocation', 'eventcity', 'eventstate', 'id'],
+            ['eventname', 'date', 'eventlocation', 'eventcity', 'eventstate', 'id', 'eventdescription', 'eventimage'],
             result.bandsid
           )
         })
