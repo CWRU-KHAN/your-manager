@@ -10,8 +10,8 @@
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="band">
-          <i class="fa fa-plus btn-icon plus" aria-hidden="true" @click="goToCreate()"></i>
+        <div @click="goToCreate()" class="band">
+          <i class="fa fa-plus btn-icon plus" aria-hidden="true"></i>
         </div>
       </div>
       <div v-if="this.$store.state.currentPageJson.data[0].length < 3" class="col-lg-3 col-md-6 band">
