@@ -10,8 +10,8 @@
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="band">
-          <i class="fa fa-plus btn-icon plus" aria-hidden="true" @click="goToCreate()"></i>
+        <div class="band" @click="goToCreate()">
+          <i class="fa fa-plus btn-icon plus" aria-hidden="true"></i>
         </div>
       </div>
       <div v-if="this.$store.state.currentUser[0].length < 3" class="col-lg-3 col-md-6 band">
@@ -281,7 +281,7 @@ export default {
   .btn-login:hover {
     background-color: #ededed;
     border: solid 2px #ededed;
-    color: #677794
+    color: #677794;
   }
   
   .btn-logout {
@@ -293,7 +293,7 @@ export default {
   .btn-logout:hover {
     background-color: transparent;
     border: solid 2px #d9534f;
-    color: #d9534f
+    color: #d9534f;
   }
 
   .btn-register {
@@ -305,8 +305,7 @@ export default {
   .btn-register:hover {
     background-color: transparent;
     border: solid 2px #fbaf2c;
-    color: #fbaf2c
-    
+    color: #fbaf2c;
   }
   
   .btn-dashboard {
@@ -318,7 +317,7 @@ export default {
   .btn-dashboard:hover {
     background-color: transparent;
     border: solid 2px #fbaf2c;
-    color: #fbaf2c
+    color: #fbaf2c;
   }
   
 
@@ -342,6 +341,7 @@ export default {
     color: #ededed;
     transition-property: background-color, color;
     transition: 400ms;
+    cursor: pointer;
   }
 
   .band:hover {
@@ -438,6 +438,8 @@ export default {
 }
 
 
+
+
 @media only screen and (max-width: 992px) {
 
   .ipadHide {
@@ -456,6 +458,10 @@ export default {
   height: 500px;
   width: auto;
   float: right
+}
+
+.cv-event {
+  cursor: pointer;
 }
 </style>
 

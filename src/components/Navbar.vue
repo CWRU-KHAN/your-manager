@@ -149,7 +149,8 @@ export default {
     text-decoration: none;
     padding: 1em .2em;
     margin: .1em 0em;
-    color:#ededed
+    color:#ededed;
+    cursor: pointer;
 }
 
 .router-link-active {
