@@ -6,8 +6,8 @@
 Member | Portfolio | Github
 ------------ | ------------- | ----------
 Nate Becker | [Portfolio](http://natebecker11.com/) |[@natebecker11]( https://github.com/natebecker11/)
-Karol Buczek | [Portfolio](http://github.com)|[@tallkarol]( https://github.com/tallkarol/)
-Nathan Golba | [Portfolio](http://github.com)|[@ngolba]( https://github.com/ngolba/)
+Karol Buczek | [Portfolio](http://tallkarol.com)|[@tallkarol]( https://github.com/tallkarol/)
+Nathan Golba | [Portfolio](https://ngolba.github.io/Portfolio/)|[@ngolba]( https://github.com/ngolba/)
 Hayley Hartman | [Portfolio](https://hayleyhartman.github.io/portfolio/#)|[@hayleyhartman]( https://github.com/hayleyhartman/)
 
 ## Purpose
