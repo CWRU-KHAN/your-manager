@@ -1,5 +1,9 @@
 <template>
   <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4">
+      </div>
+      <div class="col-lg-8">
     <h1 class="pge-title">Create a Note</h1>
     <div class="err-handler">
       <p class="err-handler-text" v-if="errors.length">
@@ -63,6 +67,8 @@
       </button>
     </div>
     </form>
+      </div>
+    </div>
   </div>
 </template>
 
