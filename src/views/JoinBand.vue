@@ -1,18 +1,32 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6 col-md-12">
-                <h1 class="pge-title">Join a Band</h1>
-                <h4 class="pge-subtitle">Please paste the unique band-code below</h4>
-                <div class="err-handler">
-                    <p class="err-handler-text" v-if="errors.length">
-                        <b>Please correct the following error(s):</b>
-                        <ul>
-                            <li v-for="error in errors" :key="error">{{ error }}</li>
-                            <li v-for="error in serverErrors" :key="error">{{ error }}</li>
-                        </ul>
-                    </p>
+        <div class="col-lg-6 col-md-12">
+            <h1 class="pge-title">Join a Band</h1>
+            <h4 class="pge-subtitle">Please paste the unique band-code below</h4>
+            <div class="err-handler">
+                <p class="err-handler-text" v-if="errors.length || serverErrors.length">
+                    <b>Please correct the following error(s):</b>
+                    <ul>
+                        <li v-for="error in errors" :key="error">{{ error }}</li>
+                        <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+                    </ul>
+                </p>
+            </div>
+            <form>
+                <div class="frm-group">
+                    <input
+                        class="frm-input"
+                        type="text"
+                        placeholder="band-code"
+                        v-model="token">
                 </div>
+                <div>
+                    <button
+                        class="but but-block but-blue"
+                        @click="submit()">Join
+                    </button>
+                    </div>
                 <form>
                     <div class="frm-group">
                         <input class="frm-input" type="text" placeholder="band-code" v-model="token">

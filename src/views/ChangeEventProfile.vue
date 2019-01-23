@@ -11,27 +11,49 @@
       </p>
     </div>
     <form>
-      <div class="frm-group">
-        <label class="frm-input-label" for="eventname"> Eventname
-          <input class="frm-input" type="text" id="eventname" v-model="eventname">
-        </label>
-      </div>
-      <!-- date is not populating -->
-      <div class="frm-group">
-        <label class="frm-input-label" for="eventDate"> Date
-          <input class="frm-input" type="date" id="eventDate" v-model="date">
-        </label>
-      </div>
-      <!-- This needs to be updated to be Venue Name, City, State -->
-      <!-- <div class="frm-group">
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventname"> Eventname
+                <input
+                    class="frm-input"
+                    type="text"
+                    id="eventname"
+                    v-model="eventname">
+            </label>
+        </div>
+        <!-- date is not populating -->
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventDate"> Date
+                <input
+                    class="frm-input"
+                    type="datetime-local"
+                    id="eventDate"
+                    v-model="date">
+            </label>
+        </div>
+        <!-- This needs to be updated to be Venue Name, City, State -->
+        <div class="frm-group">
             <label class="frm-input-label" for="eventlocation"> Event Location
                 <input class="frm-label" type="text" id="eventlocation" v-model="eventlocation">
             </label>
-        </div> -->
-      <div class="frm-group">
-        <label class="frm-input-label" for="eventdescription"> Event Description
-          <textarea class="frm-input frm-input-textarea" type="text" id="eventdescription" v-model="eventdescription" />
-          </label>
+        </div>
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventcity"> Event City
+                <input class="frm-label" type="text" id="eventcity" v-model="eventcity">
+            </label>
+        </div>
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventstate"> Event State
+                <input class="frm-label" type="text" id="eventstate" v-model="eventstate">
+            </label>
+        </div>
+        <div class="frm-group">
+            <label class="frm-input-label" for="eventdescription"> Event Description
+                <textarea
+                    class="frm-input frm-input-textarea"
+                    type="text"
+                    id="eventdescription"
+                    v-model="eventdescription" />
+            </label>
         </div>
               <div class="frm-group">
                   <input
@@ -67,6 +89,8 @@ export default {
       eventimage: this.$store.state.currentEvent.eventimage,
       date: this.$store.state.currentEvent.date.slice(0, 23),
       eventlocation: this.$store.state.currentEvent.eventlocation,
+      eventcity: this.$store.state.currentEvent.eventcity,
+      eventstate: this.$store.state.currentEvent.eventstate,
       errors: [],
       upload1: false,
       upload2: false
@@ -92,7 +116,9 @@ export default {
             eventdescription: this.eventdescription,
             eventimage: this.eventimage,
             date: this.date,
-            eventlocation: this.eventlocation
+            eventlocation: this.eventlocation,
+            eventcity: this.eventcity,
+            eventstate: this.eventstate
           }
         }
         this.$store.commit('clearErrors')

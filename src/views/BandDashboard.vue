@@ -10,6 +10,13 @@
         <h1 class="bandName">{{ this.$store.state.currentPageJson.data.bandname }}</h1>
         <h4>Members</h4>
           <div class="members" v-for="member in membersList" :key="member.id"> {{ member.username }} </div>
+          <div v-if="bandOwner">
+            <h4 v-if="newUserToken.length">Your New Band Member Can Use This Token To Join</h4>
+            <button type="button" class="editButton" :style="{margin: '5px'}" @click="getBandToken">{{newUserToken.length ? 'Generate Another Token' : 'Add A User'}}</button>
+            <button type="button" v-if="newUserToken.length" @click="copyToken" class="editButton">Copy Token</button>
+            <input type="hidden" id="tokenField" :style="{opacity: 0, height: '1px', width: '1px'}" :value="newUserToken">
+            <textarea v-if="newUserToken.length" rows="5" cols="50" :value="newUserToken"/>
+          </div>
         <router-link v-if="bandOwner" to="/band/changeProfile" class="editButton">Edit Band Details</router-link>
       </div>
     </div>
@@ -123,6 +130,26 @@ export default {
     },
     bandOwner() {
       return this.$store.state.userCredentials.usersid === this.$store.state.currentPageJson.data.ownerid
+    },
+    newUserToken() {
+      return this.$store.state.bandToken
+    }
+  },
+  methods: {
+    getBandToken() {
+      const credentials = {
+        token: this.$store.state.userCredentials.userToken,
+        userName: this.$store.state.userCredentials.username,
+        bandsid: this.$store.state.bandCredentials.bandsid
+      }
+      this.$store.dispatch('createBandToken', credentials)
+
+    },
+    copyToken() {
+      const token = document.querySelector('#tokenField')
+      token.setAttribute('type', 'text')
+      token.select()
+      document.execCommand('copy')
     }
   }
 }
