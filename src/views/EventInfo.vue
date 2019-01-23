@@ -41,7 +41,7 @@
 
         <!-- maybe band cards? -->
         <h4 class="txt-event-info-label">Bands:</h4>
-            <div
+            <div @click="goToBand(band.id)"
                 class="event-band-internal"
                 v-for="band in bandsPlaying"
                 :key="band.bandname"> {{ band.bandname }}
@@ -155,7 +155,11 @@ export default {
                 usersid: this.$store.state.userCredentials.usersid
             }
             this.$store.dispatch('getEventPageNotes', payload)
-        }
+        },
+        goToBand(id) {
+            this.$store.commit("setBandCredentials", id)
+            this.$router.push({name : "bandDashboard"})
+        },
     }
     //how to tell it that the event we are looking for is in the url? 
     //need to add delete and edit buttons

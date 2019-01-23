@@ -220,7 +220,7 @@ export default {
     },
     hasNotes() {
       const notesList = this.$store.state.currentUser[1]
-      return notesList.length && notesList[0].name
+      return notesList.length && notesList[0].name &&
          !!notesList.find(({ notes }) => notes.length)
     }
 
