@@ -166,7 +166,7 @@ export default {
         false
     },
     notesList() {
-      return this.$store.state.currentUser[1].length ? 
+      return this.$store.state.currentUser[1] && this.$store.state.currentUser[1].length ? 
         this.$store.state.currentUser[1]
           .filter(entry => entry.bandsid)
           .map(band => {
@@ -177,7 +177,7 @@ export default {
         false
     },
     readNotesList() {
-      return this.$store.state.currentUser[1].length ? 
+      return this.$store.state.currentUser[1] && this.$store.state.currentUser[1].length ? 
         this.$store.state.currentUser[1]
           .filter(entry => entry.bandsid)
           .map(band => {
@@ -220,7 +220,7 @@ export default {
     },
     hasNotes() {
       const notesList = this.$store.state.currentUser[1]
-      return notesList.length &&
+      return notesList.length && notesList[0].name
          !!notesList.find(({ notes }) => notes.length)
     }
 
