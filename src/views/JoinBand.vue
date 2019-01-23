@@ -5,7 +5,7 @@
             <h1 class="pge-title">Join a Band</h1>
             <h4 class="pge-subtitle">Please paste the unique band-code below</h4>
             <div class="err-handler">
-                <p class="err-handler-text" v-if="errors.length">
+                <p class="err-handler-text" v-if="errors.length || serverErrors.length">
                     <b>Please correct the following error(s):</b>
                     <ul>
                         <li v-for="error in errors" :key="error">{{ error }}</li>

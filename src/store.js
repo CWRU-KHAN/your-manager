@@ -66,7 +66,7 @@ export default new Vuex.Store({
     fillNotes(state, data) {
       state.userNotes = data
     },
-    setBandToken(state, data){
+    setBandToken(state, { data }){
       state.bandToken = data
     },
     setCurrentUploadedImage(state, data) {
