@@ -45,12 +45,12 @@
                         <hr class="nav-line-break">
                     </li>
                     
-                    <template v-if="bandsList.length">
+                    <div v-if="bandsList.length && bandsList[0].id">
 
                         <li class="nav-item" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
                             <div class="band" @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>     
                         </li>
-                    </template>
+                    </div>
 
                     <router-link tag="li" class="nav-item" to="/band/join" alt>
                         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
