@@ -2,11 +2,12 @@
   <div class="container-fluid">
     <br>
     <br>
-    <div class="row bandRow">
-
+    <div class="row bandRow" v-if="this.$store.state.currentUser[0].bands[0].id">
       <div class="col-lg-3 col-md-6" v-for="userBand in bandsList" :key="'bandid' + userBand.id">
-        <div class="band">
-          <div @click="goToBand(userBand.id)">{{ userBand.bandname }} </div>
+        <div>
+          <div class="band" @click="goToBand(userBand.id)">
+            <div>{{ userBand.bandname }} </div>
+          </div>
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
@@ -14,8 +15,13 @@
           <i class="fa fa-plus btn-icon plus" aria-hidden="true"></i>
         </div>
       </div>
-      <div v-if="this.$store.state.currentUser[0].length < 3" class="col-lg-3 col-md-6 band">
-        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>
+    </div>
+
+    <div class="row bandRow" v-else-if="!this.$store.state.currentUser[0].bands[0].id">
+      <div class="col-lg-3 col-md-6">
+        <div class="band" @click="goToCreate()">
+          <i class="fa fa-plus btn-icon plus" aria-hidden="true"></i>
+        </div>
       </div>
     </div>
 
