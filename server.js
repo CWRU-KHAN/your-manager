@@ -12,7 +12,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-app.use(express.static('./dist'))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 const { addNewUser, 
   authUser, 
