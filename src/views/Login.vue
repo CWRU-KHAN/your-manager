@@ -12,6 +12,15 @@
                                 <h1>Log In</h1>
                             </div>
                         </div>
+                        <div class="row err-handler">
+                          <p class="err-handler-text" v-if="errors.length || serverErrors.length">
+                            <b>Please correct the following error(s):</b>
+                            <ul>
+                              <li v-for="error in errors" :key="error">{{ error }}</li>
+                              <li v-for="error in serverErrors" :key="error">{{ error }}</li>
+                            </ul>
+                           </p>
+                        </div>
                         <div class="row">
                             <div class="col mt-4">
                                 <input class="form-control" placeholder="Username" id='username' type="text" v-model="username"
@@ -55,20 +64,23 @@ export default {
     return {
       username: '',
       password: '',
-      show1: false
+      show1: false,
+      errors: []
     }
   },
   computed: {
     ...mapGetters({
-      errors: 'getCurrentErrors'
+      serverErrors: 'getCurrentErrors'
     })
   },
   methods: {
     submit() {      
+      this.errors = []
       const credentials = {
         userName: this.username,
         password: this.password
       }
+      if (!this.username || !this.password) {this.errors = ['Username and Password required.']}
       this.$store.commit('clearErrors')
       this.$store.dispatch('userLogin', credentials)     
     }    

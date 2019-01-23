@@ -7,7 +7,7 @@
             <div class="col-lg-8 col-md-12">
                 <h1 class="pge-title">Create an Event</h1>
                 <div class="err-handler">
-                    <p class="err-handler-text" v-if="errors.length">
+                    <p class="err-handler-text" v-if="errors.length || serverErrors.length">
                         <b>Please correct the following error(s):</b>
                         <ul>
                             <li v-for="error in errors" :key="error">{{ error }}</li>
