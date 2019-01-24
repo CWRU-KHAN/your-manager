@@ -153,10 +153,5 @@ export default {
   margin-bottom: .5rem;
 }
 
-  .container-fluid {
-    margin-left: 264px;
-    width: auto;
-
-}
 
 </style>

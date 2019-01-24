@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <site-navbar></site-navbar>
+    <site-navbar class="desktopOnly"></site-navbar>
     <router-view/>
   </div>
 </template>
@@ -126,5 +126,20 @@ export default {
     border: solid 2px #677794;
     color: #373737
     }
+
+
+    @media only screen and (max-width: 992px) {
+
+    .container-fluid {
+    margin-left: 0;
+    width: auto;
+    }
+
+    .desktopOnly {
+        display: none;
+    }
+
+
+    } 
 
 </style>

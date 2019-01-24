@@ -422,12 +422,6 @@ export default {
     font-size: 2em;
   }
 
-  .container-fluid {
-    margin-left: 264px;
-    width: auto;
-
-}
-
 .unread {
   font-size: 1.5em;
 }
@@ -456,10 +450,6 @@ export default {
 </style>
 
 <style>
-  .container-fluid {
-    margin-left: 264px;
-    width: auto;
-}
 .ym-luggage {
   height: 500px;
   width: auto;

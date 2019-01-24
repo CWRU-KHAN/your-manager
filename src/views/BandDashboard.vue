@@ -185,11 +185,6 @@ export default {
     margin-top: 3%;
   }
   
-  .container-fluid {
-    margin-left: 264px;
-    width: auto;
-}
-
   .boxHeader {
     background-color: #677794;
     border: 1px solid #677794;

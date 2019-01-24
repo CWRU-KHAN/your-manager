@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="jumbotron">
+    <div>
       <img class="landing-img-ym" src="@/assets/ymLuggageIcons.png">
       <h1 class="display-4 text-center">Welcome to Your Manager</h1>
       <p>A comprehensive tool designed to help touring bands stay organized</p><br>
@@ -17,7 +17,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
   @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans');
   @import url('https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css');
@@ -27,6 +27,9 @@ export default {
 body {
   background-color: #ededed;
 };
+
+
+
 
 .container {
   width: 100%;
