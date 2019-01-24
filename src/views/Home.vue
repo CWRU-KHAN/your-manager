@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="jumbotron">
+    <div>
       <img class="landing-img-ym" src="@/assets/ymLuggageIcons.png">
       <h1 class="display-4 text-center">Welcome to Your Manager</h1>
       <p>A comprehensive tool designed to help touring bands stay organized</p><br>
