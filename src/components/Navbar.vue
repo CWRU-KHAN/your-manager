@@ -242,7 +242,8 @@ export default {
     background-color: #d9534f;
     border: solid 2px transparent;
     color: #ededed;
-    margin-top: 1em
+    margin-top: 1em;
+    border-radius: .4em;
   }
 
 .button-red:hover {

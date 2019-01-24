@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <site-navbar></site-navbar>
+    <mobile-navbar class='mobile-nav'></mobile-navbar>
     <router-view/>
   </div>
 </template>
@@ -8,9 +9,11 @@
 
 <script>
 import SiteNavbar from './components/Navbar.vue'
+import MobileNavbar from './components/MobileNavbar.vue'
 export default {
   components: {
-    SiteNavbar
+    SiteNavbar,
+    MobileNavbar
   }
 }
 </script>
@@ -105,6 +108,7 @@ export default {
     background-color: #fbaf2c;
     border: solid 2px transparent;
     color: #373737;
+    border-radius: .4em;
     }
 
     .but-yellow:hover {
@@ -117,12 +121,23 @@ export default {
     background-color: #677794;
     border: solid 2px transparent;
     color: #ededed;
+    border-radius: .4em;
     }
 
     .but-blue:hover {
     background-color: transparent;
     border: solid 2px #677794;
     color: #373737
+    }
+
+    .mobile-nav {
+        display: none;
+    }
+
+    @media screen and (max-width: 990px) {
+        .mobile-nav {
+            display: block;
+        }
     }
 
 </style>

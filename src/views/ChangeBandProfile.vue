@@ -29,19 +29,20 @@
         </label>
       </div>
       <div class="frm-group">
-        <label class="frm-input-label" for="bandimage"> Profile Image
-          <p class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</p>
-          <img class="img-band-edit" :src="displayImage" alt="Band Profile">
-          <input
+                  <input
             v-if="!upload1"
             type="file"
             name="file"
             id="bandImg"
+            class="bandImgClass"
             ref="file"
             accept="image/*"
             v-on:change="processUpload()">
+        <label class="frm-input-label" for="bandimage">Upload New Profile Image</label>
+          <p class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</p>
+          <img class="img-band-edit" :src="displayImage" alt="Band Profile">
+
                 <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
-        </label>
       </div>
       <div>
           <button class="but but-block but-blue" type="button" @click="submit">Save Changes</button>
@@ -112,11 +113,34 @@ export default {
 
   /* making this scoped breaks it */
 
-  .img-band-edit {
-    width: 100%;
-    height: auto;
-    border: 2px solid #979797;
-    border-radius: 5px;
-  }
+  .bandImgClass {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.bandImgClass + label {
+    background-color: #677794;
+    border: solid 2px transparent;
+    color: #ededed;
+    border-radius: .4em;
+    display: inline-block;
+    padding: .5em;
+}
+
+
+
+.bandImgClass:focus + label,
+.bandImgClass + label:hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #373737}
+
+.bandImgClass + label {
+	cursor: pointer;
+}
 
 </style>

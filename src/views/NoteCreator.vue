@@ -1,8 +1,10 @@
 <template>
   <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
     <h1 class="pge-title">Create a Note</h1>
     <div class="err-handler">
-      <p class="err-handler-text" v-if="errors.length">
+      <p class="err-handler-text" v-if="errors.length || serverErrors.length">
           <b>Please correct the following error(s):</b>
           <ul>
               <li v-for="error in errors" :key="error">{{ error }}</li>
@@ -63,6 +65,8 @@
       </button>
     </div>
     </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -125,6 +129,7 @@ export default {
       }
     },
   }
+  //a phantom change
 }
 </script>
 
