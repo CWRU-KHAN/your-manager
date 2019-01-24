@@ -65,7 +65,7 @@
             ref="file"
             accept="image/*"
             v-on:change="processUpload()">
-        <label class="frm-input-label" for="bandimage">Upload New Profile Image</label>
+        <label class="frm-input-label" for="bandImg">Upload New Profile Image</label>
           <p class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</p>
           <img class="img-band-edit" :src="displayImage" alt="Band Profile">
 

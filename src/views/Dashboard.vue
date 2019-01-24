@@ -221,8 +221,7 @@ export default {
     },
     hasEvents() {
       const eventsList = this.$store.state.currentUser[2]
-      return eventsList.length &&
-         !!eventsList.find(({ events }) => events.length)
+      return eventsList.length && eventsList.every(item => item.events)
     },
     hasNotes() {
       const notesList = this.$store.state.currentUser[1]

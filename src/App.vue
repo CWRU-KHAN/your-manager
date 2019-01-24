@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <site-navbar></site-navbar>
+    <mobile-navbar class='mobile-nav'></mobile-navbar>
     <router-view/>
   </div>
 </template>
@@ -8,9 +9,11 @@
 
 <script>
 import SiteNavbar from './components/Navbar.vue'
+import MobileNavbar from './components/MobileNavbar.vue'
 export default {
   components: {
-    SiteNavbar
+    SiteNavbar,
+    MobileNavbar
   }
 }
 </script>
@@ -125,6 +128,16 @@ export default {
     background-color: transparent;
     border: solid 2px #677794;
     color: #373737
+    }
+
+    .mobile-nav {
+        display: none;
+    }
+
+    @media screen and (max-width: 990px) {
+        .mobile-nav {
+            display: block;
+        }
     }
 
 </style>
