@@ -18,13 +18,13 @@
                 <form>
                     <!-- event photo upload -->
                     <div class="frm-group">
-                        <label class="frm-input-label">Event Photo
-                            <img v-if="displayImage" class="img-event-create" :src="displayImage" alt="Event">
-                            <input v-if="!upload1" id="eventImg" class="frm-input" type="file" name="file" ref="file"
-                                accept="image/*" v-on:change="processUpload()">
-                            <button v-if="upload1 && !upload2" type="button" @click='submitImage()'>Submit Image
-                            </button>
-                        </label>
+                        <input v-if="!upload1" id="eventImg" class="frm-input bandImgClass" type="file" name="file" ref="file"
+                            accept="image/*" v-on:change="processUpload()">
+                        <label class="frm-input-label">Upload Event Photo</label>
+                        <img v-if="displayImage" class="img-event-create" :src="displayImage" alt="Event">
+
+                        <button v-if="upload1 && !upload2" type="button" @click='submitImage()'>Submit Image
+                        </button>
                     </div>
                     <div class="frm-group">
                         <label class="frm-input-label" for="event-name">Name of Event
@@ -256,5 +256,35 @@ export default {
         border: 2px solid #979797;
         border-radius: 5px;
     }
+
+      .bandImgClass {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.bandImgClass + label {
+    background-color: #677794;
+    border: solid 2px transparent;
+    color: #ededed;
+    border-radius: .4em;
+    display: inline-block;
+    padding: .5em;
+}
+
+
+
+.bandImgClass:focus + label,
+.bandImgClass + label:hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #373737}
+
+.bandImgClass + label {
+	cursor: pointer;
+}
 
 </style>

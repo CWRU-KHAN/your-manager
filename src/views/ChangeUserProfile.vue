@@ -30,11 +30,8 @@
             </div>
             <div class="col-lg-6 col-md-12">
               <div class="frm-group">
-                <label class="frm-input-label" for="userimage"> Profile Image 
-                  <hp class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</hp>
-                <img class="img-user-edit" :src="displayImage" alt="User Profile">
-                  <input
-                    class="frm-input"
+                                  <input
+                    class="frm-input bandImgClass"
                     v-if="!upload1"
                     type="file"
                     name="file"
@@ -42,8 +39,11 @@
                     ref="file"
                     accept="image/*"
                     v-on:change="processUpload()">
+                <label class="frm-input-label" for="userimage">Upload New Profile Image</label>
+                  <hp class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</hp>
+                <img class="img-user-edit" :src="displayImage" alt="User Profile">
+
                         <button v-if="upload1" type="button" @click='submitImage()'>Submit Image</button>
-                </label>
               <div>
                   <button class="but but-block but-yellow" type="button" @click="submit">Save Changes</button>
               </div>
@@ -135,5 +135,39 @@ export default {
     border: 2px solid #979797;
     border-radius: 5px;
   }
+
+    .bandImgClass {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.bandImgClass + label {
+    background-color: #677794;
+    border: solid 2px transparent;
+    color: #ededed;
+    border-radius: .4em;
+    display: inline-block;
+    padding: .5em;
+}
+
+
+
+.bandImgClass:focus + label,
+.bandImgClass + label:hover {
+    background-color: transparent;
+    border: solid 2px #677794;
+    color: #373737}
+
+.bandImgClass + label {
+	cursor: pointer;
+}
+
+.but {
+  margin-top: 3em;
+}
 
 </style>

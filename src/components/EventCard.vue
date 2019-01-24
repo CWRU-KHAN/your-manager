@@ -49,6 +49,7 @@ p.event-name {
     transition-property: background-color, color;
     transition: 400ms;
     border-radius: .4em;
+    cursor: pointer;
   }
 
   .editButton :hover {

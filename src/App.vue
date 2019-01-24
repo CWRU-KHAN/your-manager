@@ -105,6 +105,7 @@ export default {
     background-color: #fbaf2c;
     border: solid 2px transparent;
     color: #373737;
+    border-radius: .4em;
     }
 
     .but-yellow:hover {
@@ -117,6 +118,7 @@ export default {
     background-color: #677794;
     border: solid 2px transparent;
     color: #ededed;
+    border-radius: .4em;
     }
 
     .but-blue:hover {
