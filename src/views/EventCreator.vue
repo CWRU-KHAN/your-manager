@@ -1,10 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-md-0">
-                <p>hey karol put something fun here</p>
-            </div>
-            <div class="col-lg-8 col-md-12">
+            <div class="col-12">
                 <h1 class="pge-title">Create an Event</h1>
                 <div class="err-handler">
                     <p class="err-handler-text" v-if="errors.length || serverErrors.length">
