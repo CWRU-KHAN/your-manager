@@ -20,7 +20,7 @@
                     <div class="frm-group">
                         <input v-if="!upload1" id="eventImg" class="frm-input bandImgClass" type="file" name="file" ref="file"
                             accept="image/*" v-on:change="processUpload()">
-                        <label class="frm-input-label">Upload Event Photo</label>
+                        <label class="frm-input-label" for="eventImg">Upload Event Photo</label>
                         <img v-if="displayImage" class="img-event-create" :src="displayImage" alt="Event">
 
                         <button v-if="upload1 && !upload2" type="button" @click='submitImage()'>Submit Image

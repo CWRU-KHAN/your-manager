@@ -39,7 +39,7 @@
                     ref="file"
                     accept="image/*"
                     v-on:change="processUpload()">
-                <label class="frm-input-label" for="userimage">Upload New Profile Image</label>
+                <label class="frm-input-label" for="userImg">Upload New Profile Image</label>
                   <hp class="err-handler-text" v-if="upload2">You Must Hit 'Save Changes' Below To Save Your Changes</hp>
                 <img class="img-user-edit" :src="displayImage" alt="User Profile">
 
