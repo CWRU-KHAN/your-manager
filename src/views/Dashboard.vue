@@ -49,10 +49,15 @@
       <div class="col-lg-6 col-md-12">
         <h4>Events</h4>
         <div>
-          <div v-if="!hasEvents">
+          <div v-if="!hasBands">
             <div class="bandBox">
               <p>please create a band to have events</p>
             </div>
+          </div>
+          <div v-if="hasBands && !hasEvents">
+            Add an event!
+                  <router-link class="btn btn-event-create btn-fix-center" to="event/create"><i class="fa fa-plus boxEditor"
+                      aria-hidden="true"></i></router-link>
           </div>
 
           <div v-if="hasEvents">
@@ -85,10 +90,15 @@
       <div class="col-lg-6 col-md-12">
         <h4>Notes</h4>
         <div>
-          <div v-if="!hasNotes">
+          <div v-if="!hasBands">
             <div class="bandBox">
               <p>please create a band to have notes</p>
             </div>
+          </div>
+          <div v-if="hasBands && !hasNotes">
+            <p>Add A Note!</p>
+                                <router-link class="btn btn-event-create" to="note/create"><i class="fa fa-pencil boxEditor"></i></router-link>
+
           </div>
           <div v-if="hasNotes">
             <div v-for="(band, i) in notesList" :key="i">
@@ -153,7 +163,7 @@ export default {
 
   computed: {
     hasBands() {
-      return !!this.$store.state.currentUser[0].bands && !!this.$store.state.currentUser[0].bands.length
+      return !!this.$store.state.currentUser[0].bands && !!this.$store.state.currentUser[0].bands[0].id
     },
     bandsList() {
       return this.$store.state.currentUser[0].bands 
@@ -220,12 +230,14 @@ export default {
        false
     },
     hasEvents() {
+      // return true
       const eventsList = this.$store.state.currentUser[2]
-      return eventsList.length && eventsList.every(item => item.events)
+      return eventsList.length && eventsList.find(item => item.events)
     },
     hasNotes() {
+      // return true
       const notesList = this.$store.state.currentUser[1]
-      return notesList.length && notesList.every(item => item.events)
+      return notesList.length && notesList.find(item => item.notes)
     }
 
   },
