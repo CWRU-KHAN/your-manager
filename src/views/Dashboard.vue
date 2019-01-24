@@ -163,7 +163,7 @@ export default {
 
   computed: {
     hasBands() {
-      return !!this.$store.state.currentUser[0].bands && !!this.$store.state.currentUser[0].bands.length
+      return !!this.$store.state.currentUser[0].bands && !!this.$store.state.currentUser[0].bands[0].id
     },
     bandsList() {
       return this.$store.state.currentUser[0].bands 
