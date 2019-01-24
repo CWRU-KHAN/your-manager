@@ -13,20 +13,8 @@
                     </ul>
                 </p>
             </div>
-            <form>
-                <div class="frm-group">
-                    <input
-                        class="frm-input"
-                        type="text"
-                        placeholder="band-code"
-                        v-model="token">
-                </div>
-                <div>
-                    <button
-                        class="but but-block but-blue"
-                        @click="submit()">Join
-                    </button>
-                    </div>
+
+
                 <form>
                     <div class="frm-group">
                         <input class="frm-input" type="text" placeholder="band-code" v-model="token">
@@ -37,6 +25,7 @@
                     </div>
                 </form>
             </div>
+         
             <div class="col-lg-6 col-md-12">
                 <h1 class="pge-title">Create a Band</h1>
                 <form>
@@ -105,6 +94,9 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
   name: "joinBand",
   data() {
@@ -122,7 +114,11 @@ export default {
   computed: {
       displayImage() {
           return this.bandimage ? this.bandimage : false
-      }
+      },
+    ...mapGetters({
+      serverErrors: 'getCurrentErrors'
+    })
+      
   },
   methods: {
     submit() {
