@@ -1,9 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-4">
-      </div>
-      <div class="col-lg-8">
+      <div class="col-12">
     <h1 class="pge-title">Create a Note</h1>
     <div class="err-handler">
       <p class="err-handler-text" v-if="errors.length || serverErrors.length">
